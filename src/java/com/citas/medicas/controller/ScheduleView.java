@@ -36,6 +36,7 @@ import org.primefaces.event.UnselectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.citas.medicas.dao.CitaDao;
+import com.citas.medicas.utilitarios.ValidadorCedulaRuc;
 import java.util.Calendar;
 import java.util.logging.Level;
 import javax.annotation.PostConstruct;
@@ -325,6 +326,34 @@ public class ScheduleView extends GenericBean {
         }
 
     }
+    
+     public void createAntPersonales(ActionEvent actionEvent) {
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        try {
+            if (clienteNuevo.getPacCodigo() == null) {
+                if (!clienteDao.existePorCampo(clienteNuevo.getPacIdentificacin())) {
+                    if (ValidadorCedulaRuc.isRucCedulaValido(clienteNuevo.getPacIdentificacin())) {
+                        clienteNuevo.setPacEstado(1);
+                        clienteNuevo.setCodigoCiudad(ciudadDAO.find(codigoCiudad));
+                        int idc = clienteDao.save(clienteNuevo);
+                        if (idc > 0) {
+                            saveMessageInfoDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " creado correctamente");
+                            requestContext.execute("PF('dlListaCliente').hide()");
+                        }
+                    } else {
+                        saveMessageErrorDetail("Paciente", "La cédula o ruc es incorrecta");
+                    }
+                } else {
+                    saveMessageErrorDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " ya existe");
+                }
+            }
+
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+
+    }
+
 
     public List<CitCita> getListaCitas() {
         return listaCitas;

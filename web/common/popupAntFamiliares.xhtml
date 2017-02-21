@@ -20,16 +20,16 @@
                             
 
                             
-                            <p:outputLabel value="Descripción:" for="dir" />
+                            <p:outputLabel value="Num Hijos" for="dir" />
                             <p:inputTextarea id="dir"
-                                             value="#{citasBean.clienteNuevo.pacDireccion}" />                             
+                                             value="#{scheduleView.paciente.pacDireccion}" />                             
                             <p:tooltip for="dir"
                                        value="Ingrese Dirección"
                                        showEffect="clip" hideEffect="explode" />                                                                                                                     
 
                             <f:facet name="footer">
                                 <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"
-                                                 actionListener="#{citasBean.createCliente}"
+                                                 actionListener="#{scheduleView.createAntPersonales}"
                                                  update=":formDiagnostico,:formLista,formDatos" process=":formDiagnostico" />
                                 
                             </f:facet>                             
