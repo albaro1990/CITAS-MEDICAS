@@ -42,87 +42,165 @@ public class CitAntPersonales implements Serializable {
     
     private Date fechaUltMesnstruacion;
     
+    private String antTraumaticas;
     
+    private String hospitalizacionAnteriores;
     
+    private String adicciones;
+    
+    private String otros;
 
     public CitAntPersonales() {
     }
 
-    public CitAntPersonales(Long hisCodigo) {
-        this.hisCodigo = hisCodigo;
+    public CitAntPersonales(Long antPerCodigo) {
+        this.antPerCodigo = antPerCodigo;
     }
 
-    public CitAntPersonales(Long hisCodigo, Date citFechaCita, Integer citEstado, String citMotivo) {
-        this.hisCodigo = hisCodigo;
-        this.citFechaCita = citFechaCita;
-        this.citEstado = citEstado;
-        this.citMotivo = citMotivo;
-
+    public CitAntPersonales(Long antPerCodigo, Integer numHijos, Integer numAbortos, String enfInfancia, String quirurgicos, 
+            String alergias, String vih, String edadMenarquia, String ritmoMenstrual, Date fechaUltMesnstruacion, 
+            String antTraumaticas, String hospitalizacionAnteriores, String adicciones, String otros) {
+        this.antPerCodigo = antPerCodigo;
+        this.numHijos=numHijos;
+        this.numAbortos=numAbortos;
+        this.enfInfancia=enfInfancia;
+        this.quirurgicos=quirurgicos;
+        this.alergias=alergias;
+        this.vih=vih;
+        this.edadMenarquia=edadMenarquia;
+        this.ritmoMenstrual=ritmoMenstrual;
+        this.fechaUltMesnstruacion=fechaUltMesnstruacion;    
+        this.antTraumaticas=antTraumaticas;    
+        this.hospitalizacionAnteriores=hospitalizacionAnteriores;
+        this.adicciones=adicciones;
+        this.otros=otros;
     }
 
-    public Long getHisCodigo() {
-        return hisCodigo;
+    public Long getAntPerCodigo() {
+        return antPerCodigo;
     }
 
-    public void setHisCodigo(Long hisCodigo) {
-        this.hisCodigo = hisCodigo;
+    public void setAntPerCodigo(Long antPerCodigo) {
+        this.antPerCodigo = antPerCodigo;
     }
 
-    public FacUsuario getUsuario() {
-        return usuario;
+    public CitPaciente getPacCodigo() {
+        return pacCodigo;
     }
 
-    public void setUsuario(FacUsuario usuario) {
-        this.usuario = usuario;
+    public void setPacCodigo(CitPaciente pacCodigo) {
+        this.pacCodigo = pacCodigo;
     }
 
-    public Date getCitFechaCita() {
-        return citFechaCita;
+    public Integer getNumHijos() {
+        return numHijos;
     }
 
-    public void setCitFechaCita(Date citFechaCita) {
-        this.citFechaCita = citFechaCita;
+    public void setNumHijos(Integer numHijos) {
+        this.numHijos = numHijos;
     }
 
-    public Date getHoraCita() {
-        return horaCita;
+    public Integer getNumAbortos() {
+        return numAbortos;
     }
 
-    public void setHoraCita(Date horaCita) {
-        this.horaCita = horaCita;
+    public void setNumAbortos(Integer numAbortos) {
+        this.numAbortos = numAbortos;
     }
 
-    public Integer getCitEstado() {
-        return citEstado;
+    public String getEnfInfancia() {
+        return enfInfancia;
     }
 
-    public void setCitEstado(Integer citEstado) {
-        this.citEstado = citEstado;
+    public void setEnfInfancia(String enfInfancia) {
+        this.enfInfancia = enfInfancia;
     }
 
-    public String getCitMotivo() {
-        return citMotivo;
+    public String getQuirurgicos() {
+        return quirurgicos;
     }
 
-    public void setCitMotivo(String citMotivo) {
-        this.citMotivo = citMotivo;
+    public void setQuirurgicos(String quirurgicos) {
+        this.quirurgicos = quirurgicos;
     }
 
-
-    public CitPaciente getCliCodigo() {
-        return cliCodigo;
+    public String getAlergias() {
+        return alergias;
     }
 
-    public void setCliCodigo(CitPaciente cliCodigo) {
-        this.cliCodigo = cliCodigo;
+    public void setAlergias(String alergias) {
+        this.alergias = alergias;
     }
 
+    public String getVih() {
+        return vih;
+    }
 
+    public void setVih(String vih) {
+        this.vih = vih;
+    }
 
+    public String getEdadMenarquia() {
+        return edadMenarquia;
+    }
+
+    public void setEdadMenarquia(String edadMenarquia) {
+        this.edadMenarquia = edadMenarquia;
+    }
+
+    public String getRitmoMenstrual() {
+        return ritmoMenstrual;
+    }
+
+    public void setRitmoMenstrual(String ritmoMenstrual) {
+        this.ritmoMenstrual = ritmoMenstrual;
+    }
+
+    public Date getFechaUltMesnstruacion() {
+        return fechaUltMesnstruacion;
+    }
+
+    public void setFechaUltMesnstruacion(Date fechaUltMesnstruacion) {
+        this.fechaUltMesnstruacion = fechaUltMesnstruacion;
+    }
+
+    public String getAntTraumaticas() {
+        return antTraumaticas;
+    }
+
+    public void setAntTraumaticas(String antTraumaticas) {
+        this.antTraumaticas = antTraumaticas;
+    }
+
+    public String getHospitalizacionAnteriores() {
+        return hospitalizacionAnteriores;
+    }
+
+    public void setHospitalizacionAnteriores(String hospitalizacionAnteriores) {
+        this.hospitalizacionAnteriores = hospitalizacionAnteriores;
+    }
+
+    public String getAdicciones() {
+        return adicciones;
+    }
+
+    public void setAdicciones(String adicciones) {
+        this.adicciones = adicciones;
+    }
+
+    public String getOtros() {
+        return otros;
+    }
+
+    public void setOtros(String otros) {
+        this.otros = otros;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (hisCodigo != null ? hisCodigo.hashCode() : 0);
+        hash += (antPerCodigo != null ? antPerCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -133,7 +211,7 @@ public class CitAntPersonales implements Serializable {
             return false;
         }
         CitAntPersonales other = (CitAntPersonales) object;
-        if ((this.hisCodigo == null && other.hisCodigo != null) || (this.hisCodigo != null && !this.hisCodigo.equals(other.hisCodigo))) {
+        if ((this.antPerCodigo == null && other.antPerCodigo != null) || (this.antPerCodigo != null && !this.antPerCodigo.equals(other.antPerCodigo))) {
             return false;
         }
         return true;
@@ -141,7 +219,7 @@ public class CitAntPersonales implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facturacion.entity.FacCabeceraFactura[ cabCodigo=" + hisCodigo + " ]";
+        return "com.facturacion.entity.FacCabeceraFactura[ cabCodigo=" + antPerCodigo + " ]";
     }
     
 }

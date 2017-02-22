@@ -20,99 +20,135 @@ public class CitAntFamiliares implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
-    private Long hisCodigo;
+    private Long antFamCodigo;
     
-    private FacUsuario usuario;
+    private CitPaciente antFamPacCodigo;
     
-    private CitPaciente cliCodigo;
+    private String hepatopatia;
     
-    private Date citFechaCita;
+    private String alergias;
     
-    private Date horaCita;
-    
-    private Integer citEstado;
+    private String asma;
       
-    private String citMotivo;
+    private String hipertension;
+    
+    private String cardipatia;
+    
+    private String nefropatia;
+    
+    private String cancer;
+    
+    private String otros;
     
 
     public CitAntFamiliares() {
     }
 
-    public CitAntFamiliares(Long hisCodigo) {
-        this.hisCodigo = hisCodigo;
+    public CitAntFamiliares(Long antFamCodigo) {
+        this.antFamCodigo = antFamCodigo;
     }
 
-    public CitAntFamiliares(Long hisCodigo, Date citFechaCita, Integer citEstado, String citMotivo) {
-        this.hisCodigo = hisCodigo;
-        this.citFechaCita = citFechaCita;
-        this.citEstado = citEstado;
-        this.citMotivo = citMotivo;
+    public CitAntFamiliares(Long antFamCodigo, String hepatopatia, String alergias, String asma, String hipertension,
+            String cardipatia, String nefropatia, String cancer, String otros) {
+        this.antFamCodigo=antFamCodigo;
+        this.hepatopatia=hepatopatia;
+        this.alergias=alergias;
+        this.asma=asma;
+        this.hipertension=hipertension;
+        this.cardipatia=cardipatia;
+        this.nefropatia=nefropatia;
+        this.cancer=cancer;
+        this.otros=otros;
+       }
 
+    public Long getAntFamCodigo() {
+        return antFamCodigo;
     }
 
-    public Long getHisCodigo() {
-        return hisCodigo;
+    public void setAntFamCodigo(Long antFamCodigo) {
+        this.antFamCodigo = antFamCodigo;
     }
 
-    public void setHisCodigo(Long hisCodigo) {
-        this.hisCodigo = hisCodigo;
+    public CitPaciente getAntFamPacCodigo() {
+        return antFamPacCodigo;
     }
 
-    public FacUsuario getUsuario() {
-        return usuario;
+    public void setAntFamPacCodigo(CitPaciente antFamPacCodigo) {
+        this.antFamPacCodigo = antFamPacCodigo;
     }
 
-    public void setUsuario(FacUsuario usuario) {
-        this.usuario = usuario;
+    public String getHepatopatia() {
+        return hepatopatia;
     }
 
-    public Date getCitFechaCita() {
-        return citFechaCita;
+    public void setHepatopatia(String hepatopatia) {
+        this.hepatopatia = hepatopatia;
     }
 
-    public void setCitFechaCita(Date citFechaCita) {
-        this.citFechaCita = citFechaCita;
+    public String getAlergias() {
+        return alergias;
     }
 
-    public Date getHoraCita() {
-        return horaCita;
+    public void setAlergias(String alergias) {
+        this.alergias = alergias;
     }
 
-    public void setHoraCita(Date horaCita) {
-        this.horaCita = horaCita;
+    public String getAsma() {
+        return asma;
     }
 
-    public Integer getCitEstado() {
-        return citEstado;
+    public void setAsma(String asma) {
+        this.asma = asma;
     }
 
-    public void setCitEstado(Integer citEstado) {
-        this.citEstado = citEstado;
+    public String getHipertension() {
+        return hipertension;
     }
 
-    public String getCitMotivo() {
-        return citMotivo;
+    public void setHipertension(String hipertension) {
+        this.hipertension = hipertension;
     }
 
-    public void setCitMotivo(String citMotivo) {
-        this.citMotivo = citMotivo;
+    public String getCardipatia() {
+        return cardipatia;
+    }
+
+    public void setCardipatia(String cardipatia) {
+        this.cardipatia = cardipatia;
+    }
+
+    public String getNefropatia() {
+        return nefropatia;
+    }
+
+    public void setNefropatia(String nefropatia) {
+        this.nefropatia = nefropatia;
+    }
+
+    public String getCancer() {
+        return cancer;
+    }
+
+    public void setCancer(String cancer) {
+        this.cancer = cancer;
+    }
+
+    public String getOtros() {
+        return otros;
+    }
+
+    public void setOtros(String otros) {
+        this.otros = otros;
     }
 
 
-    public CitPaciente getCliCodigo() {
-        return cliCodigo;
-    }
-
-    public void setCliCodigo(CitPaciente cliCodigo) {
-        this.cliCodigo = cliCodigo;
-    }
 
 
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (hisCodigo != null ? hisCodigo.hashCode() : 0);
+        hash += (antFamCodigo != null ? antFamCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -123,7 +159,7 @@ public class CitAntFamiliares implements Serializable {
             return false;
         }
         CitAntFamiliares other = (CitAntFamiliares) object;
-        if ((this.hisCodigo == null && other.hisCodigo != null) || (this.hisCodigo != null && !this.hisCodigo.equals(other.hisCodigo))) {
+        if ((this.antFamCodigo == null && other.antFamCodigo != null) || (this.antFamCodigo != null && !this.antFamCodigo.equals(other.antFamCodigo))) {
             return false;
         }
         return true;
@@ -131,7 +167,7 @@ public class CitAntFamiliares implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facturacion.entity.FacCabeceraFactura[ cabCodigo=" + hisCodigo + " ]";
+        return "com.facturacion.entity.FacCabeceraFactura[ cabCodigo=" + antFamCodigo + " ]";
     }
     
 }
