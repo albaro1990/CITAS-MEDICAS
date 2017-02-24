@@ -4,6 +4,8 @@
  */
 package com.citas.medicas.controller;
 
+import com.citas.medicas.dao.AntFamiliaresDao;
+import com.citas.medicas.dao.AntPersonalesDao;
 import com.citas.medicas.dao.CiudadDao;
 import com.citas.medicas.dao.ClienteDao;
 import com.citas.medicas.dao.EspecialidadDao;
@@ -36,6 +38,10 @@ import org.primefaces.event.UnselectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.citas.medicas.dao.CitaDao;
+import com.citas.medicas.dao.impl.AntFamiliaresDaoImpl;
+import com.citas.medicas.dao.impl.AntPersonalesDaoImpl;
+import com.citas.medicas.entity.CitAntFamiliares;
+import com.citas.medicas.entity.CitAntPersonales;
 import com.citas.medicas.utilitarios.ValidadorCedulaRuc;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -59,7 +65,9 @@ public class ScheduleView extends GenericBean {
     
     private List<CitCita> listaCitas;
     
-     private CitaDao citaDao = new CitaDaoImpl();
+    private CitaDao citaDao = new CitaDaoImpl();
+    private AntFamiliaresDao antFamiliaresDao = new AntFamiliaresDaoImpl();
+    private AntPersonalesDao antPersonalesDao = new AntPersonalesDaoImpl();
     
     private ScheduleModel eventModel;
      
@@ -72,6 +80,8 @@ public class ScheduleView extends GenericBean {
 
     private CitCita cita;
     private CitEspecialidad especialidad;
+    private CitAntPersonales antPersonales;
+    private CitAntFamiliares antFamiliares;
 
 
     private List<FacUsuario> listaUsuMedicos;
@@ -497,6 +507,22 @@ public class ScheduleView extends GenericBean {
 
     public void setCodigoCita(Integer codigoCita) {
         this.codigoCita = codigoCita;
+    }
+
+    public CitAntPersonales getAntPersonales() {
+        return antPersonales;
+    }
+
+    public void setAntPersonales(CitAntPersonales antPersonales) {
+        this.antPersonales = antPersonales;
+    }
+
+    public CitAntFamiliares getAntFamiliares() {
+        return antFamiliares;
+    }
+
+    public void setAntFamiliares(CitAntFamiliares antFamiliares) {
+        this.antFamiliares = antFamiliares;
     }
     
     
