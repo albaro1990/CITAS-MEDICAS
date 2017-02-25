@@ -20,67 +20,65 @@
                             
 
                             
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
+                            <p:outputLabel value="Alergias" for="alergias" />
+                            <p:inputText id="alergias"
                                          value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
+                            <p:tooltip for="alergias"
+                                       value="Ingrese Alergia"
                                        showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
+                            
+                            <p:outputLabel value="Asma" for="asma" />
+                            <p:inputText id="asma"
+                                         value="#{scheduleView.antFamiliares.asma}" />                             
+                            <p:tooltip for="asma"
+                                       value="Ingrese Asma"
                                        showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
+                            
+                            <p:outputLabel value="cancer" for="cancer" />
+                            <p:inputText id="cancer"
+                                         value="#{scheduleView.antFamiliares.cancer}" />                             
+                            <p:tooltip for="cancer"
+                                       value="Ingrese tipo de cancer"
+                                       showEffect="clip" hideEffect="explode" />  
+                            
+                            <p:outputLabel value="Cardiopatia" for="cardiopatia" />
+                            <p:inputText id="cardiopatia"
+                                         value="#{scheduleView.antFamiliares.cardipatia}" />                             
+                            <p:tooltip for="cardiopatia"
+                                       value="Ingrese Cardiopatia"
+                                       showEffect="clip" hideEffect="explode" />
+                            
+                            <p:outputLabel value="hepatopatia" for="hepatopatia" />
+                            <p:inputText id="hepatopatia"
+                                         value="#{scheduleView.antFamiliares.hepatopatia}" />                             
+                            <p:tooltip for="hepatopatia"
+                                       value="Ingrese Hepatopatia"
+                                       showEffect="clip" hideEffect="explode" /> 
+                            
+                            <p:outputLabel value="hipertension" for="hipertension" />
+                            <p:inputText id="hipertension"
+                                         value="#{scheduleView.antFamiliares.hipertension}" />                             
+                            <p:tooltip for="hipertension"
+                                       value="Ingrese Hipertension"
+                                       showEffect="clip" hideEffect="explode" /> 
+                            
+                            <p:outputLabel value="nefropatia" for="nefropatia" />
+                            <p:inputText id="nefropatia"
+                                         value="#{scheduleView.antFamiliares.nefropatia}" />                             
+                            <p:tooltip for="nefropatia"
+                                       value="Ingrese nefropatia"
                                        showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />   
-                            <p:outputLabel value="Num Hijos" for="dir" />
-                            <p:inputText id="dir"
-                                         value="#{scheduleView.antFamiliares.alergias}" />                             
-                            <p:tooltip for="dir"
-                                       value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />   
-
+                            
+                            
+                            <p:outputLabel value="otros" for="otros" />
+                            <p:inputText id="otros"
+                                         value="#{scheduleView.antFamiliares.otros}" />                             
+                            <p:tooltip for="otros"
+                                       value="Ingrese Otros"
+                                       showEffect="clip" hideEffect="explode" />
+                            
+                            
+                            
                             <f:facet name="footer">
                                 <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"
                                                  actionListener="#{scheduleView.createAntPersonales}"
