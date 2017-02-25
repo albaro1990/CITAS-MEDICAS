@@ -36,7 +36,7 @@ public class AntPersonalesDaoImpl implements AntPersonalesDao {
                     + " ANTPER_ENF_INFANCIA, ANTPER_QUIRURGICOS,ANTPER_ALERGIAS, ANTPER_VIH,ANTPER_MENARCA,ANTPER_RITMO_MENSTRUAL, " 
                     + " ANTPER_FECHA_ULTIMA_MENSTRUACI,ANTPER_TRAUMATICOS,ANTPER_HOSPITALIZACIONES_PREVI,ANTPER_ADICCIONES,ANTPER_OTROS)"
                     + " VALUES (CIT_SEQ_ANT_PER.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
-            antPersonales.setPacCodigo(new CitPaciente());
+            //antPersonales.setPacCodigo(new CitPaciente());
 
             pstmt = conn.prepareStatement(sql.toString(), new String[]{"ANTPER_CODIGO"});
             pstmt.setLong(1, antPersonales.getPacCodigo().getPacCodigo());

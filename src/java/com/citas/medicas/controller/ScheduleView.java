@@ -100,7 +100,7 @@ public class ScheduleView extends GenericBean {
     
  
      public ScheduleView() {
-            
+            antPersonales = new CitAntPersonales();
         
     }
     @PostConstruct
