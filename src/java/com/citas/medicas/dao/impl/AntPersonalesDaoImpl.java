@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import com.citas.medicas.dao.CitaDao;
+import com.citas.medicas.entity.CitAntPersonales;
 import com.citas.medicas.entity.FacUsuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,31 +26,38 @@ public class AntPersonalesDaoImpl implements AntPersonalesDao {
     private PreparedStatement pstmt;
 
     @Override
-    public int save(CitCita cita) throws SQLException {
+    public int save(CitAntPersonales antPersonales) throws SQLException {
         int idInserted = 0;
         StringBuilder sql = new StringBuilder();
         try {
             
             conn = new ConexionDB().getConexion();
-            sql.append("INSERT INTO CIT_CITA(CIT_CODIGO,USU_CODIGO,PAC_CODIGO,CIT_FECHA,CIT_HORA,CIT_ESTADO, CIT_MOTIVO)VALUES (CIT_SEQ_CITA.NEXTVAL, ?, ?, ?, ?, ?, ?)");
-            cita.setUapCodigo(new FacUsuarioAplicacion());
+            sql.append(" INSERT INTO CIT_ANT_PERSONALES(ANTPER_CODIGO, PAC_CODIGO, ANTPER_NUMHIJOS, ANTPER_NUMABORTOS, "
+                    + " ANTPER_ENF_INFANCIA, ANTPER_QUIRURGICOS,ANTPER_ALERGIAS, ANTPER_VIH,ANTPER_MENARCA,ANTPER_RITMO_MENSTRUAL, " 
+                    + " ANTPER_FECHA_ULTIMA_MENSTRUACI,ANTPER_TRAUMATICOS,ANTPER_HOSPITALIZACIONES_PREVI,ANTPER_ADICCIONES,ANTPER_OTROS)"
+                    + " VALUES (CIT_SEQ_ANT_PER.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+            antPersonales.setPacCodigo(new CitPaciente());
 
-            pstmt = conn.prepareStatement(sql.toString(), new String[]{"CIT_CODIGO"});
-            pstmt.setLong(1, cita.getUsuario().getUsuCodigo());
-            pstmt.setLong(2, cita.getCliCodigo().getPacCodigo());
-            pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
-            String horaMin= this.formatHoras(cita.getHoraCita(), "dd/MM/yyyy HH:mm:ss");
-            //HH:mm:ss
-//            int hora = cita.getHoraCita().getHours();
-//            int minutos = cita.getHoraCita().getMinutes();
-//             = hora +":"+minutos;
-            pstmt.setString(4, horaMin);
-            pstmt.setInt(5, cita.getCitEstado());
-            pstmt.setString(6, cita.getCitMotivo());
+            pstmt = conn.prepareStatement(sql.toString(), new String[]{"ANTPER_CODIGO"});
+            pstmt.setLong(1, antPersonales.getPacCodigo().getPacCodigo());
+            pstmt.setInt(2, antPersonales.getNumHijos());
+            pstmt.setInt(3, antPersonales.getNumAbortos());
+            pstmt.setString(4, antPersonales.getEnfInfancia());
+            pstmt.setString(5, antPersonales.getQuirurgicos());
+            pstmt.setString(6, antPersonales.getAlergias());
+            pstmt.setString(7, antPersonales.getVih());
+            pstmt.setString(8, antPersonales.getRitmoMenstrual());
+            pstmt.setInt(9, antPersonales.getEdadMenarquia());
+            pstmt.setDate(10, new java.sql.Date(antPersonales.getFechaUltMesnstruacion().getDate()));
+            pstmt.setString(11, antPersonales.getAntTraumaticas());
+            pstmt.setString(12, antPersonales.getHospitalizacionAnteriores());
+            pstmt.setString(13, antPersonales.getAdicciones());
+            pstmt.setString(14, antPersonales.getOtros());
+            
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
-                throw new SQLException("Error al crear la factura");
+                throw new SQLException("Error al crear Ant Personales");
             }
 
             rs = pstmt.getGeneratedKeys();

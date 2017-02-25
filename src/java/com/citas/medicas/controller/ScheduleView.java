@@ -340,7 +340,8 @@ public class ScheduleView extends GenericBean {
      public void createAntPersonales(ActionEvent actionEvent) {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         try {
-            antPersonalesDao.save(cita);
+            antPersonales.setPacCodigo(paciente);               
+            antPersonalesDao.save(antPersonales);
             if (clienteNuevo.getPacCodigo() == null) {
                 if (!clienteDao.existePorCampo(clienteNuevo.getPacIdentificacin())) {
                     if (ValidadorCedulaRuc.isRucCedulaValido(clienteNuevo.getPacIdentificacin())) {

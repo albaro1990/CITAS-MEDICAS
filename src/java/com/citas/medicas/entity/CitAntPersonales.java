@@ -36,7 +36,7 @@ public class CitAntPersonales implements Serializable {
     
     private String vih;
     
-    private String edadMenarquia;
+    private Integer edadMenarquia;
     
     private String ritmoMenstrual;
     
@@ -58,7 +58,7 @@ public class CitAntPersonales implements Serializable {
     }
 
     public CitAntPersonales(Long antPerCodigo, Integer numHijos, Integer numAbortos, String enfInfancia, String quirurgicos, 
-            String alergias, String vih, String edadMenarquia, String ritmoMenstrual, Date fechaUltMesnstruacion, 
+            String alergias, String vih, Integer edadMenarquia, String ritmoMenstrual, Date fechaUltMesnstruacion, 
             String antTraumaticas, String hospitalizacionAnteriores, String adicciones, String otros) {
         this.antPerCodigo = antPerCodigo;
         this.numHijos=numHijos;
@@ -140,13 +140,14 @@ public class CitAntPersonales implements Serializable {
         this.vih = vih;
     }
 
-    public String getEdadMenarquia() {
+    public Integer getEdadMenarquia() {
         return edadMenarquia;
     }
 
-    public void setEdadMenarquia(String edadMenarquia) {
+    public void setEdadMenarquia(Integer edadMenarquia) {
         this.edadMenarquia = edadMenarquia;
     }
+
 
     public String getRitmoMenstrual() {
         return ritmoMenstrual;
