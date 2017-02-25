@@ -14,48 +14,61 @@
 
             <h:form id="formAntPersnales">    
                 <h:panelGrid id="gridDatos" rendered="#{not empty request.getRemoteUser()}">
-                    <p:panel id="paneDatos" header="Ingresar Diagnostico">
+                    <p:panel id="paneDatos" header="Antencedentes Personales">
                         <h:panelGrid columns="3">
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
+                            <p:outputLabel value="Adicciones:" for="dir" />
+                            <p:inputText id="idAdicciones" value="#{scheduleView.antPersonales.adicciones}" />                             
+                            <p:tooltip for="idAdicciones" value="Ingrese Adicciones" showEffect="clip" hideEffect="explode" />
+
+                            <p:outputLabel value="Alergias:" for="alrgiasFam" />
+                            <p:inputText id="alrgiasFam" value="#{scheduleView.antPersonales.alergias}" />                             
+                            <p:tooltip for="alrgiasFam" value="Ingrese Alergias" showEffect="clip" hideEffect="explode" />  
+
+                            <p:outputLabel value="Traumaticas" for="traumaticas" />
+                            <p:inputText id="traumaticas" value="#{scheduleView.antPersonales.antTraumaticas}" />                             
+                            <p:tooltip for="traumaticas" value="Intervenciones Traumaticas"
                                        showEffect="clip" hideEffect="explode" />  
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />  
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />  
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />  
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />  
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />  
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />  
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />  
-                            <p:outputLabel value="Descripción:" for="dir" />
-                            <p:inputText id="dir" value="#{scheduleView.antPersonales.adicciones}" />                             
-                            <p:tooltip for="dir" value="Ingrese Dirección"
-                                       showEffect="clip" hideEffect="explode" />  
+                            
+                            <p:outputLabel value="Intervecnioens Quirurgicas" for="quirurgicos" />
+                            <p:inputText id="quirurgicos" value="#{scheduleView.antPersonales.quirurgicos}" />                             
+                            <p:tooltip for="quirurgicos" value="Ingrese Intervecnioens Quirurgicas" showEffect="clip" hideEffect="explode" />  
+
+                            <p:outputLabel value="Edad Menarquia" for="menarquia" />
+                            <p:inputText id="menarquia" value="#{scheduleView.antPersonales.edadMenarquia}" />                             
+                            <p:tooltip for="menarquia" value="Ingrese edad de primera menstruación" showEffect="clip" hideEffect="explode" />  
+
+                            <p:outputLabel for="fechaUltMesnstruacion" value="Fecha Ultima Mestruación" />
+                            <p:calendar id="fechaUltMesnstruacion" value="#{scheduleView.antPersonales.fechaUltMesnstruacion}" pattern="dd-MM-yyyy" mask="true" />
+                            <p:tooltip for="fechaUltMesnstruacion"
+                                       value="Fecha Ultima Mestruación" showEffect="clip" hideEffect="explode" />
+
+                            <p:outputLabel value="Ritmo Menstrual" for="ritmoMenstrual" />
+                            <p:inputText id="ritmoMenstrual" value="#{scheduleView.antPersonales.ritmoMenstrual}" />                             
+                            <p:tooltip for="ritmoMenstrual" value="Ingrese Dirección" showEffect="clip" hideEffect="explode" />  
+
+                            <p:outputLabel value="Enfermedades en la Infancia" for="enfInfancia" />
+                            <p:inputText id="enfInfancia" value="#{scheduleView.antPersonales.enfInfancia}" />                             
+                            <p:tooltip for="enfInfancia" value="Ingrese Enfermedades en la Infancia" showEffect="clip" hideEffect="explode" /> 
+
+                            <p:outputLabel value="Hospitalizaciones" for="hospitalizacionAnteriores" />
+                            <p:inputText id="hospitalizacionAnteriores" value="#{scheduleView.antPersonales.hospitalizacionAnteriores}" />                             
+                            <p:tooltip for="hospitalizacionAnteriores" value="Ingrese si tubo Hospitalizaciones" showEffect="clip" hideEffect="explode" />
+
+                            <p:outputLabel value="Num Abortos" for="numAbortos" />
+                            <p:inputText id="numAbortos" value="#{scheduleView.antPersonales.numAbortos}" />                             
+                            <p:tooltip for="numAbortos" value="Ingrese número de abortos" showEffect="clip" hideEffect="explode" />  
+
+                            <p:outputLabel value="Num de Hijos" for="numHijos" />
+                            <p:inputText id="numHijos" value="#{scheduleView.antPersonales.numHijos}" />                             
+                            <p:tooltip for="numHijos" value="Ingrese Num de Hijos" showEffect="clip" hideEffect="explode" />  
+                            
+                            <p:outputLabel value="VIH" for="vih" />
+                            <p:inputText id="vih" value="#{scheduleView.antPersonales.vih}" />                             
+                            <p:tooltip for="vih" value="VIH" showEffect="clip" hideEffect="explode" />  
+                            
+                            <p:outputLabel value="Otros" for="otros" />
+                            <p:inputText id="otros" value="#{scheduleView.antPersonales.otros}" />                             
+                            <p:tooltip for="otros" value="VIH" showEffect="clip" hideEffect="explode" /> 
 
                             <f:facet name="footer">
                                 <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"
