@@ -14,12 +14,8 @@
 
             <h:form id="formAntFamiliares">    
                 <h:panelGrid id="gridDatos" rendered="#{not empty request.getRemoteUser()}">
-                    <p:panel id="paneDatos" header="Ingresar Diagnostico">
+                    <p:panel id="paneDatos" header="Antencedentes Familiares">
                         <h:panelGrid columns="3">
-                            
-                            
-
-                            
                             <p:outputLabel value="Alergias" for="alergias" />
                             <p:inputText id="alergias"
                                          value="#{scheduleView.antFamiliares.alergias}" />                             
@@ -82,7 +78,7 @@
                             <f:facet name="footer">
                                 <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"
                                                  actionListener="#{scheduleView.createAntPersonales}"
-                                                 update=":formDiagnostico,:formLista,formDatos" process=":formDiagnostico" />
+                                                 update=":formAntFamiliares,:formLista,formDatos" process=":formAntFamiliares" />
                                 
                             </f:facet>                             
                         </h:panelGrid>                          

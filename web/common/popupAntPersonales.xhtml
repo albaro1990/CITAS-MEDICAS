@@ -12,11 +12,11 @@
                   header="Diagnostico" dynamic="true" draggable="true" closeOnEscape="true" closable="true"
                   appendTo="@(body)" showEffect="blind" hideEffect="blind">
 
-            <h:form id="formAntPersnales">    
+            <h:form id="formAntPersonales">    
                 <h:panelGrid id="gridDatos" rendered="#{not empty request.getRemoteUser()}">
                     <p:panel id="paneDatos" header="Antencedentes Personales">
                         <h:panelGrid columns="3">
-                            <p:outputLabel value="Adicciones:" for="dir" />
+                            <p:outputLabel value="Adicciones:" for="idAdicciones" />
                             <p:inputText id="idAdicciones" value="#{scheduleView.antPersonales.adicciones}" />                             
                             <p:tooltip for="idAdicciones" value="Ingrese Adicciones" showEffect="clip" hideEffect="explode" />
 
@@ -73,7 +73,7 @@
                             <f:facet name="footer">
                                 <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"
                                                  actionListener="#{scheduleView.createAntPersonales(actionEvent)}"
-                                                 update=":formDiagnostico,:formLista,formDatos" process=":formDiagnostico" />
+                                                 update=":formAntPersonales,:formLista,formDatos" process=":formAntPersonales" />
                             </f:facet>                             
                         </h:panelGrid>                          
                     </p:panel>
