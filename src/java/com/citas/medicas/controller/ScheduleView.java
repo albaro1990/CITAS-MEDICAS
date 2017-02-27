@@ -98,6 +98,8 @@ public class ScheduleView extends GenericBean {
     private Integer codigoPaciente;
     private Integer codigoCita;
     
+    private boolean editarAntPer=false;
+    
  
      public ScheduleView() {
             antPersonales = new CitAntPersonales();
@@ -276,6 +278,10 @@ public class ScheduleView extends GenericBean {
         codigoPaciente = getCita().getCliCodigo().getPacCodigo().intValue();
         try {
            paciente =  clienteDao.findXId(codigoPaciente); 
+           antPersonales = antPersonalesDao.findXIdPaciente(codigoPaciente);
+           if(antPersonales!=null){
+               editarAntPer=true;
+           }
         } catch (Exception e) {
         }
         
@@ -526,6 +532,13 @@ public class ScheduleView extends GenericBean {
     public void setAntFamiliares(CitAntFamiliares antFamiliares) {
         this.antFamiliares = antFamiliares;
     }
-    
+
+    public boolean isEditarAntPer() {
+        return editarAntPer;
+    }
+
+    public void setEditarAntPer(boolean editarAntPer) {
+        this.editarAntPer = editarAntPer;
+    }
     
 }

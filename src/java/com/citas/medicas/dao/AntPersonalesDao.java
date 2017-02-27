@@ -15,7 +15,7 @@ public interface AntPersonalesDao {
 
     public List<CitCita> findAll() throws SQLException;
 
-    public CitCita find(int id) throws SQLException;
+    public CitAntPersonales findXIdPaciente(int id) throws SQLException;
     
     public int cacelar(int id) throws SQLException;
     
