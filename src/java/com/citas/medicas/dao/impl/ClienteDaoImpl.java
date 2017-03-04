@@ -100,19 +100,19 @@ public class ClienteDaoImpl implements ClienteDao {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                CitPaciente cliente = new CitPaciente();
-                cliente.setPacCodigo(rs.getLong(1));
-                cliente.setCodigoCiudad(new FacCiudad());
-                cliente.getCodigoCiudad().setCiuCodigo(rs.getBigDecimal(2));
-                cliente.setPacNombres(rs.getString(3));
-                cliente.setPacApellidos(rs.getString(4));
-                cliente.setPacTelefono(rs.getString(5));
-                cliente.setPacDireccion(rs.getString(6));
-                cliente.setPacIdentificacin(rs.getString(7));
-                cliente.setPacCorreo(rs.getString(8));
-                cliente.setPacEstado(rs.getInt(9));
-                cliente.setPacGenero(rs.getString(10));
-                clientes.add(cliente);
+                CitPaciente paciente = new CitPaciente();
+                paciente.setPacCodigo(rs.getLong(1));
+                paciente.setCodigoCiudad(new FacCiudad());
+                paciente.getCodigoCiudad().setCiuCodigo(rs.getBigDecimal(2));
+                paciente.setPacNombres(rs.getString(3));
+                paciente.setPacApellidos(rs.getString(4));
+                paciente.setPacTelefono(rs.getString(5));
+                paciente.setPacDireccion(rs.getString(6));
+                paciente.setPacIdentificacin(rs.getString(7));
+                paciente.setPacCorreo(rs.getString(8));
+                paciente.setPacEstado(rs.getInt(9));
+                paciente.setPacGenero(rs.getString(10));
+                clientes.add(paciente);
             }
         } catch (SQLException e) {
             e.printStackTrace();
