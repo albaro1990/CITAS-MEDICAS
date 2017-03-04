@@ -17,6 +17,7 @@ public class CiudadDaoImpl implements CiudadDao {
     private Connection conn;
     private ResultSet rs;
     private PreparedStatement pstmt;
+    xxx
 
     @Override
     public int save(FacCiudad ciudad) throws SQLException {
