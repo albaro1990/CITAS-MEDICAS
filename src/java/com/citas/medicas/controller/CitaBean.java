@@ -270,6 +270,7 @@ public class CitaBean extends GenericBean {
                         clienteNuevo.setCodigoCiudad(ciudadDAO.find(codigoCiudad));
                         int idc = clienteDao.save(clienteNuevo);
                         if (idc > 0) {
+                            paciente.setPacIdentificacin(clienteNuevo.getPacIdentificacin());
                             saveMessageInfoDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " creado correctamente");
                             requestContext.execute("PF('dlListaCliente').hide()");
                         }

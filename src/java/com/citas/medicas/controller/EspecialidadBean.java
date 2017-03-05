@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author 
+ * @author
  */
 @ManagedBean(name = "especialidadBean")
 @ViewScoped
@@ -38,11 +38,10 @@ public class EspecialidadBean extends GenericBean {
      * Creates a new instance of JsfManejadorUsuarioBean
      */
     public EspecialidadBean() {
-        
-            especialidad = new CitEspecialidad();
-            cargarDependencias();
-            
-        
+
+        especialidad = new CitEspecialidad();
+        cargarDependencias();
+
     }
 
     public void inicializar(ActionEvent actionEvent) {
@@ -50,8 +49,8 @@ public class EspecialidadBean extends GenericBean {
     }
 
     private void cargarDependencias() {
-        try{
-        listaEspecialidades = especialidadDAO.findAll();
+        try {
+            listaEspecialidades = especialidadDAO.findAll();
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);
         }
@@ -60,21 +59,25 @@ public class EspecialidadBean extends GenericBean {
     public void create(ActionEvent actionEvent) {
         try {
             if (especialidad.getEspCodigo() == null) {
-                if (!especialidadDAO.existePorCampo(especialidad.getEspDescripcion())) {
-                            int idEspecialidad = especialidadDAO.save(especialidad);
-                            cargarDependencias();
-                            saveMessageInfoDetail("Ciudad", "Ciudad " + especialidad.getEspDescripcion()+ " creada correctamente");
-                            this.inicializar(actionEvent);
+                if (!especialidadDAO.existePorCampo(especialidad.getEspDescripcion().toUpperCase())) {
+                    int idEspecialidad = especialidadDAO.save(especialidad);
+                    cargarDependencias();
+                    saveMessageInfoDetail("Especialidad", "Especialidad " + especialidad.getEspDescripcion() + " creada correctamente");
+                    this.inicializar(actionEvent);
                 } else {
-                    saveMessageErrorDetail("Ciudad", "Ciudad " + especialidad.getEspDescripcion()+ " ya existe");
+                    saveMessageErrorDetail("Especialidad", "Especialidad " + especialidad.getEspDescripcion() + " ya existe");
                 }
-            } else if(especialidad.getEspCodigo() != null){
-                especialidadDAO.update(especialidad);
-                cargarDependencias();
-                this.inicializar(actionEvent);
+            } else if (especialidad.getEspCodigo() != null) {
+                if (!especialidadDAO.existePorCampo(especialidad.getEspDescripcion().toUpperCase())) {
+                    especialidadDAO.update(especialidad);
+                    cargarDependencias();
+                    this.inicializar(actionEvent);
+                } else {
+                    saveMessageErrorDetail("Especialidad", "Especialidad " + especialidad.getEspDescripcion() + " ya existe");
+                }
             }
-            
-                cargarDependencias();
+
+            cargarDependencias();
         } catch (SQLException e) {
             saveMessageErrorDetail("Especialidad", e.getMessage());
             LOG.error(e.getMessage(), e);
@@ -96,8 +99,8 @@ public class EspecialidadBean extends GenericBean {
         try {
             especialidad = (CitEspecialidad) event.getComponent().getAttributes().get("objetoEliminar");
             especialidadDAO.delete(especialidad.getEspCodigo().intValue());
-             cargarDependencias();
-             this.inicializar(event);
+            cargarDependencias();
+            this.inicializar(event);
         } catch (Exception e) {
         }
     }
@@ -125,7 +128,6 @@ public class EspecialidadBean extends GenericBean {
     public void setEspecialidad(CitEspecialidad especialidad) {
         this.especialidad = especialidad;
     }
-   
 
     public Integer getCodigoEstado() {
         return codigoEstado;

@@ -46,6 +46,8 @@ public class FacUsuario implements Serializable {
     
     private Date fechaModificacion;
     
+    private String rol;
+    
     private List<FacUsuarioAplicacion> facUsuarioAplicacionList;
 
     public FacUsuario() {
@@ -175,6 +177,14 @@ public class FacUsuario implements Serializable {
 
     public void setCitEspecialidad(CitEspecialidad citEspecialidad) {
         this.citEspecialidad = citEspecialidad;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     

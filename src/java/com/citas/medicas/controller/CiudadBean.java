@@ -57,7 +57,7 @@ public class CiudadBean extends GenericBean {
     public void create(ActionEvent actionEvent) {
         try {
             if (ciudad.getCiuCodigo() == null) {
-                if (!ciudadDAO.existePorCampo(ciudad.getCiuNombre())) {
+                if (!ciudadDAO.existePorCampo(ciudad.getCiuNombre().toUpperCase())) {
                             int idCiudad = ciudadDAO.save(ciudad);
                             cargarDependencias();
                             saveMessageInfoDetail("Ciudad", "Ciudad " + ciudad.getCiuNombre() + " creada correctamente");
@@ -66,9 +66,13 @@ public class CiudadBean extends GenericBean {
                     saveMessageErrorDetail("Ciudad", "Ciudad " + ciudad.getCiuNombre()+ " ya existe");
                 }
             } else if(ciudad.getCiuCodigo() != null){
+                if (!ciudadDAO.existePorCampo(ciudad.getCiuNombre().toUpperCase())) {
                 ciudadDAO.update(ciudad);
                 cargarDependencias();
                 this.inicializar(actionEvent);
+                }else {
+                    saveMessageErrorDetail("Ciudad", "Ciudad " + ciudad.getCiuNombre()+ " ya existe");
+                }
             }
             
                 cargarDependencias();

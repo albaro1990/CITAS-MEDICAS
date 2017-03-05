@@ -48,6 +48,12 @@
                                        value="Ingrese Telefono"
                                        showEffect="clip" hideEffect="explode" />
                             
+                            <p:outputLabel for="fecha" value="Fecha Nacimiento:" />
+                            <p:calendar id="fecha" value="#{citasBean.clienteNuevo.fechaNacimiento}" pattern="dd-MM-yyyy" mask="true" />
+                                    <p:tooltip for="fecha"
+                                               value="Fecha"
+                                               showEffect="clip" hideEffect="explode" /> 
+                            
                             <p:outputLabel for="genero" value="Genero:"  />
                             <p:selectOneMenu id="genero" label="Genero" value="#{citasBean.clienteNuevo.pacGenero}" required="true" requiredMessage="Campo requerido">
                                         <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />

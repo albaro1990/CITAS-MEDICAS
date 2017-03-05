@@ -44,6 +44,7 @@ public class UsuarioBean extends GenericBean {
     private List<CitEspecialidad> especialidades = new ArrayList<CitEspecialidad>();
     private List<FacUsuarioAplicacion> listaUsuarioAplicacion = new ArrayList<FacUsuarioAplicacion>();
     private FacUsuario usuario;
+    private List<FacUsuario> usuarioRol;
     private FacUsuarioAplicacion usuarioAplicacion;
     private Integer codigoRol;
     private Integer codigoEstado;
@@ -57,6 +58,8 @@ public class UsuarioBean extends GenericBean {
     public UsuarioBean() {
         usuario = new FacUsuario();
         usuarioAplicacion = new FacUsuarioAplicacion();
+        usuarioRol = new ArrayList<FacUsuario>();
+        
         cargarCombos();
         cargarDependencias();
 
@@ -99,7 +102,36 @@ public class UsuarioBean extends GenericBean {
 
     public void create(ActionEvent actionEvent) {
         try {
-            if (usuario.getUsuCodigo() == null) {
+            boolean existeUsu=false;
+            Long codigoUsu= new Long(0);
+            if (ValidadorCedulaRuc.isCedulaValido(usuario.getUsuIdentificacion())) {
+                usuarioRol = usuarioDAO.findXCedula(usuario.getUsuIdentificacion());
+            }else {
+                saveMessageErrorDetail("Usuario", "La cedula es incorrecta");
+            }
+            
+            //si existen suusarios creados con esa cedula validamos si tienen el rol creado si no para crearlos
+            if(usuarioRol!=null && usuarioRol.size()>0){
+                for (FacUsuario usu : usuarioRol) {
+                     if(usu.getRol().equalsIgnoreCase(rolDAO.find(codigoRol).getRolNombre())){
+                         existeUsu=true;
+                         codigoUsu=usu.getUsuCodigo();
+                         
+                     }
+                 }
+                if(existeUsu==true){
+                         saveMessageErrorDetail("Usuario", "Ya Existe Usuario con el rol seleccionado ");
+                     }else{
+                            usuarioDAO.update(usuarioDAO.find(codigoUsu.intValue()));
+                            usuarioAplicacion.setUsuCodigo(usuarioDAO.find(codigoUsu.intValue()));
+                            usuarioAplicacion.setRolCodigo(rolDAO.find(codigoRol));
+                            usuarioAplicacion.setUapEstado(usuario.getUsuEstado());
+                            usuarioAplicacionDao.save(usuarioAplicacion);
+                            cargarDependencias();
+                            saveMessageInfoDetail("Usuario", "Usuario " + usuario.getUsuLogin() + " modificado correctamente");
+                            this.inicializar(actionEvent);
+                     }
+            }else if (usuario.getUsuCodigo() == null) {
                 if (!usuarioDAO.existePorCampo(usuario.getUsuLogin())) {
                     if (ValidadorCedulaRuc.isCedulaValido(usuario.getUsuIdentificacion())) {
                         if (usuario.getUsuClave().equals(confirmarClave)) {

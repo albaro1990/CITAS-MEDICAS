@@ -26,7 +26,7 @@ public class CiudadDaoImpl implements CiudadDao {
             conn = new ConexionDB().getConexion();
            
             pstmt = conn.prepareStatement("INSERT INTO CIT_CIUDAD(CIU_CODIGO,CIU_NOMBRE,CIU_ESTADO) "
-                    + "values (CIT_SEQ_CIUDAD.NEXTVAL, '"+ciudad.getCiuNombre()+"',"+ciudad.getCiuEstado()+")", new String[]{"CIU_CODIGO"});
+                    + "values (CIT_SEQ_CIUDAD.NEXTVAL, '"+ciudad.getCiuNombre().toUpperCase()+"',"+ciudad.getCiuEstado()+")", new String[]{"CIU_CODIGO"});
             
             int affectedRows = pstmt.executeUpdate();
             
@@ -53,7 +53,7 @@ public class CiudadDaoImpl implements CiudadDao {
         int nup = 0;
         try {
             conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("UPDATE CIT_CIUDAD SET CIU_NOMBRE='"+ciudad.getCiuNombre()+"',CIU_ESTADO="+ciudad.getCiuEstado()+""
+            pstmt = conn.prepareStatement("UPDATE CIT_CIUDAD SET CIU_NOMBRE='"+ciudad.getCiuNombre().toUpperCase()+"',CIU_ESTADO="+ciudad.getCiuEstado()+""
                     + " WHERE CIU_CODIGO = "+ciudad.getCiuCodigo()+" ");
             
 

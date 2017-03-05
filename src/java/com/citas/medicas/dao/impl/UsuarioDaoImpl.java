@@ -259,4 +259,36 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
         return usuarios;
     }
+    
+     @Override
+    public List<FacUsuario> findXCedula(String cedula) throws SQLException {
+        List<FacUsuario> usuarios = new ArrayList<FacUsuario>();
+
+        try {
+            conn = new ConexionDB().getConexion();
+            pstmt = conn.prepareStatement(" SELECT DISTINCT USU.USU_CODIGO,USU.USU_IDENTIFICACION, ROL.ROL_NOMBRE " +
+                                          " FROM CIT_USUARIO USU, CIT_ROL ROL, CIT_USUARIO_APLICACION UAP " +
+                                          " WHERE USU.USU_CODIGO = UAP.USU_CODIGO " +
+                                          " AND UAP.ROL_CODIGO = ROL.ROL_CODIGO " +
+                                          " AND UAP.UAP_ESTADO=1 " +
+                                          " AND USU.USU_IDENTIFICACION= ?");
+            pstmt.setString(1, cedula);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                FacUsuario usuario = new FacUsuario();
+                usuario.setUsuCodigo(rs.getLong(1));
+                usuario.setUsuIdentificacion(rs.getString(2));
+                usuario.setRol(rs.getString(3));
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+        return  usuarios;
+    }
+
 }

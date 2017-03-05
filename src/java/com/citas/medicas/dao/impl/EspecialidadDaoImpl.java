@@ -27,7 +27,7 @@ public class EspecialidadDaoImpl implements EspecialidadDao {
             conn = new ConexionDB().getConexion();
            
             pstmt = conn.prepareStatement("INSERT INTO CIT_ESPECIALIDAD(ESP_CODIGO,ESP_DESCRIPCION,ESP_ESTADO) "
-                    + "values (CIT_SEQ_ESPECIALIDAD.NEXTVAL, '"+especialidad.getEspDescripcion()+"',"+especialidad.getEspEstado()+")", new String[]{"ESP_CODIGO"});
+                    + "values (CIT_SEQ_ESPECIALIDAD.NEXTVAL, '"+especialidad.getEspDescripcion().toUpperCase()+"',"+especialidad.getEspEstado()+")", new String[]{"ESP_CODIGO"});
             
             int affectedRows = pstmt.executeUpdate();
             
@@ -54,7 +54,7 @@ public class EspecialidadDaoImpl implements EspecialidadDao {
         int nup = 0;
         try {
             conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("UPDATE CIT_ESPECIALIDAD SET ESP_DESCRIPCION='"+especialidad.getEspDescripcion()+"',ESP_ESTADO="+especialidad.getEspEstado()+""
+            pstmt = conn.prepareStatement("UPDATE CIT_ESPECIALIDAD SET ESP_DESCRIPCION='"+especialidad.getEspDescripcion().toUpperCase()+"',ESP_ESTADO="+especialidad.getEspEstado()+""
                     + " WHERE ESP_CODIGO = "+especialidad.getEspCodigo()+" ");
             
 

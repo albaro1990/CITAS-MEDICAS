@@ -23,7 +23,8 @@ public class ClienteDaoImpl implements ClienteDao {
         StringBuilder sql = new StringBuilder();
         try {
             conn = new ConexionDB().getConexion();
-            sql.append("INSERT INTO CIT_PACIENTE(PAC_CODIGO,CIU_CODIGO,PAC_NOMBRES,PAC_APELLIDOS,PAC_TELEFONO,PAC_DIRECCION,PAC_CEDULA,PAC_CORREO,PAC_ESTADO, PAC_GENERO) VALUES (CIT_SEQ_PACIENTE.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            sql.append("INSERT INTO CIT_PACIENTE(PAC_CODIGO,CIU_CODIGO,PAC_NOMBRES,PAC_APELLIDOS,PAC_TELEFONO,PAC_DIRECCION,PAC_CEDULA,PAC_CORREO,PAC_ESTADO, PAC_GENERO, PAC_FECHA_NACIMIENTO, PAC_ESTADO_CIVIL) "
+                    + " VALUES (CIT_SEQ_PACIENTE.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt = conn.prepareStatement(sql.toString(), new String[]{"PAC_CODIGO"});
             pstmt.setBigDecimal(1, paciente.getCodigoCiudad().getCiuCodigo());
             pstmt.setString(2, paciente.getPacNombres());
@@ -34,6 +35,8 @@ public class ClienteDaoImpl implements ClienteDao {
             pstmt.setString(7, paciente.getPacCorreo());
             pstmt.setInt(8, paciente.getPacEstado());
             pstmt.setString(9, paciente.getPacGenero());
+            pstmt.setDate(10, new java.sql.Date(paciente.getFechaNacimiento().getTime()));
+            pstmt.setString(11, paciente.getEstadoCivil());
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
@@ -62,7 +65,8 @@ public class ClienteDaoImpl implements ClienteDao {
             pstmt = conn.prepareStatement("UPDATE CIT_PACIENTE SET CIU_CODIGO=" + paciente.getCodigoCiudad().getCiuCodigo() + ", PAC_NOMBRES='" + paciente.getPacNombres() + "',"
                     + "PAC_APELLIDOS='" + paciente.getPacApellidos() + "',PAC_TELEFONO='" + paciente.getPacTelefono()+ "',PAC_DIRECCION='" + paciente.getPacDireccion() + "',"
                     + "PAC_CEDULA='" + paciente.getPacIdentificacin() + "', PAC_CORREO='" + paciente.getPacCorreo() + "',PAC_ESTADO=" + paciente.getPacEstado() + ","
-                    + "PAC_GENERO='"+paciente.getPacGenero()+"' WHERE PAC_CODIGO = "+ paciente.getPacCodigo() +" ");
+                    + "PAC_GENERO='"+paciente.getPacGenero()+"', PAC_FECHA_NACIMIENTO='"+new java.sql.Date(paciente.getFechaNacimiento().getTime())+"' "
+                    + " PAC_ESTADO_CIVIL='"+paciente.getEstadoCivil()+"' WHERE PAC_CODIGO = "+ paciente.getPacCodigo() +" ");
 
             nup = pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -106,12 +110,14 @@ public class ClienteDaoImpl implements ClienteDao {
                 paciente.getCodigoCiudad().setCiuCodigo(rs.getBigDecimal(2));
                 paciente.setPacNombres(rs.getString(3));
                 paciente.setPacApellidos(rs.getString(4));
-                paciente.setPacTelefono(rs.getString(5));
-                paciente.setPacDireccion(rs.getString(6));
-                paciente.setPacIdentificacin(rs.getString(7));
-                paciente.setPacCorreo(rs.getString(8));
-                paciente.setPacEstado(rs.getInt(9));
-                paciente.setPacGenero(rs.getString(10));
+                paciente.setFechaNacimiento(rs.getDate(5));
+                paciente.setEstadoCivil(rs.getString(6));
+                paciente.setPacTelefono(rs.getString(7));
+                paciente.setPacDireccion(rs.getString(8));
+                paciente.setPacIdentificacin(rs.getString(9));
+                paciente.setPacCorreo(rs.getString(10));
+                paciente.setPacEstado(rs.getInt(11));
+                paciente.setPacGenero(rs.getString(12));
                 clientes.add(paciente);
             }
         } catch (SQLException e) {
@@ -137,7 +143,6 @@ public class ClienteDaoImpl implements ClienteDao {
 
             while (rs.next()) {
                 paciente = new CitPaciente();
-                
                 paciente.setPacCodigo(rs.getLong(1));
                 paciente.setCodigoCiudad(new FacCiudad());
                 paciente.getCodigoCiudad().setCiuCodigo(rs.getBigDecimal(2));
@@ -201,7 +206,6 @@ public class ClienteDaoImpl implements ClienteDao {
                 paciente.setPacNombres(rs.getString(3));
                 paciente.setPacApellidos(rs.getString(4));
                 paciente.setFechaNacimiento(rs.getDate(5));
-                //paciente.setEdad(rs.getInt(6));
                 paciente.setEstadoCivil(rs.getString(6));
                 paciente.setPacTelefono(rs.getString(7));
                 paciente.setPacDireccion(rs.getString(8));
