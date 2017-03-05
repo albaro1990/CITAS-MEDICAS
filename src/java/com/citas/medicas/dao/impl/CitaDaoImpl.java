@@ -37,12 +37,14 @@ public class CitaDaoImpl implements CitaDao {
             pstmt.setLong(1, cita.getUsuario().getUsuCodigo());
             pstmt.setLong(2, cita.getCliCodigo().getPacCodigo());
             pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
-            String horaMin= this.formatHoras(cita.getHoraCita(), "dd/MM/yyyy HH:mm:ss");
+            String horaMin= this.formatHoras(cita.getHoraCita(), "dd/MM/yyyy HH:mm");
             //HH:mm:ss
-//            int hora = cita.getHoraCita().getHours();
-//            int minutos = cita.getHoraCita().getMinutes();
-//             = hora +":"+minutos;
-            pstmt.setString(4, horaMin);
+            int hora = cita.getHoraCita().getHours();
+            int minutos = cita.getHoraCita().getMinutes();
+            String horaArray[] = horaMin.split(":");
+            String h= horaArray[0];
+            String m = horaArray[1];
+            pstmt.setString(4, h+m);
             pstmt.setInt(5, cita.getCitEstado());
             pstmt.setString(6, cita.getCitMotivo());
             int affectedRows = pstmt.executeUpdate();
@@ -109,7 +111,7 @@ public class CitaDaoImpl implements CitaDao {
 
         try {
             conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("SELECT * FROM CIT_CITA WHERE CIT_ESTADO NOT IN(0) ");
+            pstmt = conn.prepareStatement("SELECT CIT_CODIGO, USU_CODIGO, PAC_CODIGO, CIT_FECHA, to_char(to_date(CIT_HORA, 'hh24miss'), 'hh24:mi') as hora, CIT_ESTADO, CIT_MOTIVO FROM CIT_CITA WHERE CIT_ESTADO NOT IN(0) ");
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -223,6 +225,7 @@ public class CitaDaoImpl implements CitaDao {
          int nup = 0;
          StringBuilder sql = new StringBuilder();
         try {
+            
             conn = new ConexionDB().getConexion();
             sql.append("UPDATE CIT_CITA SET CIT_ESTADO= 0 WHERE CIT_CODIGO = ? ");
             pstmt = conn.prepareStatement(sql.toString());
@@ -275,6 +278,34 @@ public class CitaDaoImpl implements CitaDao {
         return citas;
     }
 
-        
+    @Override
+    public boolean existeCita(Long codigoDoc, Date fechaCita, Date horaCita) throws SQLException {
+        try {
+            Integer rowCount = 0;
+            String fechaCit=formatFechaString(fechaCita, "DD/MM/YYYY");
+            horaCita.getTime();
+            conn = new ConexionDB().getConexion();
+            StringBuffer ssql = new StringBuffer();
+            ssql.append(" SELECT COUNT(*) AS CONTADOR ");
+            ssql.append(" FROM CIT_CITA CIT ");
+            ssql.append(" WHERE CIT.USU_CODIGO= "+ codigoDoc+" ");
+            ssql.append(" AND CIT.CIT_FECHA=TO_DATE('"+new java.sql.Date(fechaCita.getTime())+"','YYYY/MM/DD') ");
+            ssql.append(" AND ( to_char(to_date(CIT.CIT_HORA, 'hh24miss'), 'hh24:mi')='"+formatHoras(horaCita,"dd/MM/yyyy HH:mm:ss")+"' OR '"+formatHoras(horaCita,"dd/MM/yyyy HH:mm:ss")+"' <= to_char(to_date(CIT.CIT_HORA, 'hh24miss')+ 29/1440, 'hh24:mi'))");
+          /*  if(codEspecialidad>0){
+            ssql.append("AND ESP_CODIGO = ?  ");
+            }*/
+            pstmt = conn.prepareStatement(ssql.toString());
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                rowCount = rs.getInt("CONTADOR");
+            }
+            return rowCount > 0;
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+    }      
 
 }

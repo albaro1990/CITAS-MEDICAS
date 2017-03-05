@@ -204,7 +204,10 @@ public class CitaBean extends GenericBean {
 
     public void create(ActionEvent actionEvent) {
         try {
+            //VALIDAMOS SI EXISTE UNA CITA MEDICA PARA ESE DOCTOR EN EL MISMO DIA Y A LA MISMA HORA CON MAS 30 MIN
+            boolean existeCita=citaDao.existeCita(codigoMedico.longValue(), cita.getCitFechaCita(), cita.getHoraCita());
 //            if (cita.getCitCodigo().intValue() > 0) {
+        if(existeCita==false){
                 if (cita.getCitCodigo() == null) {
                     cita.setCliCodigo(paciente);
                     cita.setUsuario(usuarioDao.find(codigoMedico));
@@ -233,9 +236,10 @@ public class CitaBean extends GenericBean {
                 saveMessageInfoDetail("Cita", "Cita " + cita.getCitCodigo() + " modificado correctamente");
                 this.inicializar(actionEvent);
             }
-//            } else {
-//                saveMessageWarnDetail("Cita", "Ingrese detalles de la factura");
-//            }
+            } else {
+                saveMessageWarnDetail("Cita", "No existe citas disponibles para ese doctor en ese rango de tiempo");
+                saveMessageWarnDetail("Cita", "La cita debe ser mayor a la fecha y hora actual en al menos 30 min");
+            }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);
         }

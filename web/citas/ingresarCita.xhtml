@@ -77,12 +77,12 @@
                                         <p:ajax event="valueChange" update="idDoctor"  listener="#{citasBean.cargarCombos()}" />
                                     </p:selectOneMenu>
                                     <p:tooltip for="especilidad"
-                                               value="Campo requerido"
+                                               value="Elejir Especialidad"
                                                showEffect="clip" hideEffect="explode" />
 
-                                    <h:panelGrid id="idDoctor">
+                                    <h:panelGrid id="idDoctor" columns="3">
                                         <p:outputLabel for="doctor" value="Elejir Doctor:"  />
-                                        <p:selectOneMenu id="doctor" label="doctor" value="#{citasBean.codigoMedico}">
+                                        <p:selectOneMenu id="doctor" label="doctor" value="#{citasBean.codigoMedico}" required="true" requiredMessage="Campo requerido">
                                             <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
                                             <f:selectItems value="#{citasBean.listaUsuMedicos}" var="item" itemLabel="#{item.usuNombres}" itemValue="#{item.usuCodigo}" />
                                         </p:selectOneMenu>

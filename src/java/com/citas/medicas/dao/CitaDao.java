@@ -2,6 +2,7 @@ package com.citas.medicas.dao;
 
 import com.citas.medicas.entity.CitCita;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public interface CitaDao {
@@ -19,4 +20,6 @@ public interface CitaDao {
     public int cacelar(int id) throws SQLException;
     
     public List<CitCita> findAllXMedico() throws SQLException;
+    
+    public boolean existeCita(Long codigoDoc, Date fechaCita, Date horaCita) throws SQLException;
 }
