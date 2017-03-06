@@ -46,6 +46,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.model.DefaultScheduleEvent;
@@ -100,13 +101,15 @@ public class ScheduleView extends GenericBean {
             antPersonales = new CitAntPersonales();
             antFamiliares=new CitAntFamiliares();
             citHistoriaClinica = new CitHistoriaClinica();
+            
         
     }
     @PostConstruct
     public void init() {
+        final FacUsuario user = (FacUsuario) getHttpSession().getAttribute("USUARIO_SESSION");
         eventModel = new DefaultScheduleModel();
         try {
-          listaCitas=   citaDao.findAllXMedico();
+          listaCitas=   citaDao.findAllXMedico(Long.valueOf(user.getUsuCodigo()));
             for (CitCita listaCita : listaCitas) {                
                  eventModel.addEvent(new DefaultScheduleEvent("CHEQUEO DE RUTINA",listaCita.getCitFechaCita(),listaCita.getHoraCita(),listaCita));
                  
@@ -402,6 +405,10 @@ public class ScheduleView extends GenericBean {
         RequestContext requestContext = RequestContext.getCurrentInstance();
       }
 
+      
+   public HttpSession getHttpSession() {
+		return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+  }
     public List<CitCita> getListaCitas() {
         return listaCitas;
     }

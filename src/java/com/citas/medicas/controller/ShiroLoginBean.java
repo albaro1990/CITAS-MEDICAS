@@ -10,7 +10,9 @@ package com.citas.medicas.controller;
  * @author
  */
 import com.citas.medicas.dao.RolDao;
+import com.citas.medicas.dao.UsuarioDao;
 import com.citas.medicas.dao.impl.RolDaoImpl;
+import com.citas.medicas.dao.impl.UsuarioDaoImpl;
 import com.citas.medicas.entity.FacRol;
 import com.citas.medicas.entity.FacUsuario;
 import org.apache.shiro.SecurityUtils;
@@ -35,6 +37,7 @@ public class ShiroLoginBean extends GenericBean {
 
     private FacUsuario usuario;
     private RolDao rolDao = new RolDaoImpl();
+    private UsuarioDao usuarioDao = new UsuarioDaoImpl();
     private boolean rememberMe = false;
 
     public ShiroLoginBean() {
@@ -51,7 +54,10 @@ public class ShiroLoginBean extends GenericBean {
             List<FacRol> listaRol = rolDao.findAll();
             if (!listaRol.isEmpty()) {
                 Subject subject = SecurityUtils.getSubject();
+                
+                getHttpSession().setAttribute("USUARIO_SESSION", usuarioDao.findXLogin(getUsuario().getUsuLogin().trim()));
                 subject.login(token);
+                
                 for (FacRol rol : listaRol) {
                     if (subject.hasRole(rol.getRolNombre().trim())) {
                         LOG.info(rol.getRolNombre());

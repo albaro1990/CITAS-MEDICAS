@@ -291,4 +291,41 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return  usuarios;
     }
 
+     @Override
+    public FacUsuario findXLogin(String username) throws SQLException {
+        FacUsuario usuario = null;
+
+        try {
+            conn = new ConexionDB().getConexion();
+            pstmt = conn.prepareStatement("SELECT * FROM CIT_USUARIO WHERE USU_LOGIN = ?");
+            pstmt.setString(1, username);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                usuario = new FacUsuario();
+                usuario.setUsuCodigo(rs.getLong(1));
+                usuario.setCitEspecialidad(new CitEspecialidad());
+                if(rs.getLong(2)>0){
+                usuario.getCitEspecialidad().setEspCodigo(rs.getLong(2));
+                }
+                usuario.setUsuLogin(rs.getString(3));
+                usuario.setUsuClave(rs.getString(4));
+                usuario.setUsuNombres(rs.getString(5));
+                usuario.setUsuApellidos(rs.getString(6));
+                usuario.setUsuCorreo(rs.getString(7));
+                usuario.setUsuIdentificacion(rs.getString(8));
+                usuario.setUsuDireccion(rs.getString(9));
+                usuario.setUsuTelefono(rs.getString(10));
+                usuario.setUsuEstado(rs.getInt(11));
+                usuario.setFechaCreacion(rs.getDate(12));
+                usuario.setFechaModificacion(rs.getDate(13));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+        return usuario;
+    }
 }

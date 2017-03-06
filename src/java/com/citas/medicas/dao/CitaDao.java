@@ -19,7 +19,7 @@ public interface CitaDao {
     
     public int cacelar(int id) throws SQLException;
     
-    public List<CitCita> findAllXMedico() throws SQLException;
+    public List<CitCita> findAllXMedico(Long codigoMedico) throws SQLException;
     
     public boolean existeCita(Long codigoDoc, Date fechaCita, Date horaCita) throws SQLException;
 }

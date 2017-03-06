@@ -214,6 +214,10 @@ public class FacUsuario implements Serializable {
         return "com.facturacion.entity.FacUsuario[ usuCodigo=" + usuCodigo + " ]";
     }
 
+    public Object getUsuario() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
     
     

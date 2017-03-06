@@ -24,4 +24,6 @@ public interface UsuarioDao extends Serializable{
     public List<FacUsuario> findDoctoresXEsp(int codEspecialidad) throws SQLException; 
     
     public List<FacUsuario> findXCedula(String cedula) throws SQLException;
+    
+    public FacUsuario findXLogin(String username) throws SQLException;
 }

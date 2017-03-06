@@ -241,12 +241,14 @@ public class CitaDaoImpl implements CitaDao {
     }
     
      @Override
-    public List<CitCita> findAllXMedico() throws SQLException {
+    public List<CitCita> findAllXMedico(Long codigoMedico) throws SQLException {
         List<CitCita> citas = new ArrayList<CitCita>();
 
         try {
             conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("SELECT CIT_CODIGO, USU_CODIGO, PAC_CODIGO, CIT_FECHA, to_char(to_date(CIT_HORA, 'hh24miss'), 'hh24:mi') as hora, CIT_ESTADO, CIT_MOTIVO FROM CIT_CITA WHERE CIT_ESTADO NOT IN(0) ");
+            pstmt = conn.prepareStatement("SELECT CIT_CODIGO, USU_CODIGO, PAC_CODIGO, CIT_FECHA, to_char(to_date(CIT_HORA, 'hh24miss'), 'hh24:mi') as hora, CIT_ESTADO, CIT_MOTIVO "
+                    + " FROM CIT_CITA "
+                    + " WHERE CIT_ESTADO NOT IN(0) AND USU_CODIGO="+codigoMedico+"");
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
