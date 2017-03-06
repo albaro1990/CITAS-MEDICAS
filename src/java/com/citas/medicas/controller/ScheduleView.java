@@ -133,7 +133,6 @@ public class ScheduleView extends GenericBean {
     }
      
     public void addAntPersonales(ActionEvent actionEvent) {
-       
         RequestContext requestContext = RequestContext.getCurrentInstance();
         try {
           
