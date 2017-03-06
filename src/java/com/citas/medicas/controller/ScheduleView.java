@@ -28,12 +28,10 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +40,11 @@ import com.citas.medicas.dao.impl.AntFamiliaresDaoImpl;
 import com.citas.medicas.dao.impl.AntPersonalesDaoImpl;
 import com.citas.medicas.entity.CitAntFamiliares;
 import com.citas.medicas.entity.CitAntPersonales;
+import com.citas.medicas.entity.CitHistoriaClinica;
 import com.citas.medicas.utilitarios.ValidadorCedulaRuc;
 import java.util.Calendar;
 import java.util.logging.Level;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
@@ -63,35 +61,32 @@ public class ScheduleView extends GenericBean {
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(CitaBean.class);
     
-    private List<CitCita> listaCitas;
-    
-    private CitaDao citaDao = new CitaDaoImpl();
-    private AntFamiliaresDao antFamiliaresDao = new AntFamiliaresDaoImpl();
-    private AntPersonalesDao antPersonalesDao = new AntPersonalesDaoImpl();
     
     private ScheduleModel eventModel;
-     
     private ScheduleModel lazyEventModel;
- 
     private ScheduleEvent event = new DefaultScheduleEvent();
     
     private CitPaciente paciente;
     private CitPaciente clienteNuevo;
-
     private CitCita cita;
     private CitEspecialidad especialidad;
     private CitAntPersonales antPersonales;
     private CitAntFamiliares antFamiliares;
+    private CitHistoriaClinica citHistoriaClinica;
 
-
+    private List<CitCita> listaCitas;
     private List<FacUsuario> listaUsuMedicos;
     private List<FacCiudad> ciudades = new ArrayList<FacCiudad>();
     private List<CitEspecialidad> especialidades = new ArrayList<CitEspecialidad>();
+    
+   private CitaDao citaDao = new CitaDaoImpl();
+    private AntFamiliaresDao antFamiliaresDao = new AntFamiliaresDaoImpl();
+    private AntPersonalesDao antPersonalesDao = new AntPersonalesDaoImpl();
     private ClienteDao clienteDao = new ClienteDaoImpl();
     private CiudadDao ciudadDAO = new CiudadDaoImpl();
-
     private UsuarioDao usuarioDao = new UsuarioDaoImpl();
     private EspecialidadDao especilidadDAO = new EspecialidadDaoImpl();
+    
     private Integer codigoCiudad;
     private Integer codigoEsp;
     private Integer codigoMedico;
@@ -103,6 +98,8 @@ public class ScheduleView extends GenericBean {
  
      public ScheduleView() {
             antPersonales = new CitAntPersonales();
+            antFamiliares=new CitAntFamiliares();
+            citHistoriaClinica = new CitHistoriaClinica();
         
     }
     @PostConstruct
@@ -371,7 +368,39 @@ public class ScheduleView extends GenericBean {
         }
 
     }
+     
+      public void createAntFamiliares(ActionEvent actionEvent) {
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        try {
+            antPersonales.setPacCodigo(paciente);               
+            antPersonalesDao.save(antPersonales);
+            if (clienteNuevo.getPacCodigo() == null) {
+                if (!clienteDao.existePorCampo(clienteNuevo.getPacIdentificacin())) {
+                    if (ValidadorCedulaRuc.isRucCedulaValido(clienteNuevo.getPacIdentificacin())) {
+                        clienteNuevo.setPacEstado(1);
+                        clienteNuevo.setCodigoCiudad(ciudadDAO.find(codigoCiudad));
+                        int idc = clienteDao.save(clienteNuevo);
+                        if (idc > 0) {
+                            saveMessageInfoDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " creado correctamente");
+                            requestContext.execute("PF('dlListaCliente').hide()");
+                        }
+                    } else {
+                        saveMessageErrorDetail("Paciente", "La cédula o ruc es incorrecta");
+                    }
+                } else {
+                    saveMessageErrorDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " ya existe");
+                }
+            }
 
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+
+    }
+
+      public void createHistoria(ActionEvent actionEvent) {
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+      }
 
     public List<CitCita> getListaCitas() {
         return listaCitas;
@@ -539,6 +568,14 @@ public class ScheduleView extends GenericBean {
 
     public void setEditarAntPer(boolean editarAntPer) {
         this.editarAntPer = editarAntPer;
+    }
+
+    public CitHistoriaClinica getCitHistoriaClinica() {
+        return citHistoriaClinica;
+    }
+
+    public void setCitHistoriaClinica(CitHistoriaClinica citHistoriaClinica) {
+        this.citHistoriaClinica = citHistoriaClinica;
     }
     
 }

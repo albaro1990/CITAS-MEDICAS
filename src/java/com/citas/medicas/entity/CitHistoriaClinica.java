@@ -34,6 +34,24 @@ public class CitHistoriaClinica implements Serializable {
       
     private String citMotivo;
     
+    private Integer edad;
+    
+    private String talla;
+    
+    private String imc;
+    
+    private String temperatura;
+    
+    private String ritmoCardiaco;
+    
+    private String presion;
+    
+    private String peso;
+    
+    private String tipoSangre;
+    
+    private String sintomas;
+    
 
     public CitHistoriaClinica() {
     }
@@ -105,6 +123,78 @@ public class CitHistoriaClinica implements Serializable {
 
     public void setCliCodigo(CitPaciente cliCodigo) {
         this.cliCodigo = cliCodigo;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public String getTalla() {
+        return talla;
+    }
+
+    public void setTalla(String talla) {
+        this.talla = talla;
+    }
+
+    public String getImc() {
+        return imc;
+    }
+
+    public void setImc(String imc) {
+        this.imc = imc;
+    }
+
+    public String getTemperatura() {
+        return temperatura;
+    }
+
+    public void setTemperatura(String temperatura) {
+        this.temperatura = temperatura;
+    }
+
+    public String getRitmoCardiaco() {
+        return ritmoCardiaco;
+    }
+
+    public void setRitmoCardiaco(String ritmoCardiaco) {
+        this.ritmoCardiaco = ritmoCardiaco;
+    }
+
+    public String getPresion() {
+        return presion;
+    }
+
+    public void setPresion(String presion) {
+        this.presion = presion;
+    }
+
+    public String getPeso() {
+        return peso;
+    }
+
+    public void setPeso(String peso) {
+        this.peso = peso;
+    }
+
+    public String getTipoSangre() {
+        return tipoSangre;
+    }
+
+    public void setTipoSangre(String tipoSangre) {
+        this.tipoSangre = tipoSangre;
+    }
+
+    public String getSintomas() {
+        return sintomas;
+    }
+
+    public void setSintomas(String sintomas) {
+        this.sintomas = sintomas;
     }
 
 

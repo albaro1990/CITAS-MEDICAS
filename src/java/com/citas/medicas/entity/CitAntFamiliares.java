@@ -6,9 +6,6 @@
 package com.citas.medicas.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -167,7 +164,7 @@ public class CitAntFamiliares implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facturacion.entity.FacCabeceraFactura[ cabCodigo=" + antFamCodigo + " ]";
+        return "com.citas.medicas.entity.CitAntFamiliares[ antFamCodigo=" + antFamCodigo + " ]";
     }
     
 }

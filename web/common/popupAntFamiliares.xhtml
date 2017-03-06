@@ -9,7 +9,7 @@
 
     <h:body>	
         <p:dialog modal="true" widgetVar="dlAntFamiliares" resizable="true" width="50%"
-                  header="Diagnostico" dynamic="true" draggable="true" closeOnEscape="true" closable="true"
+                  header="Antecedentes Fam" dynamic="true" draggable="true" closeOnEscape="true" closable="true"
                   appendTo="@(body)" showEffect="blind" hideEffect="blind">
 
             <h:form id="formAntFamiliares">    
@@ -77,7 +77,7 @@
                             
                             <f:facet name="footer">
                                 <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"
-                                                 actionListener="#{scheduleView.createAntPersonales}"
+                                                 actionListener="#{scheduleView.createAntFamiliares}"
                                                  update=":formAntFamiliares,:formLista,formDatos" process=":formAntFamiliares" />
                                 
                             </f:facet>                             

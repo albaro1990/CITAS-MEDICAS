@@ -33,7 +33,6 @@ public class CitPaciente implements Serializable {
     private String pacCorreo;
     private Integer pacEstado;
     private String pacGenero;
-    private Integer edad;
     private Date fechaNacimiento;
     private String estadoCivil;
     
@@ -132,14 +131,6 @@ public class CitPaciente implements Serializable {
 
     public void setPacGenero(String pacGenero) {
         this.pacGenero = pacGenero;
-    }
-
-    public Integer getEdad() {
-        return edad;
-    }
-
-    public void setEdad(Integer edad) {
-        this.edad = edad;
     }
 
     public Date getFechaNacimiento() {
