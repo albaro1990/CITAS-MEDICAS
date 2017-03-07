@@ -128,7 +128,7 @@
                     <p:commandButton id="antPersonales" value="Ant. Personales" validateClient="true" ajax="true" icon="ui-icon-disk"
                                      actionListener="#{scheduleView.addAntPersonales}" rendered="#{not empty request.getRemoteUser()}"
                                      immediate="true" process=":formLista"
-                                     update=":formLista, :formDatos:growl, :formAntPersonales:gridDatos" />
+                                     update=":formLista, :formDatos:growl" />
 
                     <p:commandButton id="antFamiliares" value="Ant. Familiares" validateClient="true" ajax="true" icon="ui-icon-disk"
                                      actionListener="#{scheduleView.addAntFamiliares}" rendered="#{not empty request.getRemoteUser()}"

@@ -95,6 +95,7 @@ public class ScheduleView extends GenericBean {
     private Integer codigoCita;
     
     private boolean editarAntPer=false;
+    private boolean editarAntFam=false;
     
  
      public ScheduleView() {
@@ -278,8 +279,17 @@ public class ScheduleView extends GenericBean {
         try {
            paciente =  clienteDao.findXId(codigoPaciente); 
            antPersonales = antPersonalesDao.findXIdPaciente(codigoPaciente);
+           antFamiliares = antFamiliaresDao.findXIdPaciente(codigoPaciente);
            if(antPersonales!=null){
                editarAntPer=true;
+           }else{
+               antPersonales = new CitAntPersonales();
+           }
+           
+           if(antFamiliares!=null){
+               editarAntFam=true;
+           }else{
+               antFamiliares = new CitAntFamiliares();
            }
         } catch (Exception e) {
         }
@@ -333,10 +343,7 @@ public class ScheduleView extends GenericBean {
         try {
             cita = (CitCita) event.getComponent().getAttributes().get("objetoRemover");
            int ndel = citaDao.cacelar(cita.getCitCodigo().intValue());
-//            if (detalleFactura != null) {
-//              //  listaDetalleFacturas.remove(detalleFactura);
-//                procesarArticulo();
-//            }
+
         } catch (Exception e) {
         }
 
@@ -345,26 +352,16 @@ public class ScheduleView extends GenericBean {
      public void createAntPersonales(ActionEvent actionEvent) {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         try {
-            antPersonales.setPacCodigo(paciente);               
-            antPersonalesDao.save(antPersonales);
-            if (clienteNuevo.getPacCodigo() == null) {
-                if (!clienteDao.existePorCampo(clienteNuevo.getPacIdentificacin())) {
-                    if (ValidadorCedulaRuc.isRucCedulaValido(clienteNuevo.getPacIdentificacin())) {
-                        clienteNuevo.setPacEstado(1);
-                        clienteNuevo.setCodigoCiudad(ciudadDAO.find(codigoCiudad));
-                        int idc = clienteDao.save(clienteNuevo);
-                        if (idc > 0) {
-                            saveMessageInfoDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " creado correctamente");
-                            requestContext.execute("PF('dlListaCliente').hide()");
-                        }
-                    } else {
-                        saveMessageErrorDetail("Paciente", "La cédula o ruc es incorrecta");
-                    }
-                } else {
-                    saveMessageErrorDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " ya existe");
-                }
+            antPersonales.setPacCodigo(paciente);
+            if(editarAntPer==false){
+                antPersonalesDao.save(antPersonales);
+                requestContext.execute("PF('dlAntPersonales').hide()");
+                saveMessageInfoDetail("Ant Personales", "Ant Personales  creado correctamente");
+            }else{
+                antPersonalesDao.update(antPersonales);
+                requestContext.execute("PF('dlAntPersonales').hide()");
+                saveMessageInfoDetail("Ant Personales", "Ant Personales  actualizado correctamente");
             }
-
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
         }
@@ -373,25 +370,16 @@ public class ScheduleView extends GenericBean {
      
       public void createAntFamiliares(ActionEvent actionEvent) {
         RequestContext requestContext = RequestContext.getCurrentInstance();
-        try {
-            antPersonales.setPacCodigo(paciente);               
-            antPersonalesDao.save(antPersonales);
-            if (clienteNuevo.getPacCodigo() == null) {
-                if (!clienteDao.existePorCampo(clienteNuevo.getPacIdentificacin())) {
-                    if (ValidadorCedulaRuc.isRucCedulaValido(clienteNuevo.getPacIdentificacin())) {
-                        clienteNuevo.setPacEstado(1);
-                        clienteNuevo.setCodigoCiudad(ciudadDAO.find(codigoCiudad));
-                        int idc = clienteDao.save(clienteNuevo);
-                        if (idc > 0) {
-                            saveMessageInfoDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " creado correctamente");
-                            requestContext.execute("PF('dlListaCliente').hide()");
-                        }
-                    } else {
-                        saveMessageErrorDetail("Paciente", "La cédula o ruc es incorrecta");
-                    }
-                } else {
-                    saveMessageErrorDetail("Paciente", "Paciente " + clienteNuevo.getPacIdentificacin() + " ya existe");
-                }
+        try {              
+            antFamiliares.setAntFamPacCodigo(paciente);
+            if(editarAntFam==false){
+                antFamiliaresDao.save(antFamiliares);
+                requestContext.execute("PF('dlAntFamiliares').hide()");
+                saveMessageInfoDetail("Ant Familiares", "Ant Familiares  creado correctamente");
+            }else{
+                antFamiliaresDao.update(antFamiliares);
+                requestContext.execute("PF('dlAntFamiliares').hide()");
+                saveMessageInfoDetail("Ant Familiares", "Ant Familiares  actualizado correctamente");
             }
 
         } catch (Exception ex) {
@@ -408,21 +396,6 @@ public class ScheduleView extends GenericBean {
    public HttpSession getHttpSession() {
 		return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
   }
-    public List<CitCita> getListaCitas() {
-        return listaCitas;
-    }
-
-    public void setListaCitas(List<CitCita> listaCitas) {
-        this.listaCitas = listaCitas;
-    }
-
-    public CitaDao getCitaDao() {
-        return citaDao;
-    }
-
-    public void setCitaDao(CitaDao citaDao) {
-        this.citaDao = citaDao;
-    }
 
     public CitPaciente getPaciente() {
         return paciente;
@@ -456,6 +429,38 @@ public class ScheduleView extends GenericBean {
         this.especialidad = especialidad;
     }
 
+    public CitAntPersonales getAntPersonales() {
+        return antPersonales;
+    }
+
+    public void setAntPersonales(CitAntPersonales antPersonales) {
+        this.antPersonales = antPersonales;
+    }
+
+    public CitAntFamiliares getAntFamiliares() {
+        return antFamiliares;
+    }
+
+    public void setAntFamiliares(CitAntFamiliares antFamiliares) {
+        this.antFamiliares = antFamiliares;
+    }
+
+    public CitHistoriaClinica getCitHistoriaClinica() {
+        return citHistoriaClinica;
+    }
+
+    public void setCitHistoriaClinica(CitHistoriaClinica citHistoriaClinica) {
+        this.citHistoriaClinica = citHistoriaClinica;
+    }
+
+    public List<CitCita> getListaCitas() {
+        return listaCitas;
+    }
+
+    public void setListaCitas(List<CitCita> listaCitas) {
+        this.listaCitas = listaCitas;
+    }
+
     public List<FacUsuario> getListaUsuMedicos() {
         return listaUsuMedicos;
     }
@@ -478,38 +483,6 @@ public class ScheduleView extends GenericBean {
 
     public void setEspecialidades(List<CitEspecialidad> especialidades) {
         this.especialidades = especialidades;
-    }
-
-    public ClienteDao getClienteDao() {
-        return clienteDao;
-    }
-
-    public void setClienteDao(ClienteDao clienteDao) {
-        this.clienteDao = clienteDao;
-    }
-
-    public CiudadDao getCiudadDAO() {
-        return ciudadDAO;
-    }
-
-    public void setCiudadDAO(CiudadDao ciudadDAO) {
-        this.ciudadDAO = ciudadDAO;
-    }
-
-    public UsuarioDao getUsuarioDao() {
-        return usuarioDao;
-    }
-
-    public void setUsuarioDao(UsuarioDao usuarioDao) {
-        this.usuarioDao = usuarioDao;
-    }
-
-    public EspecialidadDao getEspecilidadDAO() {
-        return especilidadDAO;
-    }
-
-    public void setEspecilidadDAO(EspecialidadDao especilidadDAO) {
-        this.especilidadDAO = especilidadDAO;
     }
 
     public Integer getCodigoCiudad() {
@@ -552,22 +525,6 @@ public class ScheduleView extends GenericBean {
         this.codigoCita = codigoCita;
     }
 
-    public CitAntPersonales getAntPersonales() {
-        return antPersonales;
-    }
-
-    public void setAntPersonales(CitAntPersonales antPersonales) {
-        this.antPersonales = antPersonales;
-    }
-
-    public CitAntFamiliares getAntFamiliares() {
-        return antFamiliares;
-    }
-
-    public void setAntFamiliares(CitAntFamiliares antFamiliares) {
-        this.antFamiliares = antFamiliares;
-    }
-
     public boolean isEditarAntPer() {
         return editarAntPer;
     }
@@ -576,12 +533,4 @@ public class ScheduleView extends GenericBean {
         this.editarAntPer = editarAntPer;
     }
 
-    public CitHistoriaClinica getCitHistoriaClinica() {
-        return citHistoriaClinica;
-    }
-
-    public void setCitHistoriaClinica(CitHistoriaClinica citHistoriaClinica) {
-        this.citHistoriaClinica = citHistoriaClinica;
-    }
-    
 }

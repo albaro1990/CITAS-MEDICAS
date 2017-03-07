@@ -13,7 +13,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import com.citas.medicas.dao.CitaDao;
+import com.citas.medicas.entity.CitAntFamiliares;
 import com.citas.medicas.entity.FacUsuario;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,29 +27,64 @@ public class AntFamiliaresDaoImpl implements AntFamiliaresDao {
     private PreparedStatement pstmt;
 
     @Override
-    public int save(CitCita cita) throws SQLException {
+    public int save(CitAntFamiliares citAntFamiliares) throws SQLException {
         int idInserted = 0;
         StringBuilder sql = new StringBuilder();
         try {
             
             conn = new ConexionDB().getConexion();
-            sql.append("INSERT INTO CIT_CITA(CIT_CODIGO,USU_CODIGO,PAC_CODIGO,CIT_FECHA,CIT_HORA,CIT_ESTADO, CIT_MOTIVO)VALUES (CIT_SEQ_CITA.NEXTVAL, ?, ?, ?, ?, ?, ?)");
-            cita.setUapCodigo(new FacUsuarioAplicacion());
-
-            pstmt = conn.prepareStatement(sql.toString(), new String[]{"CIT_CODIGO"});
-            pstmt.setLong(1, cita.getUsuario().getUsuCodigo());
-            pstmt.setLong(2, cita.getCliCodigo().getPacCodigo());
-            pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
-            String horaMin= this.formatHoras(cita.getHoraCita(), "dd/MM/yyyy HH:mm:ss");
-            //HH:mm:ss
-//            int hora = cita.getHoraCita().getHours();
-//            int minutos = cita.getHoraCita().getMinutes();
-//             = hora +":"+minutos;
-            pstmt.setString(4, horaMin);
-            pstmt.setInt(5, cita.getCitEstado());
-            pstmt.setString(6, cita.getCitMotivo());
+            sql.append("INSERT INTO CIT_FAMILILAR_ANT(ANFA_CODIGO,PAC_CODIGO,ANFA_HEPATOPATIA,ANFA_ALERGIAS,ANFA_ASMA,"
+                    + " ANFA_HIPERTENSION,ANFA_CARDIOPATIA,ANFA_NEFROPATIA,ANFA_CANCER,ANFA_OTROS)"
+                    + " VALUES (CIT_SEQ_ANT_FAM.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+              pstmt = conn.prepareStatement(sql.toString(), new String[]{"ANFA_CODIGO"});
+            pstmt.setLong(1, citAntFamiliares.getAntFamPacCodigo().getPacCodigo());
+            if (citAntFamiliares.getHepatopatia() != null) {
+                pstmt.setString(2, citAntFamiliares.getHepatopatia());
+            } else {
+                pstmt.setNull(2, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getAlergias() != null) {
+                pstmt.setString(3, citAntFamiliares.getAlergias());
+            } else {
+                pstmt.setNull(3, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getAsma() != null) {
+                pstmt.setString(4, citAntFamiliares.getAsma());
+            } else {
+                pstmt.setNull(4, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getHipertension() != null) {
+                pstmt.setString(5, citAntFamiliares.getHipertension());
+            } else {
+                pstmt.setNull(5, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getCardipatia() != null) {
+                pstmt.setString(6, citAntFamiliares.getCardipatia());
+            } else {
+                pstmt.setNull(6, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getNefropatia() != null) {
+                pstmt.setString(7, citAntFamiliares.getNefropatia());
+            } else {
+                pstmt.setNull(7, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getCancer() != null) {
+                pstmt.setString(8, citAntFamiliares.getCancer());
+            } else {
+                pstmt.setNull(8, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getOtros() != null) {
+                pstmt.setString(9, citAntFamiliares.getOtros());
+            } else {
+                pstmt.setNull(9, Types.VARCHAR);
+            }
             int affectedRows = pstmt.executeUpdate();
 
+            if (affectedRows == 0) {
+                throw new SQLException("Error al crear Ant Personales");
+            }
+
+            rs = pstmt.getGeneratedKeys();
             if (affectedRows == 0) {
                 throw new SQLException("Error al crear la factura");
             }
@@ -66,18 +103,56 @@ public class AntFamiliaresDaoImpl implements AntFamiliaresDao {
     }
 
     @Override
-    public int update(CitCita cita) throws SQLException {
+    public int update(CitAntFamiliares citAntFamiliares) throws SQLException {
         int nup = 0;
          StringBuilder sql = new StringBuilder();
         try {
-             String horaMin= this.formatHoras(cita.getHoraCita(), "dd/MM/yyyy HH:mm:ss");
+            
             conn = new ConexionDB().getConexion();
-            sql.append("UPDATE CIT_CITA SET CIT_ESTADO= ?, CIT_HORA=?, CIT_FECHA=? WHERE CIT_CODIGO = ? ");
-            pstmt = conn.prepareStatement(sql.toString());
-            pstmt.setInt(1, cita.getCitEstado().intValue());
-            pstmt.setString(2, horaMin);
-            pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
-            pstmt.setLong(4, cita.getCitCodigo());
+            sql.append("UPDATE CIT_FAMILILAR_ANT SET ANFA_HEPATOPATIA=?,ANFA_ALERGIAS=?,ANFA_ASMA=?,"
+                    + " ANFA_HIPERTENSION=?,ANFA_CARDIOPATIA=?,ANFA_NEFROPATIA=?,ANFA_CANCER=?,ANFA_OTROS=?"
+                    + " WHERE ANFA_CODIGO = ? ");
+            if (citAntFamiliares.getHepatopatia() != null) {
+                pstmt.setString(1, citAntFamiliares.getHepatopatia());
+            } else {
+                pstmt.setNull(1, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getAlergias() != null) {
+                pstmt.setString(2, citAntFamiliares.getAlergias());
+            } else {
+                pstmt.setNull(2, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getAsma() != null) {
+                pstmt.setString(3, citAntFamiliares.getAsma());
+            } else {
+                pstmt.setNull(3, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getHipertension() != null) {
+                pstmt.setString(4, citAntFamiliares.getHipertension());
+            } else {
+                pstmt.setNull(4, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getCardipatia() != null) {
+                pstmt.setString(5, citAntFamiliares.getCardipatia());
+            } else {
+                pstmt.setNull(5, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getNefropatia() != null) {
+                pstmt.setString(6, citAntFamiliares.getNefropatia());
+            } else {
+                pstmt.setNull(6, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getCancer() != null) {
+                pstmt.setString(7, citAntFamiliares.getCancer());
+            } else {
+                pstmt.setNull(7, Types.VARCHAR);
+            }
+            if (citAntFamiliares.getOtros() != null) {
+                pstmt.setString(8, citAntFamiliares.getOtros());
+            } else {
+                pstmt.setNull(8, Types.VARCHAR);
+            }
+            pstmt.setLong(9, citAntFamiliares.getAntFamCodigo());
             nup = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,67 +180,29 @@ public class AntFamiliaresDaoImpl implements AntFamiliaresDao {
     }
 
     @Override
-    public List<CitCita> findAll() throws SQLException {
-        List<CitCita> citas = new ArrayList<CitCita>();
+    public CitAntFamiliares findXIdPaciente(int id) throws SQLException {
+
+        CitAntFamiliares citAntFamiliares = null;
 
         try {
             conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("SELECT * FROM CIT_CITA WHERE CIT_ESTADO NOT IN(0) ");
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                CitCita cita = new CitCita();
-                cita.setCitCodigo(rs.getLong(1));
-                cita.setUsuario(new FacUsuario());
-                cita.getUsuario().setUsuCodigo(rs.getLong(2));
-                cita.setCliCodigo(new CitPaciente());
-                cita.getCliCodigo().setPacCodigo(rs.getLong(3));
-                cita.setCitFechaCita(rs.getDate(4));
-                String hora = rs.getString(5);
-                this.formatDate(hora);
-                cita.setHoraCita(this.formatDate(hora));
-                cita.setCitEstado(rs.getInt(6));
-                if(rs.getString(7)!=null){
-                    cita.setCitMotivo(rs.getString(7));
-                }
-                citas.add(cita);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            conn.close();
-            pstmt.close();
-        }
-
-        return citas;
-    }
-
-    @Override
-    public CitCita find(int id) throws SQLException {
-
-        CitCita factura = null;
-
-        try {
-            conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("SELECT * FROM CIT_CITA WHERE CIT_CODIGO = ?");
+            pstmt = conn.prepareStatement("SELECT * FROM CIT_FAMILILAR_ANT WHERE PAC_CODIGO = ?");
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                factura = new CitCita();
-                factura.setUapCodigo(new FacUsuarioAplicacion());
-                factura.setCliCodigo(new CitPaciente());
-                
-//                factura.setCabCodigo(rs.getBigDecimal(1));
-//                factura.getUapCodigo().setUapCodigo(rs.getBigDecimal(2));
-//                factura.getCliCodigo().setPacCodigo(rs.getLong(3));
-//                factura.setCabFechaCreacion(rs.getDate(4));
-//                factura.setCabEstado(rs.getInt(5));
-//                factura.setCabAutorizacion(rs.getString(6));
-//                factura.setCabIdentificacion(rs.getString(7));//ruc de la empresa emisora no del cliente
-//                factura.setCabTotal(rs.getBigDecimal(8));
-//                factura.setCabIva(rs.getBigDecimal(9));
-//                factura.setCabSubtotal(rs.getBigDecimal(10));
+                citAntFamiliares = new CitAntFamiliares();
+                citAntFamiliares.setAntFamCodigo(rs.getLong(1));
+                citAntFamiliares.setAntFamPacCodigo(new CitPaciente());
+                citAntFamiliares.getAntFamPacCodigo().setPacCodigo(rs.getLong(2));
+                citAntFamiliares.setHepatopatia(rs.getString(3));
+                citAntFamiliares.setAlergias(rs.getString(4));
+                citAntFamiliares.setAsma(rs.getString(5));
+                citAntFamiliares.setHipertension(rs.getString(6));
+                citAntFamiliares.setCardipatia(rs.getString(7));
+                citAntFamiliares.setNefropatia(rs.getString(8)); 
+                citAntFamiliares.setCancer(rs.getString(9));
+                citAntFamiliares.setOtros(rs.getString(10));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -173,7 +210,7 @@ public class AntFamiliaresDaoImpl implements AntFamiliaresDao {
             conn.close();
             pstmt.close();
         }
-        return factura;
+        return citAntFamiliares;
     }
     
     
@@ -217,65 +254,6 @@ public class AntFamiliaresDaoImpl implements AntFamiliaresDao {
 		String fecha = simpleDateFormat.format(date);
 		return  fecha;
 		
-	}
-
-    @Override
-    public int cacelar(int id) throws SQLException {
-         int nup = 0;
-         StringBuilder sql = new StringBuilder();
-        try {
-            conn = new ConexionDB().getConexion();
-            sql.append("UPDATE CIT_CITA SET CIT_ESTADO= 0 WHERE CIT_CODIGO = ? ");
-            pstmt = conn.prepareStatement(sql.toString());
-            pstmt.setLong(1, id);
-            nup = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            conn.close();
-            pstmt.close();
-        }
-        return nup;
-    }
-    
-     @Override
-    public List<CitCita> findAllXMedico() throws SQLException {
-        List<CitCita> citas = new ArrayList<CitCita>();
-
-        try {
-            conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("SELECT * FROM CIT_CITA WHERE CIT_ESTADO NOT IN(0) ");
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                CitCita cita = new CitCita();
-                cita.setCitCodigo(rs.getLong(1));
-                cita.setUsuario(new FacUsuario());
-                cita.getUsuario().setUsuCodigo(rs.getLong(2));
-                cita.setCliCodigo(new CitPaciente());
-                cita.getCliCodigo().setPacCodigo(rs.getLong(3));
-                String fechaCita = this.formatFechaString(rs.getDate(4), "dd/MM/yyyy");
-                String fechaHoraCita= fechaCita +" "+ rs.getString(5);
-                cita.setCitFechaCita(this.formatFecha(fechaHoraCita, "dd/MM/yyyy HH:mm"));
-                 String hora = rs.getString(5);
-                this.formatDate(hora);
-                cita.setHoraCita(this.formatDate(hora));
-                cita.setCitEstado(rs.getInt(6));
-                if(rs.getString(7)!=null){
-                    cita.setCitMotivo(rs.getString(7));
-                }
-                citas.add(cita);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            conn.close();
-            pstmt.close();
-        }
-
-        return citas;
-    }
-
-        
+	}   
 
 }

@@ -88,7 +88,9 @@ public class HistoriaClinicaBean extends GenericBean {
     public HistoriaClinicaBean() {
 
             getCodigoCita();
- 
+ /*ALTER TABLE CIT_HISTORIA_CLINICA ADD HIS_FECHA_ATENCION DATE
+
+ALTER TABLE CIT_HISTORIA_CLINICA ADD USU_CODIGO NUMBER*/
         
     }
 
