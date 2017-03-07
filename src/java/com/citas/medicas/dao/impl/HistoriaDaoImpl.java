@@ -3,15 +3,14 @@ package com.citas.medicas.dao.impl;
 import com.citas.medicas.conexion.ConexionDB;
 import com.citas.medicas.entity.CitCita;
 import com.citas.medicas.entity.CitPaciente;
-import com.citas.medicas.entity.FacUsuarioAplicacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import com.citas.medicas.dao.HistoriaDao;
+import com.citas.medicas.entity.CitHistoriaClinica;
 import com.citas.medicas.entity.FacUsuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,29 +23,29 @@ public class HistoriaDaoImpl implements HistoriaDao {
     private PreparedStatement pstmt;
 
     @Override
-    public int save(CitCita cita) throws SQLException {
+    public int save(CitHistoriaClinica historia) throws SQLException {
         int idInserted = 0;
         StringBuilder sql = new StringBuilder();
         try {
             
             conn = new ConexionDB().getConexion();
-            sql.append("INSERT INTO CIT_CITA(CIT_CODIGO,USU_CODIGO,PAC_CODIGO,CIT_FECHA,CIT_HORA,CIT_ESTADO, CIT_MOTIVO)VALUES (CIT_SEQ_CITA.NEXTVAL, ?, ?, ?, ?, ?, ?)");
-            cita.setUapCodigo(new FacUsuarioAplicacion());
+            sql.append(" INSERT INTO CIT_HISTORIA_CLINICA(HIS_CODIGO,PAC_CODIGO, HIS_TIPO_DE_SANGRE, HIS_PESO,HIS_TALLA, HIS_INDICE_MASA_CORPORAL,"
+                      +" HIS_PRESION_ARTERIAL, HIS_TRATAMIENTOS,HIS_SINTOMAS,HIS_MOTIVO,HIS_EDAD, HIS_FECHA_ATENCION)VALUES (CIT_SEQ_HISTORIA.NEXTVAL, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, SYSDATE)");
+            
 
-            pstmt = conn.prepareStatement(sql.toString(), new String[]{"CIT_CODIGO"});
-            pstmt.setLong(1, cita.getUsuario().getUsuCodigo());
-            pstmt.setLong(2, cita.getCliCodigo().getPacCodigo());
-            pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
-            String horaMin= this.formatHoras(cita.getHoraCita(), "dd/MM/yyyy HH:mm");
-            //HH:mm:ss
-            int hora = cita.getHoraCita().getHours();
-            int minutos = cita.getHoraCita().getMinutes();
-            String horaArray[] = horaMin.split(":");
-            String h= horaArray[0];
-            String m = horaArray[1];
-            pstmt.setString(4, h+m);
-            pstmt.setInt(5, cita.getCitEstado());
-            pstmt.setString(6, cita.getCitMotivo());
+            pstmt = conn.prepareStatement(sql.toString(), new String[]{"HIS_CODIGO"});
+            historia.setUsuario(new FacUsuario());
+            pstmt.setLong(1, historia.getUsuario().getUsuCodigo());
+            pstmt.setString(2, historia.getTipoSangre());
+            pstmt.setString(3, historia.getPeso());
+            pstmt.setString(4, historia.getTalla());
+            pstmt.setString(5, historia.getImc());
+            pstmt.setString(6, historia.getPresion());
+            pstmt.setString(7, historia.getTratamiento());
+            pstmt.setString(8, historia.getSintomas());
+            pstmt.setString(9, historia.getCitMotivo());
+            pstmt.setLong(10, historia.getEdad());
+
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
@@ -67,18 +66,18 @@ public class HistoriaDaoImpl implements HistoriaDao {
     }
 
     @Override
-    public int update(CitCita cita) throws SQLException {
+    public int update(CitHistoriaClinica historia) throws SQLException {
         int nup = 0;
          StringBuilder sql = new StringBuilder();
         try {
-             String horaMin= this.formatHoras(cita.getHoraCita(), "dd/MM/yyyy HH:mm:ss");
+//             String horaMin= this.formatHoras(cita.getHoraCita(), "dd/MM/yyyy HH:mm:ss");
             conn = new ConexionDB().getConexion();
             sql.append("UPDATE CIT_CITA SET CIT_ESTADO= ?, CIT_HORA=?, CIT_FECHA=? WHERE CIT_CODIGO = ? ");
-            pstmt = conn.prepareStatement(sql.toString());
-            pstmt.setInt(1, cita.getCitEstado().intValue());
-            pstmt.setString(2, horaMin);
-            pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
-            pstmt.setLong(4, cita.getCitCodigo());
+//            pstmt = conn.prepareStatement(sql.toString());
+//            pstmt.setInt(1, cita.getCitEstado().intValue());
+//            pstmt.setString(2, horaMin);
+//            pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
+//            pstmt.setLong(4, cita.getCitCodigo());
             nup = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,8 +105,8 @@ public class HistoriaDaoImpl implements HistoriaDao {
     }
 
     @Override
-    public List<CitCita> findAll() throws SQLException {
-        List<CitCita> citas = new ArrayList<CitCita>();
+    public List<CitHistoriaClinica> findAll() throws SQLException {
+        List<CitHistoriaClinica> citas = new ArrayList<CitHistoriaClinica>();
 
         try {
             conn = new ConexionDB().getConexion();
@@ -129,7 +128,7 @@ public class HistoriaDaoImpl implements HistoriaDao {
                 if(rs.getString(7)!=null){
                     cita.setCitMotivo(rs.getString(7));
                 }
-                citas.add(cita);
+//                citas.add(cita);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,19 +141,19 @@ public class HistoriaDaoImpl implements HistoriaDao {
     }
 
     @Override
-    public CitCita find(int id) throws SQLException {
+    public CitHistoriaClinica find(int id) throws SQLException {
 
-        CitCita factura = null;
+        CitHistoriaClinica factura = null;
 
         try {
             conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("SELECT CIT_CODIGO, USU_CODIGO, PAC_CODIGO, CIT_FECHA, to_char(to_date(CIT_HORA, 'hh24miss'), 'hh24:mi') as hora, CIT_ESTADO, CIT_MOTIVO FROM CIT_CITA WHERE CIT_CODIGO = ?");
+            pstmt = conn.prepareStatement("SELECT CIT_CODIGO, USU_CODIGO, PAC_CODIGO, CIT_FECHA, to_char(to_date(CIT_HORA, 'hh24miss'), 'hh24:mi') as hora, CIT_ESTADO, CIT_MOTIVO FROM CIT_HISTORIA_CLINICA WHERE CIT_CODIGO = ?");
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                factura = new CitCita();
-                factura.setUapCodigo(new FacUsuarioAplicacion());
+                factura = new CitHistoriaClinica();
+//                factura.setUapCodigo(new FacUsuarioAplicacion());
                 factura.setCliCodigo(new CitPaciente());
                 
 //                factura.setCabCodigo(rs.getBigDecimal(1));
@@ -241,14 +240,14 @@ public class HistoriaDaoImpl implements HistoriaDao {
     }
     
      @Override
-    public List<CitCita> findAllXMedico(Long codigoMedico) throws SQLException {
-        List<CitCita> citas = new ArrayList<CitCita>();
+    public List<CitHistoriaClinica> findAllXMedico(Long codigoMedico) throws SQLException {
+        List<CitHistoriaClinica> citas = new ArrayList<CitHistoriaClinica>();
 
         try {
             conn = new ConexionDB().getConexion();
             pstmt = conn.prepareStatement("SELECT CIT_CODIGO, USU_CODIGO, PAC_CODIGO, CIT_FECHA, to_char(to_date(CIT_HORA, 'hh24miss'), 'hh24:mi') as hora, CIT_ESTADO, CIT_MOTIVO "
                     + " FROM CIT_CITA "
-                    + " WHERE CIT_ESTADO NOT IN(0) AND USU_CODIGO="+codigoMedico+"");
+                    + " WHERE CIT_HISTORIA_CLINICA NOT IN(0) AND USU_CODIGO="+codigoMedico+"");
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -268,7 +267,7 @@ public class HistoriaDaoImpl implements HistoriaDao {
                 if(rs.getString(7)!=null){
                     cita.setCitMotivo(rs.getString(7));
                 }
-                citas.add(cita);
+//                citas.add(cita);
             }
         } catch (SQLException e) {
             e.printStackTrace();

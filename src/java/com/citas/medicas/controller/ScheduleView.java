@@ -36,8 +36,10 @@ import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.citas.medicas.dao.CitaDao;
+import com.citas.medicas.dao.HistoriaDao;
 import com.citas.medicas.dao.impl.AntFamiliaresDaoImpl;
 import com.citas.medicas.dao.impl.AntPersonalesDaoImpl;
+import com.citas.medicas.dao.impl.HistoriaDaoImpl;
 import com.citas.medicas.entity.CitAntFamiliares;
 import com.citas.medicas.entity.CitAntPersonales;
 import com.citas.medicas.entity.CitHistoriaClinica;
@@ -83,6 +85,7 @@ public class ScheduleView extends GenericBean {
    private CitaDao citaDao = new CitaDaoImpl();
     private AntFamiliaresDao antFamiliaresDao = new AntFamiliaresDaoImpl();
     private AntPersonalesDao antPersonalesDao = new AntPersonalesDaoImpl();
+    private HistoriaDao historiaDao = new HistoriaDaoImpl();
     private ClienteDao clienteDao = new ClienteDaoImpl();
     private CiudadDao ciudadDAO = new CiudadDaoImpl();
     private UsuarioDao usuarioDao = new UsuarioDaoImpl();
@@ -389,7 +392,19 @@ public class ScheduleView extends GenericBean {
     }
 
       public void createHistoria(ActionEvent actionEvent) {
-        RequestContext requestContext = RequestContext.getCurrentInstance();
+         RequestContext requestContext = RequestContext.getCurrentInstance();
+        try {
+            antPersonales.setPacCodigo(paciente);
+            if(antPersonales!=null && antFamiliares!=null){
+                 historiaDao.save(citHistoriaClinica);
+                saveMessageInfoDetail("Registro", "Datos guarados correctamente");
+            }else{
+                 saveMessageErrorDetail("Registro", "No ha ingresado  los atenscedentes personales y/o familiares");
+            }
+           
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
       }
 
       

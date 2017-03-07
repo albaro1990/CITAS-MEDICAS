@@ -54,6 +54,8 @@ public class CitHistoriaClinica implements Serializable {
     
     private Date fechaAtencion;
     
+    private String tratamiento;
+    
 
     public CitHistoriaClinica() {
     }
@@ -205,6 +207,14 @@ public class CitHistoriaClinica implements Serializable {
 
     public void setFechaAtencion(Date fechaAtencion) {
         this.fechaAtencion = fechaAtencion;
+    }
+
+    public String getTratamiento() {
+        return tratamiento;
+    }
+
+    public void setTratamiento(String tratamiento) {
+        this.tratamiento = tratamiento;
     }
 
 
