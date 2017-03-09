@@ -6,9 +6,7 @@
 package com.citas.medicas.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -36,7 +34,7 @@ public class CitHistoriaClinica implements Serializable {
     
     private Integer edad;
     
-    private String talla;
+    private Double talla;
     
     private String imc;
     
@@ -44,9 +42,9 @@ public class CitHistoriaClinica implements Serializable {
     
     private String ritmoCardiaco;
     
-    private String presion;
+    private Double presion;
     
-    private String peso;
+    private Double peso;
     
     private String tipoSangre;
     
@@ -137,11 +135,11 @@ public class CitHistoriaClinica implements Serializable {
         this.edad = edad;
     }
 
-    public String getTalla() {
+    public Double getTalla() {
         return talla;
     }
 
-    public void setTalla(String talla) {
+    public void setTalla(Double talla) {
         this.talla = talla;
     }
 
@@ -169,19 +167,19 @@ public class CitHistoriaClinica implements Serializable {
         this.ritmoCardiaco = ritmoCardiaco;
     }
 
-    public String getPresion() {
+    public Double getPresion() {
         return presion;
     }
 
-    public void setPresion(String presion) {
+    public void setPresion(Double presion) {
         this.presion = presion;
     }
 
-    public String getPeso() {
+    public Double getPeso() {
         return peso;
     }
 
-    public void setPeso(String peso) {
+    public void setPeso(Double peso) {
         this.peso = peso;
     }
 
@@ -241,7 +239,7 @@ public class CitHistoriaClinica implements Serializable {
 
     @Override
     public String toString() {
-        return "com.facturacion.entity.FacCabeceraFactura[ cabCodigo=" + hisCodigo + " ]";
+        return "com.citas.medicas.entity.CitHistoriaClinica[ hisCodigo=" + hisCodigo + " ]";
     }
     
 }

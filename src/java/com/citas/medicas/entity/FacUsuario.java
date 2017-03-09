@@ -48,7 +48,6 @@ public class FacUsuario implements Serializable {
     
     private String rol;
     
-    private List<FacUsuarioAplicacion> facUsuarioAplicacionList;
 
     public FacUsuario() {
     }
@@ -145,14 +144,6 @@ public class FacUsuario implements Serializable {
 
     public void setUsuEstado(Integer usuEstado) {
         this.usuEstado = usuEstado;
-    }
-
-    public List<FacUsuarioAplicacion> getFacUsuarioAplicacionList() {
-        return facUsuarioAplicacionList;
-    }
-
-    public void setFacUsuarioAplicacionList(List<FacUsuarioAplicacion> facUsuarioAplicacionList) {
-        this.facUsuarioAplicacionList = facUsuarioAplicacionList;
     }
 
     public Date getFechaCreacion() {

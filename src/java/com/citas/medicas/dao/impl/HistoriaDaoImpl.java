@@ -12,6 +12,7 @@ import java.util.List;
 import com.citas.medicas.dao.HistoriaDao;
 import com.citas.medicas.entity.CitHistoriaClinica;
 import com.citas.medicas.entity.FacUsuario;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,22 +30,32 @@ public class HistoriaDaoImpl implements HistoriaDao {
         try {
             
             conn = new ConexionDB().getConexion();
-            sql.append(" INSERT INTO CIT_HISTORIA_CLINICA(HIS_CODIGO,PAC_CODIGO, HIS_TIPO_DE_SANGRE, HIS_PESO,HIS_TALLA, HIS_INDICE_MASA_CORPORAL,"
-                      +" HIS_PRESION_ARTERIAL, HIS_TRATAMIENTOS,HIS_SINTOMAS,HIS_MOTIVO,HIS_EDAD, HIS_FECHA_ATENCION)VALUES (CIT_SEQ_HISTORIA.NEXTVAL, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, SYSDATE)");
+            sql.append(" INSERT INTO CIT_HISTORIA_CLINICA(HIS_CODIGO,PAC_CODIGO, "
+                      +" HIS_TIPO_DE_SANGRE, HIS_PESO,"
+                      +" HIS_TALLA, HIS_INDICE_MASA_CORPORAL,"
+                      +" HIS_PRESION_ARTERIAL, HIS_TRATAMIENTOS, "
+                      +" HIS_SINTOMAS,HIS_MOTIVO,"
+                      +" HIS_EDAD,USU_CODIGO, HIS_FECHA_ATENCION)"
+                      + " VALUES(CIT_SEQ_HISTORIA.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
             
 
             pstmt = conn.prepareStatement(sql.toString(), new String[]{"HIS_CODIGO"});
-            historia.setUsuario(new FacUsuario());
-            pstmt.setLong(1, historia.getUsuario().getUsuCodigo());
+            pstmt.setLong(1, historia.getCliCodigo().getPacCodigo());
             pstmt.setString(2, historia.getTipoSangre());
-            pstmt.setString(3, historia.getPeso());
-            pstmt.setString(4, historia.getTalla());
+            pstmt.setDouble(3, historia.getPeso());
+            pstmt.setDouble(4, historia.getTalla());
             pstmt.setString(5, historia.getImc());
-            pstmt.setString(6, historia.getPresion());
+            pstmt.setDouble(6, historia.getPresion());
+            if(historia.getTratamiento()!=null){
             pstmt.setString(7, historia.getTratamiento());
+            }else{
+                pstmt.setNull(7, Types.VARCHAR);
+            }
             pstmt.setString(8, historia.getSintomas());
-            pstmt.setString(9, historia.getCitMotivo());
-            pstmt.setLong(10, historia.getEdad());
+                pstmt.setString(9, historia.getCitMotivo());
+            pstmt.setInt(10, historia.getEdad());
+            pstmt.setLong(11, historia.getUsuario().getUsuCodigo());
+            pstmt.setDate(12, new java.sql.Date(new java.util.Date().getTime()));
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -256,10 +267,10 @@ public class HistoriaDaoImpl implements HistoriaDao {
                 CitHistoriaClinica historia = new CitHistoriaClinica();
                 historia.setHisCodigo(rs.getLong(1));
                 historia.setTipoSangre(rs.getString(3));
-                historia.setPeso(rs.getString(4));
-                historia.setTalla(rs.getString(5));
+                historia.setPeso(rs.getDouble(4));
+                historia.setTalla(rs.getDouble(5));
                 historia.setImc(rs.getString(6));
-                historia.setPresion(rs.getString(7));
+                historia.setPresion(rs.getDouble(7));
                 historia.setTratamiento(rs.getString(8));
                 historia.setSintomas(rs.getString(9));
                 historia.setCitMotivo(rs.getString(10));

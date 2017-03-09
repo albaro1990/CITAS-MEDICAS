@@ -76,6 +76,7 @@ public class ScheduleView extends GenericBean {
     private CitAntPersonales antPersonales;
     private CitAntFamiliares antFamiliares;
     private CitHistoriaClinica citHistoriaClinica;
+    private FacUsuario user;
 
     private List<CitCita> listaCitas;
     private List<FacUsuario> listaUsuMedicos;
@@ -107,16 +108,16 @@ public class ScheduleView extends GenericBean {
             antFamiliares=new CitAntFamiliares();
             citHistoriaClinica = new CitHistoriaClinica();
             listHistorias = new ArrayList<CitHistoriaClinica>();
+            user = new FacUsuario();
             
         
     }
     @PostConstruct
     public void init() {
         
-        final FacUsuario user = (FacUsuario) getHttpSession().getAttribute("USUARIO_SESSION");
+        user = (FacUsuario) getHttpSession().getAttribute("USUARIO_SESSION");
         eventModel = new DefaultScheduleModel();
         try {
-            listHistorias = historiaDao.findAllXPaciente(codigoPaciente.longValue());
             listaCitas=   citaDao.findAllXMedico(Long.valueOf(user.getUsuCodigo()));
             for (CitCita listaCita : listaCitas) {                
                  eventModel.addEvent(new DefaultScheduleEvent("CHEQUEO DE RUTINA",listaCita.getCitFechaCita(),listaCita.getHoraCita(),listaCita));
@@ -298,6 +299,7 @@ public class ScheduleView extends GenericBean {
         codigoPaciente = getCita().getCliCodigo().getPacCodigo().intValue();
         try {
            paciente =  clienteDao.findXId(codigoPaciente); 
+           listHistorias = historiaDao.findAllXPaciente(codigoPaciente.longValue());
         } catch (Exception e) {
         }
         
@@ -400,7 +402,9 @@ public class ScheduleView extends GenericBean {
         try {
             antPersonales.setPacCodigo(paciente);
             if(antPersonales!=null && antFamiliares!=null){
-                 historiaDao.save(citHistoriaClinica);
+                citHistoriaClinica.setUsuario(user);
+                citHistoriaClinica.setCliCodigo(paciente);
+                 int idUsuario = historiaDao.save(citHistoriaClinica);
                  inicializar(actionEvent);
                  saveMessageInfoDetail("Registro", "Datos guarados correctamente");
             }else{
@@ -573,6 +577,14 @@ public class ScheduleView extends GenericBean {
 
     public void setEditarAntFam(boolean editarAntFam) {
         this.editarAntFam = editarAntFam;
+    }
+
+    public FacUsuario getUser() {
+        return user;
+    }
+
+    public void setUser(FacUsuario user) {
+        this.user = user;
     }
 
 }
