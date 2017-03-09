@@ -81,6 +81,7 @@ public class ScheduleView extends GenericBean {
     private List<FacUsuario> listaUsuMedicos;
     private List<FacCiudad> ciudades = new ArrayList<FacCiudad>();
     private List<CitEspecialidad> especialidades = new ArrayList<CitEspecialidad>();
+    private List<CitHistoriaClinica> listHistorias = new ArrayList<CitHistoriaClinica>();
     
    private CitaDao citaDao = new CitaDaoImpl();
     private AntFamiliaresDao antFamiliaresDao = new AntFamiliaresDaoImpl();
@@ -105,15 +106,18 @@ public class ScheduleView extends GenericBean {
             antPersonales = new CitAntPersonales();
             antFamiliares=new CitAntFamiliares();
             citHistoriaClinica = new CitHistoriaClinica();
+            listHistorias = new ArrayList<CitHistoriaClinica>();
             
         
     }
     @PostConstruct
     public void init() {
+        
         final FacUsuario user = (FacUsuario) getHttpSession().getAttribute("USUARIO_SESSION");
         eventModel = new DefaultScheduleModel();
         try {
-          listaCitas=   citaDao.findAllXMedico(Long.valueOf(user.getUsuCodigo()));
+            listHistorias = historiaDao.findAllXPaciente(codigoPaciente.longValue());
+            listaCitas=   citaDao.findAllXMedico(Long.valueOf(user.getUsuCodigo()));
             for (CitCita listaCita : listaCitas) {                
                  eventModel.addEvent(new DefaultScheduleEvent("CHEQUEO DE RUTINA",listaCita.getCitFechaCita(),listaCita.getHoraCita(),listaCita));
                  
@@ -397,6 +401,7 @@ public class ScheduleView extends GenericBean {
             antPersonales.setPacCodigo(paciente);
             if(antPersonales!=null && antFamiliares!=null){
                  historiaDao.save(citHistoriaClinica);
+                 inicializar(actionEvent);
                  saveMessageInfoDetail("Registro", "Datos guarados correctamente");
             }else{
                  saveMessageErrorDetail("Registro", "No ha ingresado  los atenscedentes personales y/o familiares");
@@ -406,6 +411,13 @@ public class ScheduleView extends GenericBean {
         }
       }
 
+     public void inicializar(ActionEvent actionEvent) {
+        try {
+            citHistoriaClinica = new CitHistoriaClinica();
+            listHistorias = historiaDao.findAllXPaciente(codigoPaciente.longValue());
+        } catch (Exception e) {
+        }
+    }
       
    public HttpSession getHttpSession() {
 		return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -545,6 +557,22 @@ public class ScheduleView extends GenericBean {
 
     public void setEditarAntPer(boolean editarAntPer) {
         this.editarAntPer = editarAntPer;
+    }
+
+    public List<CitHistoriaClinica> getListHistorias() {
+        return listHistorias;
+    }
+
+    public void setListHistorias(List<CitHistoriaClinica> listHistorias) {
+        this.listHistorias = listHistorias;
+    }
+
+    public boolean isEditarAntFam() {
+        return editarAntFam;
+    }
+
+    public void setEditarAntFam(boolean editarAntFam) {
+        this.editarAntFam = editarAntFam;
     }
 
 }

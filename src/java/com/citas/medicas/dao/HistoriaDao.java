@@ -18,7 +18,7 @@ public interface HistoriaDao {
     
     public int cacelar(int id) throws SQLException;
     
-    public List<CitHistoriaClinica> findAllXMedico(Long codigoMedico) throws SQLException;
+    public List<CitHistoriaClinica> findAllXPaciente(Long codigoMedico) throws SQLException;
     
     public boolean existeCita(Long codigoDoc, Date fechaCita, Date horaCita) throws SQLException;
 }

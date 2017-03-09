@@ -51,7 +51,7 @@
                             <p:outputLabel for="fecha" value="Fecha Nacimiento:" />
                             <p:calendar id="fecha" value="#{citasBean.clienteNuevo.fechaNacimiento}" pattern="dd-MM-yyyy" mask="true" />
                                     <p:tooltip for="fecha"
-                                               value="Fecha"
+                                               value="Fecha FORMAT DD-MM-AAAA"
                                                showEffect="clip" hideEffect="explode" /> 
                             
                             <p:outputLabel for="genero" value="Genero:"  />
@@ -62,6 +62,20 @@
                                         <f:selectItem itemLabel="OTRO" itemValue="OTRO"/>
                                     </p:selectOneMenu>
                                     <p:tooltip for="genero"
+                                               value="Campo requerido"
+                                               showEffect="clip" hideEffect="explode" /> 
+                                    
+                            <p:outputLabel for="estadoCivil" value="Estado Civil:"  />
+                            <p:selectOneMenu id="estadoCivil" label="Genero" value="#{citasBean.clienteNuevo.estadoCivil}" required="true" requiredMessage="Campo requerido">
+                                        <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
+                                        <f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO"/>
+                                        <f:selectItem itemLabel="CASADO" itemValue="CASADO"/>
+                                        <f:selectItem itemLabel="VIUDO" itemValue="VIUDO"/>
+                                        <f:selectItem itemLabel="DIVORSIADO" itemValue="DIVORSIADO"/>
+                                        <f:selectItem itemLabel="UNION_LIBRE" itemValue="UNION_LIBRE"/>
+                                        <f:selectItem itemLabel="SEPARADO" itemValue="SEPARADO"/>
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="estadoCivil"
                                                value="Campo requerido"
                                                showEffect="clip" hideEffect="explode" /> 
 

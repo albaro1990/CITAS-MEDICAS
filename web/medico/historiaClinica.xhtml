@@ -136,31 +136,16 @@
                                      update=":formLista, :formDatos:growl" />
                     <center>
                         <h:panelGrid id="gridLista" rendered="#{not empty request.getRemoteUser()}">                          
-                            <p:dataTable id="listaSimple" value="#{scheduleView.listaCitas}"
+                            <p:dataTable id="listaSimple" value="#{scheduleView.listHistorias}"
                                          var="item" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
-                                         {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         rowsPerPageTemplate="5,10,15" emptyMessage="Registro no encontrado.">                                                          
-
-                                <p:column headerText="Editar" style="text-align: center">
-                                    <p:commandButton id="btnEditar" ajax="true" icon="ui-icon-pencil"
-                                                     actionListener="#{scheduleView.edit}" update=":formDatos"                                                    
-                                                     title="Editar">
-                                        <f:attribute name="objetoEditar" value="#{item}" />
-                                    </p:commandButton>
+                                         {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" emptyMessage="Registro no encontrado.">                                                          
+                                <p:column headerText="Motivo" filterBy="#{item.citMotivo}" filterMatchMode="contains" footerText="Motivo">
+                                    <h:outputText value="#{item.citMotivo}">
+                                    </h:outputText>
                                 </p:column>
-                                <p:column headerText="Ingresar" style="text-align: center">                                          
-                                    <p:commandButton id="btnEliminar" ajax="true" icon="ui-icon-trash"
-                                                     actionListener="#{scheduleView.remove}"
-                                                     title="Cancelar"
-                                                     update="listaSimple :formDatos:growl">
-                                        <p:confirm header="Cancelar"
-                                                   message="Esta seguro que desea Cancelar? "
-                                                   icon="ui-icon-alert" />
-                                        <f:attribute name="objetoRemover" value="#{item}" />
-                                    </p:commandButton>
-                                </p:column>
-                                <p:column headerText="Diagnostico" filterBy="#{item.usuario.citEspecialidad.espDescripcion}" filterMatchMode="contains" footerText="Diagnostico">
-                                    <h:outputText value="#{item.usuario.citEspecialidad.espDescripcion}">
+                                
+                                <p:column headerText="Sintomas" filterBy="#{item.sintomas}" filterMatchMode="contains" footerText="Sintomas">
+                                    <h:outputText value="#{item.sintomas}">
                                     </h:outputText>
                                 </p:column>
 

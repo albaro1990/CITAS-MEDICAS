@@ -240,34 +240,32 @@ public class HistoriaDaoImpl implements HistoriaDao {
     }
     
      @Override
-    public List<CitHistoriaClinica> findAllXMedico(Long codigoMedico) throws SQLException {
-        List<CitHistoriaClinica> citas = new ArrayList<CitHistoriaClinica>();
+    public List<CitHistoriaClinica> findAllXPaciente(Long codigoPaciente) throws SQLException {
+        List<CitHistoriaClinica> historias = new ArrayList<CitHistoriaClinica>();
 
         try {
             conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("SELECT CIT_CODIGO, USU_CODIGO, PAC_CODIGO, CIT_FECHA, to_char(to_date(CIT_HORA, 'hh24miss'), 'hh24:mi') as hora, CIT_ESTADO, CIT_MOTIVO "
-                    + " FROM CIT_CITA "
-                    + " WHERE CIT_HISTORIA_CLINICA NOT IN(0) AND USU_CODIGO="+codigoMedico+"");
+            pstmt = conn.prepareStatement("SELECT DISTINCT HIS_CODIGO, PAC_NOMBRES||PAC_APELLIDOS AS PACIENTE, "
+                      + " HIS_TIPO_DE_SANGRE, HIS_PESO, HIS_TALLA, HIS_INDICE_MASA_CORPORAL, " 
+                      + " HIS_PRESION_ARTERIAL,HIS_TRATAMIENTOS,HIS_SINTOMAS,HIS_MOTIVO,HIS_EDAD, HIS_FECHA_ATENCION "
+                      + " FROM CIT_HISTORIA_CLINICA HIS, CIT_PACIENTE PAC " 
+                      + " WHERE HIS.PAC_CODIGO = PAC.PAC_CODIGO " 
+                      + " AND HIS.PAC_CODIGO ="+codigoPaciente+"");
             rs = pstmt.executeQuery();
-
             while (rs.next()) {
-                CitCita cita = new CitCita();
-                cita.setCitCodigo(rs.getLong(1));
-                cita.setUsuario(new FacUsuario());
-                cita.getUsuario().setUsuCodigo(rs.getLong(2));
-                cita.setCliCodigo(new CitPaciente());
-                cita.getCliCodigo().setPacCodigo(rs.getLong(3));
-                String fechaCita = this.formatFechaString(rs.getDate(4), "dd/MM/yyyy");
-                String fechaHoraCita= fechaCita +" "+ rs.getString(5);
-                cita.setCitFechaCita(this.formatFecha(fechaHoraCita, "dd/MM/yyyy HH:mm"));
-                 String hora = rs.getString(5);
-                this.formatDate(hora);
-                cita.setHoraCita(this.formatDate(hora));
-                cita.setCitEstado(rs.getInt(6));
-                if(rs.getString(7)!=null){
-                    cita.setCitMotivo(rs.getString(7));
-                }
-//                citas.add(cita);
+                CitHistoriaClinica historia = new CitHistoriaClinica();
+                historia.setHisCodigo(rs.getLong(1));
+                historia.setTipoSangre(rs.getString(3));
+                historia.setPeso(rs.getString(4));
+                historia.setTalla(rs.getString(5));
+                historia.setImc(rs.getString(6));
+                historia.setPresion(rs.getString(7));
+                historia.setTratamiento(rs.getString(8));
+                historia.setSintomas(rs.getString(9));
+                historia.setCitMotivo(rs.getString(10));
+                historia.setEdad(rs.getInt(11));
+                historia.setFechaAtencion(rs.getDate(12));              
+                historias.add(historia);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,7 +274,7 @@ public class HistoriaDaoImpl implements HistoriaDao {
             pstmt.close();
         }
 
-        return citas;
+        return historias;
     }
 
     @Override

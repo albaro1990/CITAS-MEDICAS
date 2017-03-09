@@ -66,7 +66,7 @@ public class ClienteDaoImpl implements ClienteDao {
                     + "PAC_APELLIDOS='" + paciente.getPacApellidos() + "',PAC_TELEFONO='" + paciente.getPacTelefono()+ "',PAC_DIRECCION='" + paciente.getPacDireccion() + "',"
                     + "PAC_CEDULA='" + paciente.getPacIdentificacin() + "', PAC_CORREO='" + paciente.getPacCorreo() + "',PAC_ESTADO=" + paciente.getPacEstado() + ","
                     + "PAC_GENERO='"+paciente.getPacGenero()+"', PAC_FECHA_NACIMIENTO='"+new java.sql.Date(paciente.getFechaNacimiento().getTime())+"' "
-                    + " PAC_ESTADO_CIVIL='"+paciente.getEstadoCivil()+"' WHERE PAC_CODIGO = "+ paciente.getPacCodigo() +" ");
+                    + "PAC_ESTADO_CIVIL='"+paciente.getEstadoCivil()+"' WHERE PAC_CODIGO = "+ paciente.getPacCodigo() +" ");
 
             nup = pstmt.executeUpdate();
         } catch (SQLException e) {
