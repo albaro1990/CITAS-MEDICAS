@@ -140,6 +140,13 @@ public class ScheduleView extends GenericBean {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         try {
           
+            antPersonales = antPersonalesDao.findXIdPaciente(codigoPaciente);
+           if(antPersonales!=null){
+               editarAntPer=true;
+           }else{
+               antPersonales = new CitAntPersonales();
+           }
+           
                 requestContext.execute("PF('dlAntPersonales').show()");
             
         } catch (Exception ex) {
@@ -151,7 +158,13 @@ public class ScheduleView extends GenericBean {
     public void addAntFamiliares(ActionEvent actionEvent) {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         try {
-            
+             
+           antFamiliares = antFamiliaresDao.findXIdPaciente(codigoPaciente);         
+           if(antFamiliares!=null){
+               editarAntFam=true;
+           }else{
+               antFamiliares = new CitAntFamiliares();
+           }
                 requestContext.execute("PF('dlAntFamiliares').show()");
          
         } catch (Exception ex) {
@@ -281,19 +294,6 @@ public class ScheduleView extends GenericBean {
         codigoPaciente = getCita().getCliCodigo().getPacCodigo().intValue();
         try {
            paciente =  clienteDao.findXId(codigoPaciente); 
-           antPersonales = antPersonalesDao.findXIdPaciente(codigoPaciente);
-           antFamiliares = antFamiliaresDao.findXIdPaciente(codigoPaciente);
-           if(antPersonales!=null){
-               editarAntPer=true;
-           }else{
-               antPersonales = new CitAntPersonales();
-           }
-           
-           if(antFamiliares!=null){
-               editarAntFam=true;
-           }else{
-               antFamiliares = new CitAntFamiliares();
-           }
         } catch (Exception e) {
         }
         
@@ -397,11 +397,10 @@ public class ScheduleView extends GenericBean {
             antPersonales.setPacCodigo(paciente);
             if(antPersonales!=null && antFamiliares!=null){
                  historiaDao.save(citHistoriaClinica);
-                saveMessageInfoDetail("Registro", "Datos guarados correctamente");
+                 saveMessageInfoDetail("Registro", "Datos guarados correctamente");
             }else{
                  saveMessageErrorDetail("Registro", "No ha ingresado  los atenscedentes personales y/o familiares");
             }
-           
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
         }

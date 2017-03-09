@@ -112,6 +112,7 @@ public class AntFamiliaresDaoImpl implements AntFamiliaresDao {
             sql.append("UPDATE CIT_FAMILILAR_ANT SET ANFA_HEPATOPATIA=?,ANFA_ALERGIAS=?,ANFA_ASMA=?,"
                     + " ANFA_HIPERTENSION=?,ANFA_CARDIOPATIA=?,ANFA_NEFROPATIA=?,ANFA_CANCER=?,ANFA_OTROS=?"
                     + " WHERE ANFA_CODIGO = ? ");
+            pstmt = conn.prepareStatement(sql.toString());
             if (citAntFamiliares.getHepatopatia() != null) {
                 pstmt.setString(1, citAntFamiliares.getHepatopatia());
             } else {
