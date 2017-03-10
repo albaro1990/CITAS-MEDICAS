@@ -11,27 +11,67 @@
         <ui:composition template="./../WEB-INF/templates/cuerpo.xhtml">
 
             <ui:define name="page-title">
-                Ingresar Artículo
+                Cosulta de citas por parametros
             </ui:define>
 
             <ui:define name="datos">
                 <h:form id="formBusqueda">
                     <center>
                         <p:growl id="growl1" showDetail="true"  life="1000" />
-                        <p:panel id="paneDatos" header="Ingresar Artículos" rendered="#{not empty request.getRemoteUser()}">
-                            <h:panelGrid columns="4" rendered="#{not empty request.getRemoteUser()}">
-                                <p:outputLabel value="Código" for="codigo" />
-                                <p:inputText id="codigo" 
+                        <p:panel id="paneDatos" header="Consulta citas medicas por paciente" rendered="#{not empty request.getRemoteUser()}">
+                            <h:panelGrid columns="3" rendered="#{not empty request.getRemoteUser()}">
+                                <p:outputLabel for="fecha" value="Fecha Atención Desde:" />
+                                <p:calendar id="fecha" value="#{reporteHistoriasBean.fechaDesde}" pattern="dd-MM-yyyy" mask="true"/>
+                                <p:tooltip for="fecha" value="Fecha FORMAT DD-MM-AAAA"
+                                           showEffect="clip" hideEffect="explode" />
+
+                                <p:outputLabel for="fechaHasta" value="Fecha Atención Hasta:" />
+                                <p:calendar id="fechaHasta" value="#{reporteHistoriasBean.fechaHasta}" pattern="dd-MM-yyyy" mask="true"/>
+                                <p:tooltip for="fechaHasta" value="Fecha FORMAT DD-MM-AAAA"
+                                           showEffect="clip" hideEffect="explode" />    
+                                <p:outputLabel value="Cédula Paciente" for="cedula" />
+                                <p:inputText id="cedula" 
                                              required="true" 
                                              requiredMessage="Campo requerido" 
-                                             value="#{cardexBean.articulo.artCodigoUnico}" />                             
-                                <p:tooltip for="codigo"
-                                           value="Campo requerido"
+                                             value="#{reporteHistoriasBean.paciente.pacIdentificacin}" />                             
+                                <p:tooltip for="cedula"
+                                           value="Cedula, Campo requerido"
                                            showEffect="clip" hideEffect="explode" /> 
+
                                 <p:commandButton id="buscar" value="Buscar" validateClient="true" ajax="true" icon="ui-icon-disk"
-                                                 actionListener="#{cardexBean.buscarArticulo}"
+                                                 actionListener="#{reporteHistoriasBean.buscarArticulo}"
                                                  update=":formBusqueda,formLista,growl1" process="formBusqueda" />
                             </h:panelGrid>
+                        </p:panel>
+                        <p:panel id="datosPersonales" header="Datos Personales" toggleable="true" toggleOrientation="vertical">
+                            <h:panelGrid columns="4" cellpadding="0" cellspacing="0" border="1">
+                                <p:outputLabel for="nombre" value="Nombres:" />
+                                <h:outputText id="nombre" value="#{reporteHistoriasBean.paciente.pacNombres}" />
+                                <p:outputLabel for="ape" value="Apellidos:" />
+                                <h:outputText id="ape" value="#{reporteHistoriasBean.paciente.pacApellidos}" />
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:panel id="datosAnt" header="Antecedentes" toggleable="true" toggleOrientation="vertical">
+                            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="1">
+                                <p:panel id="antPersonales" header="Antecedentes Familiares" toggleable="true" toggleOrientation="horizontal">
+                                    <h:panelGrid columns="4" cellpadding="0" cellspacing="0" border="1">
+                                        <p:outputLabel for="alerFam" value="Alergias:" />
+                                        <h:outputText id="alerFam" value="#{reporteHistoriasBean.paciente.pacNombres}" />
+                                        <p:outputLabel for="asma" value="Asma:" />
+                                        <h:outputText id="asma" value="#{reporteHistoriasBean.paciente.pacApellidos}" />
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:panel id="antFamiliares" header="Antecedentes Personales" toggleable="true" toggleOrientation="horizontal">
+                                    <h:panelGrid columns="4" cellpadding="0" cellspacing="0" border="1">
+                                        <p:outputLabel for="adiccion" value="Adicciones" />
+                                        <h:outputText id="adiccion" value="#{reporteHistoriasBean.paciente.pacNombres}" />
+                                        <p:outputLabel for="alergia" value="Alergias:" />
+                                        <h:outputText id="alergia" value="#{reporteHistoriasBean.paciente.pacApellidos}" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+                            </h:panelGrid>
+
                         </p:panel>
                     </center>
                 </h:form>
@@ -42,89 +82,49 @@
                 <h:form id="formLista">
                     <center>
                         <h:panelGrid id="gridLista" rendered="#{not empty request.getRemoteUser()}">                          
-                            <p:dataTable id="listaSimple" value="#{cardexBean.listaArticulosDetalle}"
+                            <p:dataTable id="listaSimple" value="#{reporteHistoriasBean.listHistorias}"
                                          var="item" paginator="false" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                                          {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          rowsPerPageTemplate="5,10,15" emptyMessage="Registro no encontrado.">
-                                <p:columnGroup type="header">
-                                    <p:row>
-                                        <p:column colspan="11" headerText="INVENTARIO" style="text-align: center" />
-                                    </p:row>
-                                    <p:row>
-                                        <p:column colspan="2" headerText="Artículo:" />
-                                        <p:column colspan="3" headerText="#{cardexBean.articulo.artDescripcion}" />
-                                        <p:column colspan="3" headerText="Existencia Mínima:" />
-                                        <p:column colspan="3" headerText="1" />
-                                    </p:row>
-                                    <p:row>
-                                        <p:column colspan="2" headerText="Método:" />
-                                        <p:column colspan="3" headerText="Promedio Ponderado" />
-                                        <p:column colspan="3" headerText="Existencia Máxima" />
-                                        <p:column colspan="3" headerText="10000" />
-                                    </p:row>
-                                    <p:row>
-                                        <p:column colspan="1" headerText="Fecha" />
-                                        <p:column rowspan="2" headerText="Detalle" />
-                                        <p:column colspan="3" headerText="Entradas" />
-                                        <p:column colspan="3" headerText="Salidas" />
-                                        <p:column colspan="3" headerText="Existencias" />
-                                    </p:row>
-                                    <p:row>
-                                        <p:column headerText="" />
-                                        <p:column headerText="Cantidad" />
-                                        <p:column headerText="V/Unitario" />
-                                        <p:column headerText="V/Total" />
-                                        <p:column headerText="Cantidad" />
-                                        <p:column headerText="V/Unitario" />
-                                        <p:column headerText="V/Total" />
-                                        <p:column headerText="Cantidad" />
-                                        <p:column headerText="V/Unitario" />
-                                        <p:column headerText="V/Total" />
-                                    </p:row>
-                                </p:columnGroup>
-                                <p:column headerText="Fecha">
-                                    <h:outputText value="#{item.artFechatransacccion}">
+                                <p:column headerText="Fecha Atencion">
+                                    <h:outputText value="#{item.citFechaCita}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Detalle">
-                                    <h:outputText value="#{item.detalle}">
+                                <p:column headerText="Motivo">
+                                    <h:outputText value="#{item.citMotivo}">
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Cant">
-                                    <h:outputText value="#{item.artCantidadIgresada}">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="V/Unitario">
-                                    <h:outputText value="#{item.artValorUnitarioIngresado}">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="V/Total">
-                                    <h:outputText value="#{item.artValorTotal}">
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Cant">
-                                    <h:outputText value="#{item.artCantidadSaliente}">
+                                <p:column headerText="Sintomas">
+                                    <h:outputText value="#{item.sintomas}">
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="V/Unitario">
-                                    <h:outputText value="#{item.artValorUnitarioSaliente}">
+                                    <h:outputText value="#{item.edad}">
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="V/Total">
-                                    <h:outputText value="#{item.artValorTotalSaliente}">
+                                    <h:outputText value="#{item.talla}">
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="Cant">
-                                    <h:outputText value="#{item.artCantidadIgresadaInicio}">
+                                    <h:outputText value="#{item.peso}">
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="V/Unitario">
-                                    <h:outputText value="#{item.artValorUnitarioInicio}">
+                                    <h:outputText value="#{item.temperatura}">
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="V/Total">
-                                    <h:outputText value="#{item.artValorTotalInicio}">
+                                    <h:outputText value="#{item.presion}">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Cant">
+                                    <h:outputText value="#{item.ritmoCardiaco}">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="V/Unitario">
+                                    <h:outputText value="#{item.imc}">
                                     </h:outputText>
                                 </p:column>
                             </p:dataTable>  
