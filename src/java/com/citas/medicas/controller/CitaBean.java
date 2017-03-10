@@ -107,49 +107,8 @@ public class CitaBean extends GenericBean {
 
     public void inicializar(ActionEvent actionEvent) {
         try {
-            paciente = new CitPaciente();
             cita = new CitCita();
-//            cita.setCabFechaCreacion(new Date());
-//            cita.setCabAutorizacion(String.valueOf(Random.class.newInstance().nextInt()));
-            detalleFactura = new FacDetalleFactura();
-             listaCitas = new ArrayList<>();
-            listaArticulos = new ArrayList<>();
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage(), ex);
-        }
-    }
-
-    public void procesarArticulo() {
-//        cita.setCabSubtotal(BigDecimal.ZERO);
-//        cita.setCabTotal(BigDecimal.ZERO);
-//        cita.setCabIva(BigDecimal.ZERO);
-        Double subtotal = new Double(0);
-        try {
-            if (!listaCitas.isEmpty()) {
-                for (CitCita item :  listaCitas) {
-                   /* if (item.getDetCatidad() != null) {
-                        FacArticulo art = articuloDao.find(item.getArtCodigo().getArtCodigo());
-                        if (art != null) {
-                            if (item.getDetCatidad() <= art.getArtCantidadIngresada().intValue()) {
-                                if (item.getDetValorUnitario().doubleValue() > item.getArtCodigo().getArtValorUnitario().doubleValue()) {
-                                    item.setDetSubtotal(item.getDetValorUnitario().multiply(BigDecimal.valueOf(item.getDetCatidad())));
-                                    BigDecimal i = item.getDetValorUnitario().multiply(BigDecimal.valueOf(item.getDetCatidad()));
-                                    subtotal += i.doubleValue();
-                                } else {
-                                    saveMessageErrorDetail("Artículo", "El Artículo " + item.getArtCodigo().getArtDescripcion() + "debe tener un valor unitario mayor " + item.getArtCodigo().getArtValorUnitario().doubleValue());
-                                }
-                            } else {
-                                saveMessageErrorDetail("Artículo", "El Artículo " + item.getArtCodigo().getArtDescripcion() + " no tiene la cantidad suficiente para la venta");
-                            }
-                        } else {
-                        }
-                    } else {
-                    }*/
-                }
-//                cita.setCabSubtotal(BigDecimal.valueOf(Utils.redondearNumero(BigDecimal.valueOf(subtotal).divide(BigDecimal.valueOf(1.14), 2, BigDecimal.ROUND_HALF_UP), 2, true)));
-//                cita.setCabIva(BigDecimal.valueOf(Utils.redondearNumero(cita.getCabSubtotal().multiply(BigDecimal.valueOf(0.14)), 2, true)));
-//                cita.setCabTotal(cita.getCabSubtotal().add(cita.getCabIva()));
-            }
+            listaCitas = citaDao.findAll();
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
         }
@@ -228,12 +187,7 @@ public class CitaBean extends GenericBean {
                 } else if (cita.getCitCodigo() != null) {
                 citaDao.update(cita);
                 cargarCombos();
-//                usuarioAplicacion.setUsuCodigo(usuarioDAO.find(usuario.getUsuCodigo().intValue()));
-//                usuarioAplicacion.setRolCodigo(rolDAO.find(codigoRol));
-//                usuarioAplicacion.setUapEstado(usuario.getUsuEstado());
-//                usuarioAplicacionDao.update(usuarioAplicacion);
-//                cargarDependencias();
-                saveMessageInfoDetail("Cita", "Cita " + cita.getCitCodigo() + " modificado correctamente");
+                 saveMessageInfoDetail("Cita", "Cita creada correctamente");
                 this.inicializar(actionEvent);
             }
             } else {
@@ -244,26 +198,6 @@ public class CitaBean extends GenericBean {
             LOG.error(ex.getMessage(), ex);
         }
     }
-
-    private void createKardex(List<FacDetalleFactura> listaDetalleFacturas) {
-        try {
-            if (!listaDetalleFacturas.isEmpty()) {
-                for (FacDetalleFactura item : listaDetalleFacturas) {
-                    articuloDetalle.setFacArticulo(articuloDao.find(item.getArtCodigo().getArtCodigo()));
-                    articuloDetalle.setArtCantidadIgresada(null);
-                    articuloDetalle.setArtCantidadSaliente(BigDecimal.valueOf(item.getDetCatidad()));
-                    articuloDetalle.setArtValorUnitario(item.getDetValorUnitario());
-//                    articuloDetalle.setArtAutorizacion(item.getCabCodigo().getCabAutorizacion());
-                    articuloDetalle.setArtSaldo(item.getArtCodigo().getArtCantidadIngresada().subtract(BigDecimal.valueOf(item.getDetCatidad())));
-                    articuloDetalleDao.save(articuloDetalle);
-                    item.getArtCodigo().setArtCantidadIngresada(articuloDetalle.getArtSaldo());
-                    articuloDao.update(item.getArtCodigo());
-                }
-            }
-        } catch (Exception e) {
-        }
-    }
-
     public void createCliente(ActionEvent actionEvent) {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         try {
@@ -333,9 +267,9 @@ public class CitaBean extends GenericBean {
         try {
             cita = (CitCita) event.getComponent().getAttributes().get("objetoRemover");
            int ndel = citaDao.cacelar(cita.getCitCodigo().intValue());
-            if (detalleFactura != null) {
-              //  listaDetalleFacturas.remove(detalleFactura);
-                procesarArticulo();
+            if (ndel>0) {
+                saveMessageInfoDetail("Cita", "Cita cancelada correctamente");
+                this.inicializar(event);
             }
         } catch (Exception e) {
         }
