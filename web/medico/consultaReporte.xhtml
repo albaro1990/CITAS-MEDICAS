@@ -84,37 +84,37 @@
                                 <p:panel id="antFamiliares" header="Antecedentes Personales" toggleable="true" toggleOrientation="horizontal">
                                     <h:panelGrid columns="4" cellpadding="0" cellspacing="0" border="1">
                                         <p:outputLabel for="adiccion" value="Adicciones" />
-                                        <h:outputText id="adiccion" value="#{reporteHistoriasBean.antPersonales.pacNombres}" />
+                                        <h:outputText id="adiccion" value="#{reporteHistoriasBean.antPersonales.adicciones}" />
                                         
                                         <p:outputLabel for="alergia" value="Alergias:" />
-                                        <h:outputText id="alergia" value="#{reporteHistoriasBean.antPersonales.pacApellidos}" />
+                                        <h:outputText id="alergia" value="#{reporteHistoriasBean.antPersonales.alergias}" />
                                         
                                         <p:outputLabel for="trauma" value="Traumas:" />
-                                        <h:outputText id="trauma" value="#{reporteHistoriasBean.antPersonales.pacNombres}" />
+                                        <h:outputText id="trauma" value="#{reporteHistoriasBean.antPersonales.antTraumaticas}" />
                                         
                                         <p:outputLabel for="quiru" value="Interv. Quirúrgicas:" />
-                                        <h:outputText id="quiru" value="#{reporteHistoriasBean.antPersonales.pacApellidos}" />
+                                        <h:outputText id="quiru" value="#{reporteHistoriasBean.antPersonales.quirurgicos}" />
                                         
                                         <p:outputLabel for="edadMen" value="Edad Menarquia:" />
-                                        <h:outputText id="edadMen" value="#{reporteHistoriasBean.antPersonales.pacNombres}" />
+                                        <h:outputText id="edadMen" value="#{reporteHistoriasBean.antPersonales.edadMenarquia}" />
                                         
                                         <p:outputLabel for="ritmo" value="Ritmo Menstrual:" />
-                                        <h:outputText id="ritmo" value="#{reporteHistoriasBean.antPersonales.pacApellidos}" />
+                                        <h:outputText id="ritmo" value="#{reporteHistoriasBean.antPersonales.ritmoMenstrual}" />
                                         
                                         <p:outputLabel for="enfInf" value="Enfermedamdes Infancia:" />
-                                        <h:outputText id="enfInf" value="#{reporteHistoriasBean.antPersonales.pacNombres}" />
+                                        <h:outputText id="enfInf" value="#{reporteHistoriasBean.antPersonales.enfInfancia}" />
                                         
                                         <p:outputLabel for="hospi" value="Hospitalizaciones:" />
-                                        <h:outputText id="hospi" value="#{reporteHistoriasBean.antPersonales.pacApellidos}" />
+                                        <h:outputText id="hospi" value="#{reporteHistoriasBean.antPersonales.hospitalizacionAnteriores}" />
                                         
                                         <p:outputLabel for="aborto" value="Nº Abortos:" />
-                                        <h:outputText id="aborto" value="#{reporteHistoriasBean.antPersonales.pacApellidos}" />
+                                        <h:outputText id="aborto" value="#{reporteHistoriasBean.antPersonales.numAbortos}" />
                                         
                                         <p:outputLabel for="hijo" value="Nº de Hijos:" />
-                                        <h:outputText id="hijo" value="#{reporteHistoriasBean.antPersonales.pacApellidos}" />
+                                        <h:outputText id="hijo" value="#{reporteHistoriasBean.antPersonales.numHijos}" />
                                         
                                         <p:outputLabel for="vhi" value="VIH:" />
-                                        <h:outputText id="vhi" value="#{reporteHistoriasBean.antPersonales.pacApellidos}" />
+                                        <h:outputText id="vhi" value="#{reporteHistoriasBean.antPersonales.vih}" />
                                         
                                         <p:outputLabel for="otro2" value="Otros:" />
                                         <h:outputText id="otro2" value="#{reporteHistoriasBean.antPersonales.pacApellidos}" />
@@ -171,12 +171,13 @@
                                     <h:outputText value="#{item.presion}">
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Ritmo Cardiaco">
-                                    <h:outputText value="#{item.ritmoCardiaco}">
+                                <p:column headerText="Tratamiento">
+                                    <h:outputText value="#{item.tratamiento}">
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="IMC">
-                                    <h:outputText value="#{item.imc}">
+                                
+                                <p:column headerText="Indicaciones">
+                                    <h:outputText value="#{item.indicaciones}">
                                     </h:outputText>
                                 </p:column>
                             </p:dataTable>  

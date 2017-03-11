@@ -108,6 +108,20 @@
                                     <p:tooltip for="sintoma"
                                                value="Ingrese Sintomas"
                                                showEffect="clip" hideEffect="explode" />  
+                                    
+                                        <p:outputLabel value="Receta:" for="receta" />
+                                    <p:inputTextarea id="receta"
+                                                     value="#{scheduleView.citHistoriaClinica.tratamiento}" />                             
+                                    <p:tooltip for="receta"
+                                               value="Ingrese Receta"
+                                               showEffect="clip" hideEffect="explode" />  
+
+                                    <p:outputLabel value="Inidicaciones" for="indic" />
+                                    <p:inputTextarea id="indic"
+                                                     value="#{scheduleView.citHistoriaClinica.indicaciones}" />                             
+                                    <p:tooltip for="indic"
+                                               value="Ingrese Indicaciones"
+                                               showEffect="clip" hideEffect="explode" />
 
                                     <f:facet name="footer">
                                         <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"

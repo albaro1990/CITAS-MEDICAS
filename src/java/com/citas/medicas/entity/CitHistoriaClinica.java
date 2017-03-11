@@ -54,6 +54,8 @@ public class CitHistoriaClinica implements Serializable {
     
     private String tratamiento;
     
+    private String indicaciones;
+    
 
     public CitHistoriaClinica() {
     }
@@ -213,6 +215,14 @@ public class CitHistoriaClinica implements Serializable {
 
     public void setTratamiento(String tratamiento) {
         this.tratamiento = tratamiento;
+    }
+
+    public String getIndicaciones() {
+        return indicaciones;
+    }
+
+    public void setIndicaciones(String indicaciones) {
+        this.indicaciones = indicaciones;
     }
 
 

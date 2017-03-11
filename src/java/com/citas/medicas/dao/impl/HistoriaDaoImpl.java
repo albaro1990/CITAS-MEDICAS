@@ -35,8 +35,8 @@ public class HistoriaDaoImpl implements HistoriaDao {
                       +" HIS_TALLA, HIS_INDICE_MASA_CORPORAL,"
                       +" HIS_PRESION_ARTERIAL, HIS_TRATAMIENTOS, "
                       +" HIS_SINTOMAS,HIS_MOTIVO,"
-                      +" HIS_EDAD,USU_CODIGO, HIS_FECHA_ATENCION)"
-                      + " VALUES(CIT_SEQ_HISTORIA.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+                      +" HIS_EDAD,USU_CODIGO, HIS_FECHA_ATENCION, HIS_INDICACIONES)"
+                      + " VALUES(CIT_SEQ_HISTORIA.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
             
 
             pstmt = conn.prepareStatement(sql.toString(), new String[]{"HIS_CODIGO"});
@@ -56,6 +56,11 @@ public class HistoriaDaoImpl implements HistoriaDao {
             pstmt.setInt(10, historia.getEdad());
             pstmt.setLong(11, historia.getUsuario().getUsuCodigo());
             pstmt.setDate(12, new java.sql.Date(new java.util.Date().getTime()));
+             if(historia.getIndicaciones()!=null){
+            pstmt.setString(13, historia.getIndicaciones());
+            }else{
+                pstmt.setNull(13, Types.VARCHAR);
+            }
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -258,7 +263,7 @@ public class HistoriaDaoImpl implements HistoriaDao {
             conn = new ConexionDB().getConexion();
             pstmt = conn.prepareStatement("SELECT DISTINCT HIS_CODIGO, PAC_NOMBRES||PAC_APELLIDOS AS PACIENTE, "
                       + " HIS_TIPO_DE_SANGRE, HIS_PESO, HIS_TALLA, HIS_INDICE_MASA_CORPORAL, " 
-                      + " HIS_PRESION_ARTERIAL,HIS_TRATAMIENTOS,HIS_SINTOMAS,HIS_MOTIVO,HIS_EDAD, HIS_FECHA_ATENCION "
+                      + " HIS_PRESION_ARTERIAL,HIS_TRATAMIENTOS,HIS_SINTOMAS,HIS_MOTIVO,HIS_EDAD, HIS_FECHA_ATENCION, HIS_INDICACIONES "
                       + " FROM CIT_HISTORIA_CLINICA HIS, CIT_PACIENTE PAC " 
                       + " WHERE HIS.PAC_CODIGO = PAC.PAC_CODIGO " 
                       + " AND HIS.PAC_CODIGO ="+codigoPaciente+"");
@@ -275,7 +280,8 @@ public class HistoriaDaoImpl implements HistoriaDao {
                 historia.setSintomas(rs.getString(9));
                 historia.setCitMotivo(rs.getString(10));
                 historia.setEdad(rs.getInt(11));
-                historia.setFechaAtencion(rs.getDate(12));              
+                historia.setFechaAtencion(rs.getDate(12)); 
+                historia.setIndicaciones(rs.getString(13)); 
                 historias.add(historia);
             }
         } catch (SQLException e) {
@@ -295,7 +301,7 @@ public class HistoriaDaoImpl implements HistoriaDao {
         try {
             conn = new ConexionDB().getConexion();
             pstmt = conn.prepareStatement("SELECT DISTINCT HIS_PESO,HIS_TALLA,HIS_PRESION_ARTERIAL,HIS_TRATAMIENTOS, "
-                      + " HIS_SINTOMAS,HIS_MOTIVO,HIS_EDAD,HIS_FECHA_ATENCION " 
+                      + " HIS_SINTOMAS,HIS_MOTIVO,HIS_EDAD,HIS_FECHA_ATENCION, HIS_INDICACIONES " 
                       + " FROM CIT_HISTORIA_CLINICA HIS, CIT_PACIENTE PAC "
                       + " WHERE PAC.PAC_CODIGO =HIS.PAC_CODIGO "  
                       + " AND PAC_CEDULA ='"+cedula+"'");
@@ -312,7 +318,8 @@ public class HistoriaDaoImpl implements HistoriaDao {
                 historia.setSintomas(rs.getString(9));
                 historia.setCitMotivo(rs.getString(10));
                 historia.setEdad(rs.getInt(11));
-                historia.setFechaAtencion(rs.getDate(12));              
+                historia.setFechaAtencion(rs.getDate(12));  
+                historia.setIndicaciones(rs.getString(13));  
                 historias.add(historia);
             }
         } catch (SQLException e) {
