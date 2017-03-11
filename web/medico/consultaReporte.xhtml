@@ -20,7 +20,7 @@
                         <p:growl id="growl1" showDetail="true"  life="1000" />
                         <p:panel id="paneDatos" header="Consulta citas medicas por paciente" rendered="#{not empty request.getRemoteUser()}">
                             <h:panelGrid columns="3" rendered="#{not empty request.getRemoteUser()}">
-                                <p:outputLabel for="fecha" value="Fecha Atención Desde:" />
+                                <!--<p:outputLabel for="fecha" value="Fecha Atención Desde:" />
                                 <p:calendar id="fecha" value="#{reporteHistoriasBean.fechaDesde}" pattern="dd-MM-yyyy" mask="true"/>
                                 <p:tooltip for="fecha" value="Fecha FORMAT DD-MM-AAAA"
                                            showEffect="clip" hideEffect="explode" />
@@ -28,7 +28,8 @@
                                 <p:outputLabel for="fechaHasta" value="Fecha Atención Hasta:" />
                                 <p:calendar id="fechaHasta" value="#{reporteHistoriasBean.fechaHasta}" pattern="dd-MM-yyyy" mask="true"/>
                                 <p:tooltip for="fechaHasta" value="Fecha FORMAT DD-MM-AAAA"
-                                           showEffect="clip" hideEffect="explode" />    
+                                           showEffect="clip" hideEffect="explode" />   --> 
+                                
                                 <p:outputLabel value="Cédula Paciente" for="cedula" />
                                 <p:inputText id="cedula" 
                                              required="true" 
