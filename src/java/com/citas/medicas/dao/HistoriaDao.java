@@ -21,4 +21,6 @@ public interface HistoriaDao {
     public List<CitHistoriaClinica> findAllXPaciente(Long codigoMedico) throws SQLException;
     
     public boolean existeCita(Long codigoDoc, Date fechaCita, Date horaCita) throws SQLException;
+    
+    public List<CitHistoriaClinica> findAllXCed(String cedula) throws SQLException;
 }

@@ -14,4 +14,6 @@ public interface AntPersonalesDao {
     public int delete(int id) throws SQLException;
 
     public CitAntPersonales findXIdPaciente(int id) throws SQLException;
+    
+    public CitAntPersonales findXCedPaciente(String ced) throws SQLException;
 }

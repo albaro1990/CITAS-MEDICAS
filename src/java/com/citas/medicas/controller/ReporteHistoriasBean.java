@@ -7,9 +7,11 @@ package com.citas.medicas.controller;
 
 import com.citas.medicas.dao.AntFamiliaresDao;
 import com.citas.medicas.dao.AntPersonalesDao;
+import com.citas.medicas.dao.ClienteDao;
 import com.citas.medicas.dao.HistoriaDao;
 import com.citas.medicas.dao.impl.AntFamiliaresDaoImpl;
 import com.citas.medicas.dao.impl.AntPersonalesDaoImpl;
+import com.citas.medicas.dao.impl.ClienteDaoImpl;
 import com.citas.medicas.dao.impl.HistoriaDaoImpl;
 import com.citas.medicas.entity.CitAntFamiliares;
 import com.citas.medicas.entity.CitAntPersonales;
@@ -45,10 +47,12 @@ public class ReporteHistoriasBean extends GenericBean {
     private HistoriaDao historiaDao = new HistoriaDaoImpl();
     private AntFamiliaresDao antFamiliaresDao = new AntFamiliaresDaoImpl();
     private AntPersonalesDao antPersonalesDao = new AntPersonalesDaoImpl();
+    private ClienteDao pacienteDao = new ClienteDaoImpl();
     
     private Date fechaDesde;
     private Date fechaHasta;
     private String cedula;
+    private Boolean mostrarResult;
             
  
 
@@ -58,6 +62,7 @@ public class ReporteHistoriasBean extends GenericBean {
     public ReporteHistoriasBean() {
         fechaDesde = new Date();
         fechaHasta = new Date();
+        mostrarResult = false;
     }
 
     public void inicializar(ActionEvent actionEvent) {
@@ -65,9 +70,19 @@ public class ReporteHistoriasBean extends GenericBean {
 
     }
 
-    public void buscarArticulo(ActionEvent actionEvent) {
+    public void buscar(ActionEvent actionEvent) {
         try {
-           
+            
+           listHistorias= historiaDao.findAllXCed(paciente.getPacIdentificacin());
+           antPersonales=antPersonalesDao.findXCedPaciente(paciente.getPacIdentificacin());
+           antFamiliares = antFamiliaresDao.findXCedPaciente(paciente.getPacIdentificacin());
+           paciente = pacienteDao.buscarDatosPerXCed(paciente.getPacIdentificacin());
+           if((listHistorias!=null && listHistorias.size()>0)||antPersonales!=null || antFamiliares!=null){
+              mostrarResult=true;
+           }else{
+              mostrarResult=false;
+              saveMessageErrorDetail("Historia", "No existen datos con la cedula ingresada");
+           }
                 
                 
         } catch (Exception ex) {
@@ -151,6 +166,14 @@ public class ReporteHistoriasBean extends GenericBean {
 
     public void setCedula(String cedula) {
         this.cedula = cedula;
+    }
+
+    public Boolean getMostrarResult() {
+        return mostrarResult;
+    }
+
+    public void setMostrarResult(Boolean mostrarResult) {
+        this.mostrarResult = mostrarResult;
     }
 
    

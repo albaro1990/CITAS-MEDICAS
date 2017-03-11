@@ -256,5 +256,41 @@ public class AntFamiliaresDaoImpl implements AntFamiliaresDao {
 		return  fecha;
 		
 	}   
+ @Override
+    public CitAntFamiliares findXCedPaciente(String cedula) throws SQLException {
 
+        CitAntFamiliares citAntFamiliares = null;
+
+        try {
+            conn = new ConexionDB().getConexion();
+            pstmt = conn.prepareStatement("SELECT ANFA_HEPATOPATIA,ANFA_ALERGIAS,ANFA_ASMA,ANFA_HIPERTENSION,\n" +
+"ANFA_CARDIOPATIA,ANFA_NEFROPATIA,ANFA_CANCER,ANFA_OTROS\n" +
+"FROM CIT_FAMILILAR_ANT  AFAM, CIT_PACIENTE PAC\n" +
+"WHERE AFAM.PAC_CODIGO = PAC.PAC_CODIGO\n" +
+"AND PAC.PAC_CODIGO ='"+cedula+"'");
+           
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                citAntFamiliares = new CitAntFamiliares();
+                citAntFamiliares.setAntFamCodigo(rs.getLong(1));
+                citAntFamiliares.setAntFamPacCodigo(new CitPaciente());
+                citAntFamiliares.getAntFamPacCodigo().setPacCodigo(rs.getLong(2));
+                citAntFamiliares.setHepatopatia(rs.getString(3));
+                citAntFamiliares.setAlergias(rs.getString(4));
+                citAntFamiliares.setAsma(rs.getString(5));
+                citAntFamiliares.setHipertension(rs.getString(6));
+                citAntFamiliares.setCardipatia(rs.getString(7));
+                citAntFamiliares.setNefropatia(rs.getString(8)); 
+                citAntFamiliares.setCancer(rs.getString(9));
+                citAntFamiliares.setOtros(rs.getString(10));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+        return citAntFamiliares;
+    }
 }

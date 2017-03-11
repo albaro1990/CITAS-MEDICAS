@@ -35,6 +35,10 @@ public class CitPaciente implements Serializable {
     private String pacGenero;
     private Date fechaNacimiento;
     private String estadoCivil;
+    private Integer pacEdad;
+    private String tipoSangre;
+    private String imc;
+    private String ciudad;
     
    // private List<FacCitaFactura> facCitaFacturaList;
 
@@ -147,6 +151,38 @@ public class CitPaciente implements Serializable {
 
     public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil = estadoCivil;
+    }
+
+    public Integer getPacEdad() {
+        return pacEdad;
+    }
+
+    public void setPacEdad(Integer pacEdad) {
+        this.pacEdad = pacEdad;
+    }
+
+    public String getTipoSangre() {
+        return tipoSangre;
+    }
+
+    public void setTipoSangre(String tipoSangre) {
+        this.tipoSangre = tipoSangre;
+    }
+
+    public String getImc() {
+        return imc;
+    }
+
+    public void setImc(String imc) {
+        this.imc = imc;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
     

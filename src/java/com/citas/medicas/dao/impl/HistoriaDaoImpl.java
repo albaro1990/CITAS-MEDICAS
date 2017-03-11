@@ -287,6 +287,43 @@ public class HistoriaDaoImpl implements HistoriaDao {
 
         return historias;
     }
+    
+    @Override
+    public List<CitHistoriaClinica> findAllXCed(String cedula) throws SQLException {
+        List<CitHistoriaClinica> historias = new ArrayList<CitHistoriaClinica>();
+
+        try {
+            conn = new ConexionDB().getConexion();
+            pstmt = conn.prepareStatement("SELECT DISTINCT HIS_PESO,HIS_TALLA,HIS_PRESION_ARTERIAL,HIS_TRATAMIENTOS, "
+                      + " HIS_SINTOMAS,HIS_MOTIVO,HIS_EDAD,HIS_FECHA_ATENCION " 
+                      + " FROM CIT_HISTORIA_CLINICA HIS, CIT_PACIENTE PAC "
+                      + " WHERE PAC.PAC_CODIGO =HIS.PAC_CODIGO "  
+                      + " AND PAC_CEDULA ='"+cedula+"'");
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                CitHistoriaClinica historia = new CitHistoriaClinica();
+                historia.setHisCodigo(rs.getLong(1));
+                historia.setTipoSangre(rs.getString(3));
+                historia.setPeso(rs.getDouble(4));
+                historia.setTalla(rs.getDouble(5));
+                historia.setImc(rs.getString(6));
+                historia.setPresion(rs.getDouble(7));
+                historia.setTratamiento(rs.getString(8));
+                historia.setSintomas(rs.getString(9));
+                historia.setCitMotivo(rs.getString(10));
+                historia.setEdad(rs.getInt(11));
+                historia.setFechaAtencion(rs.getDate(12));              
+                historias.add(historia);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+
+        return historias;
+    }
 
     @Override
     public boolean existeCita(Long codigoDoc, Date fechaCita, Date horaCita) throws SQLException {

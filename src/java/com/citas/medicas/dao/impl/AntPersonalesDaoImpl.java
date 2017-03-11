@@ -2,9 +2,7 @@ package com.citas.medicas.dao.impl;
 
 import com.citas.medicas.conexion.ConexionDB;
 import com.citas.medicas.dao.AntPersonalesDao;
-import com.citas.medicas.entity.CitCita;
 import com.citas.medicas.entity.CitPaciente;
-import com.citas.medicas.entity.FacUsuarioAplicacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import com.citas.medicas.dao.CitaDao;
 import com.citas.medicas.entity.CitAntPersonales;
-import com.citas.medicas.entity.FacUsuario;
 import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -308,5 +304,52 @@ public class AntPersonalesDaoImpl implements AntPersonalesDao {
         String fecha = simpleDateFormat.format(date);
         return fecha;
 
+    }
+    
+    @Override
+    public CitAntPersonales findXCedPaciente(String ced) throws SQLException {
+
+        CitAntPersonales antPersonales = null;
+
+        try {
+            conn = new ConexionDB().getConexion();
+            pstmt = conn.prepareStatement("SELECT ANTPER_NUMHIJOS,ANTPER_NUMABORTOS," 
+                    + " ANTPER_ENF_INFANCIA,ANTPER_QUIRURGICOS," 
+                    + " ANTPER_ALERGIAS,ANTPER_VIH," 
+                    + " ANTPER_MENARCA,ANTPER_RITMO_MENSTRUAL," 
+                    + " ANTPER_FECHA_ULTIMA_MENSTRUACI,ANTPER_TRAUMATICOS," 
+                    + " ANTPER_HOSPITALIZACIONES_PREVI,ANTPER_ADICCIONES," 
+                    + " ANTPER_OTROS" 
+                    + " FROM CIT_ANT_PERSONALES APER, CIT_PACIENTE PAC" 
+                    + " WHERE APER.PAC_CODIGO = PAC.PAC_CODIGO" 
+                    + " AND PAC.PAC_CODIGO ='"+ced+"'");
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                antPersonales = new CitAntPersonales();
+                antPersonales.setAntPerCodigo(rs.getLong(1));
+                antPersonales.setPacCodigo(new CitPaciente());
+                antPersonales.getPacCodigo().setPacCodigo(rs.getLong(2));
+                antPersonales.setNumHijos(rs.getInt(3));
+                antPersonales.setNumAbortos(rs.getInt(4));
+                antPersonales.setEnfInfancia(rs.getString(5));
+                antPersonales.setQuirurgicos(rs.getString(6));
+                antPersonales.setAlergias(rs.getString(7));
+                antPersonales.setVih(rs.getString(8)); 
+                antPersonales.setEdadMenarquia(rs.getInt(9));
+                antPersonales.setRitmoMenstrual(rs.getString(10));
+                antPersonales.setFechaUltMesnstruacion(rs.getDate(11));
+                antPersonales.setAntTraumaticas(rs.getString(12));
+                antPersonales.setHospitalizacionAnteriores(rs.getString(13));
+                antPersonales.setAdicciones(rs.getString(14));
+                antPersonales.setOtros(rs.getString(15));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+        return antPersonales;
     }
 }

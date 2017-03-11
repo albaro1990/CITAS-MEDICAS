@@ -19,4 +19,6 @@ public interface ClienteDao {
     public boolean existePorCampo(String identificacion) throws SQLException;
 
     public CitPaciente findXId(int id) throws SQLException;
+    
+    public CitPaciente buscarDatosPerXCed(String cedula) throws SQLException;
 }

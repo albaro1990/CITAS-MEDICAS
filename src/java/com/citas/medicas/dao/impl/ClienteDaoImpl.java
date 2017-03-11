@@ -223,4 +223,48 @@ public class ClienteDaoImpl implements ClienteDao {
 
         return paciente;
     }
+    
+     @Override
+    public CitPaciente buscarDatosPerXCed(String cedula) throws SQLException {
+
+        CitPaciente paciente = null;
+
+        try {
+            conn = new ConexionDB().getConexion();
+            pstmt = conn.prepareStatement("SELECT PAC_NOMBRES, PAC_APELLIDOS, PAC_FECHA_NACIMIENTO, ((to_number(to_char(sysdate,'YYYY')) - to_number(to_char(PAC_FECHA_NACIMIENTO,'YYYY'))) -  case  when to_char(sysdate,'MMDD') < to_char(PAC_FECHA_NACIMIENTO,'MMDD') then 1 " 
+                    + " else 0 end) AS EDAD, " 
+                    + " PAC_ESTADO_CIVIL,HIS_TIPO_DE_SANGRE,HIS_INDICE_MASA_CORPORAL,CIU_NOMBRE " 
+                    + " FROM CIT_CIUDAD CIU, " 
+                    + " CIT_HISTORIA_CLINICA HIS, " 
+                    + " CIT_PACIENTE PAC " 
+                    + " WHERE HIS.PAC_CODIGO=PAC.PAC_CODIGO " 
+                    + " AND CIU.CIU_CODIGO=PAC.CIU_CODIGO " 
+                    + " AND PAC.PAC_CEDULA='"+cedula+"'");
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                paciente = new CitPaciente();
+                paciente.setPacCodigo(rs.getLong(1));
+                paciente.setCodigoCiudad(new FacCiudad());
+                paciente.getCodigoCiudad().setCiuCodigo(rs.getBigDecimal(2));
+                paciente.setPacNombres(rs.getString(3));
+                paciente.setPacApellidos(rs.getString(4));
+                paciente.setFechaNacimiento(rs.getDate(5));
+                paciente.setEstadoCivil(rs.getString(6));
+                paciente.setPacTelefono(rs.getString(7));
+                paciente.setPacDireccion(rs.getString(8));
+                paciente.setPacIdentificacin(rs.getString(9));
+                paciente.setPacCorreo(rs.getString(10));
+                paciente.setPacEstado(rs.getInt(11));
+                paciente.setPacGenero(rs.getString(12));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+
+        return paciente;
+    }
 }
