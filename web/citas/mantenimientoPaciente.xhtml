@@ -12,7 +12,7 @@
         <ui:composition template="./../WEB-INF/templates/cuerpo.xhtml">
 
             <ui:define name="page-title">
-                Ingresar Usuario
+                Ingresar Paciente
             </ui:define>
 
             <ui:define name="datos">
@@ -95,6 +95,18 @@
                                                value="Campo requerido"
                                                showEffect="clip" hideEffect="explode" />  
                                     
+                                    
+                                     <p:outputLabel for="estadoCivil" value="Estado Civil:"  />
+                                     <p:selectOneMenu id="estadoCivil" label="Genero" value="#{pacienteBean.paciente.estadoCivil}" required="true" requiredMessage="Campo requerido">
+                                        <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
+                                        <f:selectItem itemLabel="CASADO" itemValue="CASADO"/>
+                                        <f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO"/>
+                                        <f:selectItem itemLabel="VIUDO" itemValue="VIUDO"/>
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="estadoCivil"
+                                               value="Campo requerido"
+                                               showEffect="clip" hideEffect="explode" />  
+                                    
                                     <f:facet name="footer">
                                         <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"
                                                          actionListener="#{pacienteBean.create}"
@@ -167,6 +179,9 @@
                                     <h:outputText value="#{item.pacGenero}" />
                                 </p:column>
                                 
+                                <p:column headerText="Estado Civil" filterBy="#{item.estadoCivil}" filterMatchMode="contains" footerText="Estado Civil">
+                                    <h:outputText value="#{item.estadoCivil}" />
+                                </p:column>
                                 <p:column headerText="Teléfono" filterBy="#{item.pacTelefono}" filterMatchMode="contains" footerText="Teléfono">
                                     <h:outputText value="#{item.pacTelefono}" />
                                 </p:column>
