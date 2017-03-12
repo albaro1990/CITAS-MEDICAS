@@ -98,7 +98,9 @@
                                     <p:outputLabel for="pssword" value="Clave:" />
                                     <p:password id="pssword" required="true"
                                                 requiredMessage="Campo requerido"
-                                                value="#{usuarioBean.usuario.usuClave}" maxlength="12" />
+                                                value="#{usuarioBean.usuario.usuClave}" >
+                                        <f:validateLength maximum="12" minimum="8"/>
+                                    </p:password>
                                     <p:tooltip for="pssword"
                                                value="Campo requerido"
                                                showEffect="clip" hideEffect="explode" />
