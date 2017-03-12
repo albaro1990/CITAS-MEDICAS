@@ -96,7 +96,7 @@
                                                showEffect="clip" hideEffect="explode" />  
                                     
                                      <p:outputLabel for="estadoCivil" value="Estado Civil:"  />
-                            <p:selectOneMenu id="estadoCivil" label="Genero" value="#{citasBean.clienteNuevo.estadoCivil}" required="true" requiredMessage="Campo requerido">
+                                     <p:selectOneMenu id="estadoCivil" label="Genero" value="#{pacienteBean.paciente.estadoCivil}" required="true" requiredMessage="Campo requerido">
                                         <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
                                         <f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO"/>
                                         <f:selectItem itemLabel="CASADO" itemValue="CASADO"/>
@@ -107,10 +107,7 @@
                                     </p:selectOneMenu>
                                     <p:tooltip for="estadoCivil"
                                                value="Campo requerido"
-                                               showEffect="clip" hideEffect="explode" /> 
-                                    
-                                    
-                                                                       
+                                               showEffect="clip" hideEffect="explode" />                      
                                     <f:facet name="footer">
                                         <p:commandButton id="grabar" value="Guardar" validateClient="true" ajax="true" icon="ui-icon-disk"
                                                          actionListener="#{pacienteBean.create}"
