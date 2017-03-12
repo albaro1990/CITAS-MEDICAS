@@ -116,14 +116,21 @@ public class UsuarioBean extends GenericBean {
                      if(usu.getRol().equalsIgnoreCase(rolDAO.find(codigoRol).getRolNombre())){
                          existeUsu=true;
                          codigoUsu=usu.getUsuCodigo();
-                         
                      }
                  }
                 if(existeUsu==true){
+                    usuarioDAO.update(usuario);
+                    usuarioAplicacion.setUsuCodigo(usuarioDAO.find(codigoUsu.intValue()));
+                    usuarioAplicacion.setRolCodigo(rolDAO.find(codigoRol));
+                    usuarioAplicacion.setUapEstado(usuario.getUsuEstado());
+                    usuarioAplicacionDao.update(usuarioAplicacion);
+                    cargarDependencias();
+                    saveMessageInfoDetail("Usuario", "Usuario " + usuario.getUsuLogin() + " modificado correctamente");
+                    this.inicializar(actionEvent);
                          saveMessageErrorDetail("Usuario", "Ya Existe Usuario con el rol seleccionado ");
                      }else{
-                            usuarioDAO.update(usuarioDAO.find(codigoUsu.intValue()));
-                            usuarioAplicacion.setUsuCodigo(usuarioDAO.find(codigoUsu.intValue()));
+                            usuarioDAO.update(usuarioDAO.find(usuario.getUsuCodigo().intValue()));
+                            usuarioAplicacion.setUsuCodigo(usuarioDAO.find(usuario.getUsuCodigo().intValue()));
                             usuarioAplicacion.setRolCodigo(rolDAO.find(codigoRol));
                             usuarioAplicacion.setUapEstado(usuario.getUsuEstado());
                             usuarioAplicacionDao.save(usuarioAplicacion);

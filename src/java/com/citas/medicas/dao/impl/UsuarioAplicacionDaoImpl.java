@@ -26,12 +26,15 @@ public class UsuarioAplicacionDaoImpl implements UsuarioAplicacionDao {
         StringBuilder sql = new StringBuilder();
         try {
             conn = new ConexionDB().getConexion();
-            sql.append("INSERT INTO CIT_USUARIO_APLICACION(UAP_CODIGO, USU_CODIGO, ROL_CODIGO, UAP_ESTADO,UAP_FECHA_CREACION) VALUES (CIT_SEQ_USUARIO_APLICACION.NEXTVAL, ?, ?, ?, ?)");
+            sql.append(" INSERT INTO CIT_USUARIO_APLICACION(UAP_CODIGO, USU_CODIGO, ROL_CODIGO, UAP_ESTADO,UAP_FECHA_CREACION) "
+                    + " VALUES (CIT_SEQ_USUARIO_APLICACION.NEXTVAL, "+usuarioAplicacion.getUsuCodigo().getUsuCodigo()+", "
+                    + " "+usuarioAplicacion.getRolCodigo().getRolCodigo()+", "
+                    + " "+usuarioAplicacion.getUsuCodigo().getUsuEstado()+", SYSDATE)");
             pstmt = conn.prepareStatement(sql.toString(), new String[]{"UAP_CODIGO"});
-            pstmt.setLong(1, usuarioAplicacion.getUsuCodigo().getUsuCodigo());
+           /* pstmt.setLong(1, usuarioAplicacion.getUsuCodigo().getUsuCodigo());
             pstmt.setBigDecimal(2, usuarioAplicacion.getRolCodigo().getRolCodigo());
             pstmt.setInt(3, usuarioAplicacion.getUsuCodigo().getUsuEstado());
-            pstmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
+            pstmt.setDate(4, new java.sql.Date(new java.util.Date().getTime()));*/
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Error al crear el usuario aplicacion");
