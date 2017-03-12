@@ -99,9 +99,12 @@
                                      <p:outputLabel for="estadoCivil" value="Estado Civil:"  />
                                      <p:selectOneMenu id="estadoCivil" label="Genero" value="#{pacienteBean.paciente.estadoCivil}" required="true" requiredMessage="Campo requerido">
                                         <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
-                                        <f:selectItem itemLabel="CASADO" itemValue="CASADO"/>
                                         <f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO"/>
+                                        <f:selectItem itemLabel="CASADO" itemValue="CASADO"/>
                                         <f:selectItem itemLabel="VIUDO" itemValue="VIUDO"/>
+                                        <f:selectItem itemLabel="DIVORSIADO" itemValue="DIVORSIADO"/>
+                                        <f:selectItem itemLabel="UNION_LIBRE" itemValue="UNION_LIBRE"/>
+                                        <f:selectItem itemLabel="SEPARADO" itemValue="SEPARADO"/>
                                     </p:selectOneMenu>
                                     <p:tooltip for="estadoCivil"
                                                value="Campo requerido"
