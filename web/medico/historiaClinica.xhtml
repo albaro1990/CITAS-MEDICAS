@@ -37,7 +37,7 @@
                                                showEffect="clip" hideEffect="explode" /> 
 
                                     <p:outputLabel value="Edad:" for="edad" />
-                                    <p:inputMask id="edad" value="#{scheduleView.citHistoriaClinica.edad}" maxlength="3" mask="9?9" />                            
+                                    <p:inputMask id="edad" value="#{scheduleView.citHistoriaClinica.edad}" maxlength="3" mask="99?9" />                            
                                     <p:tooltip for="edad"
                                                value="Edad por cliente"
                                                showEffect="clip" hideEffect="explode" /> 
@@ -158,6 +158,28 @@
                             <p:dataTable id="listaSimple" value="#{scheduleView.listHistorias}"
                                          var="item" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                                          {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" emptyMessage="Registro no encontrado.">                                                          
+                                
+                                <p:column headerText="Fecha Atencion" filterBy="#{item.fechaAtencion}" filterMatchMode="contains" footerText="Fecha Atención">
+                                    <h:outputText value="#{item.fechaAtencion}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Temperatura" filterBy="#{item.temperatura}" filterMatchMode="contains" footerText="Temperatura">
+                                    <h:outputText value="#{item.temperatura}">
+                                    </h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Peso" filterBy="#{item.peso}" filterMatchMode="contains" footerText="Peso">
+                                    <h:outputText value="#{item.peso}">
+                                    </h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Talla" filterBy="#{item.talla}" filterMatchMode="contains" footerText="Talla">
+                                    <h:outputText value="#{item.talla}">
+                                    </h:outputText>
+                                </p:column>
+                                
                                 <p:column headerText="Motivo" filterBy="#{item.citMotivo}" filterMatchMode="contains" footerText="Motivo">
                                     <h:outputText value="#{item.citMotivo}">
                                     </h:outputText>
@@ -168,6 +190,15 @@
                                     </h:outputText>
                                 </p:column>
 
+                                <p:column headerText="Tratamiento" filterBy="#{item.tratamiento}" filterMatchMode="contains" footerText="Tratamiento">
+                                    <h:outputText value="#{item.sintomas}">
+                                    </h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Indicaciones" filterBy="#{item.indicaciones}" filterMatchMode="contains" footerText="Indicaciones">
+                                    <h:outputText value="#{item.indicaciones}">
+                                    </h:outputText>
+                                </p:column>
 
                             </p:dataTable>                                                      
                         </h:panelGrid>

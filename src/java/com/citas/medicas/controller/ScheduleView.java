@@ -416,6 +416,7 @@ public class ScheduleView extends GenericBean {
       }
 
      public void inicializar(ActionEvent actionEvent) {
+         listHistorias = new ArrayList<CitHistoriaClinica>();
         try {
             citHistoriaClinica = new CitHistoriaClinica();
             listHistorias = historiaDao.findAllXPaciente(codigoPaciente.longValue());

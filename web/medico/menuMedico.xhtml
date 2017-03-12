@@ -4,8 +4,8 @@
 <ui:composition xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <p:submenu label="Agenda" icon="ui-icon-locked" rendered="#{indexBean.subject.hasRole('MEDICO')}">
-        <p:menuitem value="Citas" icon="ui-icon-person" outcome="/medico/shedule"  />
-        <p:menuitem value="Consultar Citas" icon="ui-icon-person" outcome="/medico/consultaReporte"  />
+    <p:submenu label="Agenda Laboral" icon="ui-icon-locked" rendered="#{indexBean.subject.hasRole('MEDICO')}">
+        <p:menuitem value="Atenciones" icon="ui-icon-person" outcome="/medico/shedule"  />
+        <p:menuitem value="Consultar Historia" icon="ui-icon-person" outcome="/medico/consultaReporte"  />
     </p:submenu>
 </ui:composition>
