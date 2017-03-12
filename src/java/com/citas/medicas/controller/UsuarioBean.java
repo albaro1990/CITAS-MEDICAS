@@ -69,6 +69,7 @@ public class UsuarioBean extends GenericBean {
         usuario = new FacUsuario();
         codigoRol = null;
         confirmarClave = null;
+        listaUsuarioAplicacion = new ArrayList<FacUsuarioAplicacion>();
     }
 
     public void cargarCombos() {
@@ -199,6 +200,7 @@ public class UsuarioBean extends GenericBean {
             if (ndel > 0) {
                 usuarioDAO.delete(usuarioAplicacion.getUsuCodigo().getUsuCodigo().intValue());
                 cargarDependencias();
+                this.inicializar(event);
                 saveMessageInfoDetail("Usuario", "Usuario " + usuarioAplicacion.getUsuCodigo().getUsuLogin() + " eliminado correctamente");
             } else {
                 saveMessageErrorDetail("Usuario", "Usuario " + usuarioAplicacion.getUsuCodigo().getUsuLogin() + " error al eliminar");
