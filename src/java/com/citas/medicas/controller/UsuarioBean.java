@@ -70,6 +70,10 @@ public class UsuarioBean extends GenericBean {
         codigoRol = null;
         confirmarClave = null;
         listaUsuarioAplicacion = new ArrayList<FacUsuarioAplicacion>();
+        try {
+            cargarDependencias();
+        } catch (Exception e) {
+        }
     }
 
     public void cargarCombos() {
