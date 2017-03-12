@@ -186,6 +186,7 @@ public class CitaBean extends GenericBean {
 //                        }
 //                        saveMessageInfoDetail("Factura", "La factura se creo correctamente");
 //                        createKardex(listaDetalleFacturas);
+                        saveMessageInfoDetail("Cita", "Cita Creada correctamente");
                             inicializar(actionEvent);
                         } else {
                             saveMessageWarnDetail("Cita", "Error al crear la factura");
@@ -193,7 +194,7 @@ public class CitaBean extends GenericBean {
                     } else if (cita.getCitCodigo() != null) {
                         citaDao.update(cita);
                         cargarCombos();
-                        saveMessageInfoDetail("Cita", "Cita creada correctamente");
+                        saveMessageInfoDetail("Cita", "Cita Actualizada correctamente");
                         this.inicializar(actionEvent);
                     }
                 } else {
