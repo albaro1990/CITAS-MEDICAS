@@ -244,19 +244,17 @@ public class ClienteDaoImpl implements ClienteDao {
 
             while (rs.next()) {
                 paciente = new CitPaciente();
-                paciente.setPacCodigo(rs.getLong(1));
-                paciente.setCodigoCiudad(new FacCiudad());
-                paciente.getCodigoCiudad().setCiuCodigo(rs.getBigDecimal(2));
-                paciente.setPacNombres(rs.getString(3));
-                paciente.setPacApellidos(rs.getString(4));
-                paciente.setFechaNacimiento(rs.getDate(5));
-                paciente.setEstadoCivil(rs.getString(6));
-                paciente.setPacTelefono(rs.getString(7));
-                paciente.setPacDireccion(rs.getString(8));
-                paciente.setPacIdentificacin(rs.getString(9));
-                paciente.setPacCorreo(rs.getString(10));
-                paciente.setPacEstado(rs.getInt(11));
-                paciente.setPacGenero(rs.getString(12));
+                
+                paciente.setPacNombres(rs.getString(1));
+                paciente.setPacApellidos(rs.getString(2));
+                paciente.setFechaNacimiento(rs.getDate(3));
+                paciente.setPacEdad(rs.getInt(4));
+                paciente.setEstadoCivil(rs.getString(5));
+                paciente.setTipoSangre(rs.getString(6));
+                paciente.setImc(rs.getString(7));
+                paciente.setCiudad(rs.getString(8));
+                
+;
             }
         } catch (SQLException e) {
             e.printStackTrace();

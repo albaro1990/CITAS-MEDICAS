@@ -263,27 +263,24 @@ public class AntFamiliaresDaoImpl implements AntFamiliaresDao {
 
         try {
             conn = new ConexionDB().getConexion();
-            pstmt = conn.prepareStatement("SELECT ANFA_HEPATOPATIA,ANFA_ALERGIAS,ANFA_ASMA,ANFA_HIPERTENSION,\n" +
-"ANFA_CARDIOPATIA,ANFA_NEFROPATIA,ANFA_CANCER,ANFA_OTROS\n" +
-"FROM CIT_FAMILILAR_ANT  AFAM, CIT_PACIENTE PAC\n" +
-"WHERE AFAM.PAC_CODIGO = PAC.PAC_CODIGO\n" +
-"AND PAC.PAC_CODIGO ='"+cedula+"'");
+            pstmt = conn.prepareStatement("SELECT ANFA_HEPATOPATIA,ANFA_ALERGIAS,ANFA_ASMA,ANFA_HIPERTENSION," 
+                    + " ANFA_CARDIOPATIA,ANFA_NEFROPATIA,ANFA_CANCER,ANFA_OTROS" 
+                    + " FROM CIT_FAMILILAR_ANT  AFAM, CIT_PACIENTE PAC " 
+                    + " WHERE AFAM.PAC_CODIGO = PAC.PAC_CODIGO " 
+                    + " AND PAC.PAC_CEDULA ='"+cedula+"'");
            
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 citAntFamiliares = new CitAntFamiliares();
-                citAntFamiliares.setAntFamCodigo(rs.getLong(1));
-                citAntFamiliares.setAntFamPacCodigo(new CitPaciente());
-                citAntFamiliares.getAntFamPacCodigo().setPacCodigo(rs.getLong(2));
-                citAntFamiliares.setHepatopatia(rs.getString(3));
-                citAntFamiliares.setAlergias(rs.getString(4));
-                citAntFamiliares.setAsma(rs.getString(5));
-                citAntFamiliares.setHipertension(rs.getString(6));
-                citAntFamiliares.setCardipatia(rs.getString(7));
-                citAntFamiliares.setNefropatia(rs.getString(8)); 
-                citAntFamiliares.setCancer(rs.getString(9));
-                citAntFamiliares.setOtros(rs.getString(10));
+                citAntFamiliares.setHepatopatia(rs.getString(1));
+                citAntFamiliares.setAlergias(rs.getString(2));
+                citAntFamiliares.setAsma(rs.getString(3));
+                citAntFamiliares.setHipertension(rs.getString(4));
+                citAntFamiliares.setCardipatia(rs.getString(5));
+                citAntFamiliares.setNefropatia(rs.getString(6)); 
+                citAntFamiliares.setCancer(rs.getString(7));
+                citAntFamiliares.setOtros(rs.getString(8));           
             }
         } catch (SQLException e) {
             e.printStackTrace();

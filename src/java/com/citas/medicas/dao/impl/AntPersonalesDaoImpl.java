@@ -78,7 +78,7 @@ public class AntPersonalesDaoImpl implements AntPersonalesDao {
                 pstmt.setNull(9, Types.INTEGER);
             }
             if (antPersonales.getFechaUltMesnstruacion() != null) {
-                pstmt.setDate(10, new java.sql.Date(antPersonales.getFechaUltMesnstruacion().getDate()));
+                pstmt.setDate(10, new java.sql.Date(antPersonales.getFechaUltMesnstruacion().getTime()));
             } else {
                 pstmt.setNull(10, Types.DATE);
             }
@@ -175,7 +175,7 @@ public class AntPersonalesDaoImpl implements AntPersonalesDao {
                 pstmt.setNull(8, Types.INTEGER);
             }
             if (antPersonales.getFechaUltMesnstruacion() != null) {
-                pstmt.setDate(9, new java.sql.Date(antPersonales.getFechaUltMesnstruacion().getDate()));
+                pstmt.setDate(9, new java.sql.Date(antPersonales.getFechaUltMesnstruacion().getTime()));
             } else {
                 pstmt.setNull(9, Types.DATE);
             }
@@ -314,35 +314,32 @@ public class AntPersonalesDaoImpl implements AntPersonalesDao {
         try {
             conn = new ConexionDB().getConexion();
             pstmt = conn.prepareStatement("SELECT ANTPER_NUMHIJOS,ANTPER_NUMABORTOS," 
-                    + " ANTPER_ENF_INFANCIA,ANTPER_QUIRURGICOS," 
-                    + " ANTPER_ALERGIAS,ANTPER_VIH," 
-                    + " ANTPER_MENARCA,ANTPER_RITMO_MENSTRUAL," 
-                    + " ANTPER_FECHA_ULTIMA_MENSTRUACI,ANTPER_TRAUMATICOS," 
-                    + " ANTPER_HOSPITALIZACIONES_PREVI,ANTPER_ADICCIONES," 
-                    + " ANTPER_OTROS" 
-                    + " FROM CIT_ANT_PERSONALES APER, CIT_PACIENTE PAC" 
+                    + " ANTPER_ENF_INFANCIA,ANTPER_QUIRURGICOS, " 
+                    + " ANTPER_ALERGIAS,ANTPER_VIH, " 
+                    + " ANTPER_MENARCA,ANTPER_RITMO_MENSTRUAL, " 
+                    + " ANTPER_FECHA_ULTIMA_MENSTRUACI,ANTPER_TRAUMATICOS, " 
+                    + " ANTPER_HOSPITALIZACIONES_PREVI,ANTPER_ADICCIONES, " 
+                    + " ANTPER_OTROS " 
+                    + " FROM CIT_ANT_PERSONALES APER, CIT_PACIENTE PAC " 
                     + " WHERE APER.PAC_CODIGO = PAC.PAC_CODIGO" 
-                    + " AND PAC.PAC_CODIGO ='"+ced+"'");
+                    + " AND PAC.PAC_CEDULA ='"+ced+"'");
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 antPersonales = new CitAntPersonales();
-                antPersonales.setAntPerCodigo(rs.getLong(1));
-                antPersonales.setPacCodigo(new CitPaciente());
-                antPersonales.getPacCodigo().setPacCodigo(rs.getLong(2));
-                antPersonales.setNumHijos(rs.getInt(3));
-                antPersonales.setNumAbortos(rs.getInt(4));
-                antPersonales.setEnfInfancia(rs.getString(5));
-                antPersonales.setQuirurgicos(rs.getString(6));
-                antPersonales.setAlergias(rs.getString(7));
-                antPersonales.setVih(rs.getString(8)); 
-                antPersonales.setEdadMenarquia(rs.getInt(9));
-                antPersonales.setRitmoMenstrual(rs.getString(10));
-                antPersonales.setFechaUltMesnstruacion(rs.getDate(11));
-                antPersonales.setAntTraumaticas(rs.getString(12));
-                antPersonales.setHospitalizacionAnteriores(rs.getString(13));
-                antPersonales.setAdicciones(rs.getString(14));
-                antPersonales.setOtros(rs.getString(15));
+                antPersonales.setNumHijos(rs.getInt(1));
+                antPersonales.setNumAbortos(rs.getInt(2));
+                antPersonales.setEnfInfancia(rs.getString(3));
+                antPersonales.setQuirurgicos(rs.getString(4));
+                antPersonales.setAlergias(rs.getString(5));
+                antPersonales.setVih(rs.getString(6));
+                antPersonales.setEdadMenarquia(rs.getInt(7));
+                antPersonales.setRitmoMenstrual(rs.getString(8));
+                antPersonales.setFechaUltMesnstruacion(rs.getDate(9));
+                antPersonales.setAntTraumaticas(rs.getString(10));
+                antPersonales.setHospitalizacionAnteriores(rs.getString(11));
+                antPersonales.setAdicciones(rs.getString(12));
+                antPersonales.setOtros(rs.getString(13));            
             }
         } catch (SQLException e) {
             e.printStackTrace();

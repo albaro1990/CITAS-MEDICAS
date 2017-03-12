@@ -35,8 +35,14 @@ public class HistoriaDaoImpl implements HistoriaDao {
                       +" HIS_TALLA, HIS_INDICE_MASA_CORPORAL,"
                       +" HIS_PRESION_ARTERIAL, HIS_TRATAMIENTOS, "
                       +" HIS_SINTOMAS,HIS_MOTIVO,"
-                      +" HIS_EDAD,USU_CODIGO, HIS_FECHA_ATENCION, HIS_INDICACIONES)"
-                      + " VALUES(CIT_SEQ_HISTORIA.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+                      +" HIS_EDAD,USU_CODIGO, HIS_INDICACIONES, HIS_TEMPERATURA)"
+                      + " VALUES(CIT_SEQ_HISTORIA.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    /*+ " VALUES(CIT_SEQ_HISTORIA.NEXTVAL,"+historia.getCliCodigo().getPacCodigo()+", "
+                    + " '"+historia.getTipoSangre()+"', "+historia.getPeso()+","+historia.getTalla()+", "
+                    + " '"+historia.getImc()+"', "+historia.getPresion()+", '"+historia.getTratamiento()+"', "
+                    + " '"+historia.getSintomas()+"','"+historia.getCitMotivo()+"',"+historia.getEdad()+","
+                    + " "+historia.getUsuario().getUsuCodigo()+","
+                    + " '"+historia.getIndicaciones()+"')");*/
             
 
             pstmt = conn.prepareStatement(sql.toString(), new String[]{"HIS_CODIGO"});
@@ -52,15 +58,15 @@ public class HistoriaDaoImpl implements HistoriaDao {
                 pstmt.setNull(7, Types.VARCHAR);
             }
             pstmt.setString(8, historia.getSintomas());
-                pstmt.setString(9, historia.getCitMotivo());
+            pstmt.setString(9, historia.getCitMotivo());
             pstmt.setInt(10, historia.getEdad());
             pstmt.setLong(11, historia.getUsuario().getUsuCodigo());
-            pstmt.setDate(12, new java.sql.Date(new java.util.Date().getTime()));
              if(historia.getIndicaciones()!=null){
-            pstmt.setString(13, historia.getIndicaciones());
+            pstmt.setString(12, historia.getIndicaciones());
             }else{
-                pstmt.setNull(13, Types.VARCHAR);
+                pstmt.setNull(12, Types.VARCHAR);
             }
+             pstmt.setString(13, historia.getTemperatura());
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -308,18 +314,15 @@ public class HistoriaDaoImpl implements HistoriaDao {
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 CitHistoriaClinica historia = new CitHistoriaClinica();
-                historia.setHisCodigo(rs.getLong(1));
-                historia.setTipoSangre(rs.getString(3));
-                historia.setPeso(rs.getDouble(4));
-                historia.setTalla(rs.getDouble(5));
-                historia.setImc(rs.getString(6));
-                historia.setPresion(rs.getDouble(7));
-                historia.setTratamiento(rs.getString(8));
-                historia.setSintomas(rs.getString(9));
-                historia.setCitMotivo(rs.getString(10));
-                historia.setEdad(rs.getInt(11));
-                historia.setFechaAtencion(rs.getDate(12));  
-                historia.setIndicaciones(rs.getString(13));  
+                historia.setPeso(rs.getDouble(1));
+                historia.setTalla(rs.getDouble(2));
+                historia.setPresion(rs.getDouble(3));
+                historia.setTratamiento(rs.getString(4));
+                historia.setSintomas(rs.getString(5));
+                historia.setCitMotivo(rs.getString(6));
+                historia.setEdad(rs.getInt(7));
+                historia.setFechaAtencion(rs.getDate(8));  
+                historia.setIndicaciones(rs.getString(9));  
                 historias.add(historia);
             }
         } catch (SQLException e) {

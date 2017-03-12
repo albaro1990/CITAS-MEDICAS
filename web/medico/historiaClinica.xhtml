@@ -53,7 +53,24 @@
                                     <p:tooltip for="estadoCivil"
                                                value="estadoCivil"
                                                showEffect="clip" hideEffect="explode" />
-                                    <f:verbatim/><f:verbatim/><f:verbatim/>
+                                    
+                                    
+                                     <p:outputLabel value="Tipo de Sangre: " for="tipoS" />
+                                    <p:selectOneMenu id="tipoS" label="Genero" value="#{scheduleView.citHistoriaClinica.tipoSangre}" required="true" requiredMessage="Campo requerido">
+                                        <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
+                                        <f:selectItem itemLabel="O+" itemValue="O+"/>
+                                        <f:selectItem itemLabel="O-" itemValue="O-"/>
+                                        <f:selectItem itemLabel="A+" itemValue="A+"/>
+                                        <f:selectItem itemLabel="A-" itemValue="A-"/>
+                                        <f:selectItem itemLabel="B+" itemValue="B+"/>
+                                        <f:selectItem itemLabel="B-" itemValue="B-"/>
+                                        <f:selectItem itemLabel="AB+" itemValue="AB+"/>
+                                        <f:selectItem itemLabel="AB-" itemValue="AB-"/>
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="tipoS"
+                                               value="Campo requerido"
+                                               showEffect="clip" hideEffect="explode" /> 
+                                    
                                     <p:outputLabel value="Talla: " for="talla" />
                                     <p:inputMask id="talla" value="#{scheduleView.citHistoriaClinica.talla}" maxlength="3" mask="9.9?9" />                            
                                     <p:tooltip for="talla"
@@ -61,31 +78,18 @@
                                                showEffect="clip" hideEffect="explode" />
 
                                     <p:outputLabel value="Peso(kg): " for="peso" />
-                                    <p:inputText id="peso" value="#{scheduleView.citHistoriaClinica.peso}"/>                                                                                                     
+                                    <p:inputMask id="peso" value="#{scheduleView.citHistoriaClinica.peso}" maxlength="3" mask="99?9"/>                                                                                                     
                                     <p:tooltip for="peso"
                                                value="peso"
                                                showEffect="clip" hideEffect="explode" />
 
                                     <p:outputLabel value="Temperatura: " for="temperatura" />
-                                    <p:inputText id="temperatura" value="#{scheduleView.citHistoriaClinica.temperatura}"/>                                                                                                     
-                                    <p:tooltip for="temperatura"
-                                               value="temperatura"
-                                               showEffect="clip" hideEffect="explode" />
-                                    
-                                    <p:outputLabel value="Ritmo Cardiaco: " for="ritmo" />
-                                    <p:inputText id="ritmo" value="#{scheduleView.citHistoriaClinica.ritmoCardiaco}"/>                                                                                                     
-                                    <p:tooltip for="ritmo"
-                                               value="ritmo"
-                                               showEffect="clip" hideEffect="explode" />
-
-                                    <p:outputLabel value="Tipo de Sangre: " for="tipoS" />
-                                    <p:inputText id="tipoS" value="#{scheduleView.citHistoriaClinica.tipoSangre}"/>                                                                                                     
-                                    <p:tooltip for="tipoS"
-                                               value="tipoS"
+                                    <p:inputText id="temperatura" value="#{scheduleView.citHistoriaClinica.temperatura}" required="true"/>                                                                                                     
+                                    <p:tooltip for="temperatura"       value="temperatura"
                                                showEffect="clip" hideEffect="explode" />
 
                                     <p:outputLabel value="Presión Arterial: " for="presion" />
-                                    <p:inputText id="presion" value="#{scheduleView.citHistoriaClinica.presion}"/>                                                                                                     
+                                    <p:inputMask id="presion" value="#{scheduleView.citHistoriaClinica.presion}" maxlength="3" mask="99?9"/>                                                                                                     
                                     <p:tooltip for="presion"
                                                value="presion"
                                                showEffect="clip" hideEffect="explode" />
@@ -95,6 +99,7 @@
                                     <p:tooltip for="imc"
                                                value="imc"
                                                showEffect="clip" hideEffect="explode" />
+                                    <f:verbatim/><f:verbatim/><f:verbatim/>
                                     <p:outputLabel value="Motivo:" for="motivo" />
                                     <p:inputTextarea id="motivo"
                                                      value="#{scheduleView.citHistoriaClinica.citMotivo}" />                             
@@ -108,16 +113,16 @@
                                     <p:tooltip for="sintoma"
                                                value="Ingrese Sintomas"
                                                showEffect="clip" hideEffect="explode" />  
-                                    
+                                    <f:verbatim/><f:verbatim/><f:verbatim/>
                                         <p:outputLabel value="Receta:" for="receta" />
-                                    <p:inputTextarea id="receta"
+                                        <p:editor id="receta" required="true" requiredMessage="Receta Obligatoria"
                                                      value="#{scheduleView.citHistoriaClinica.tratamiento}" />                             
                                     <p:tooltip for="receta"
                                                value="Ingrese Receta"
                                                showEffect="clip" hideEffect="explode" />  
 
                                     <p:outputLabel value="Inidicaciones" for="indic" />
-                                    <p:inputTextarea id="indic"
+                                    <p:editor id="indic" required="true" requiredMessage="Inidicaciones obligatorias"
                                                      value="#{scheduleView.citHistoriaClinica.indicaciones}" />                             
                                     <p:tooltip for="indic"
                                                value="Ingrese Indicaciones"

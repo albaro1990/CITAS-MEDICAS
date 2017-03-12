@@ -71,12 +71,18 @@ public class ReporteHistoriasBean extends GenericBean {
     }
 
     public void buscar(ActionEvent actionEvent) {
+           listHistorias= new ArrayList<CitHistoriaClinica>();
+           antPersonales= new CitAntPersonales();
+           antFamiliares = new CitAntFamiliares();
+           paciente = new CitPaciente();
+        
         try {
             
-           listHistorias= historiaDao.findAllXCed(paciente.getPacIdentificacin());
-           antPersonales=antPersonalesDao.findXCedPaciente(paciente.getPacIdentificacin());
-           antFamiliares = antFamiliaresDao.findXCedPaciente(paciente.getPacIdentificacin());
-           paciente = pacienteDao.buscarDatosPerXCed(paciente.getPacIdentificacin());
+            
+           listHistorias= historiaDao.findAllXCed(cedula);
+           antPersonales=antPersonalesDao.findXCedPaciente(cedula);
+           antFamiliares = antFamiliaresDao.findXCedPaciente(cedula);
+           paciente = pacienteDao.buscarDatosPerXCed(cedula);
            if((listHistorias!=null && listHistorias.size()>0)||antPersonales!=null || antFamiliares!=null){
               mostrarResult=true;
            }else{
