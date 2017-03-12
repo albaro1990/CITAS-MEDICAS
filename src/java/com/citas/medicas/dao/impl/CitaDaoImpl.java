@@ -81,7 +81,7 @@ public class CitaDaoImpl implements CitaDao {
             String horaArray[] = horaMin.split(":");
             String h= horaArray[0];
             String m = horaArray[1];
-            pstmt.setString(4, h+m);
+            pstmt.setString(2, h+m);
             pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
             pstmt.setLong(4, cita.getCitCodigo());
             nup = pstmt.executeUpdate();
@@ -296,6 +296,7 @@ public class CitaDaoImpl implements CitaDao {
             ssql.append(" SELECT COUNT(*) AS CONTADOR ");
             ssql.append(" FROM CIT_CITA CIT ");
             ssql.append(" WHERE CIT.USU_CODIGO= "+ codigoDoc+" ");
+            ssql.append(" AND  CIT.CIT_ESTADO NOT IN(0) ");
             ssql.append(" AND CIT.CIT_FECHA=TO_DATE('"+new java.sql.Date(fechaCita.getTime())+"','YYYY/MM/DD') ");
             ssql.append(" AND ( to_char(to_date(CIT.CIT_HORA, 'hh24miss'), 'hh24:mi')='"+formatHoras(horaCita,"dd/MM/yyyy HH:mm:ss")+"' OR '"+formatHoras(horaCita,"dd/MM/yyyy HH:mm:ss")+"' <= to_char(to_date(CIT.CIT_HORA, 'hh24miss')+ 29/1440, 'hh24:mi'))");
           /*  if(codEspecialidad>0){
