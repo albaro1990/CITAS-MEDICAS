@@ -102,6 +102,8 @@ public class CiudadBean extends GenericBean {
         } catch (Exception e) {
         }
     }
+    
+  
 
     public CiudadDao getCiudadDAO() {
         return ciudadDAO;

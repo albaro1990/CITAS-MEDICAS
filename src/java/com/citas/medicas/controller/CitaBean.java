@@ -48,6 +48,9 @@ import org.primefaces.event.UnselectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.citas.medicas.dao.CitaDao;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
 
 @ManagedBean(name = "citasBean")
 @ViewScoped
@@ -80,11 +83,10 @@ public class CitaBean extends GenericBean {
     private Integer codigoEsp;
     private Integer codigoMedico;
     private Integer codigoPaciente;
-    
+
     public CitaBean() {
         try {
-            
-            
+
             especialidad = new CitEspecialidad();
             paciente = new CitPaciente();
             clienteNuevo = new CitPaciente();
@@ -94,12 +96,12 @@ public class CitaBean extends GenericBean {
             ciudades = ciudadDAO.findAll();
             listaCitas = citaDao.findAll();
             cita = new CitCita();
- 
+
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);
         }
 
-       /* listaArticulos = new ArrayList<>();
+        /* listaArticulos = new ArrayList<>();
         listaUsuMedicos = new ArrayList<>();
         listaCitas = new ArrayList<>();*/
         this.cargarCombos();
@@ -113,12 +115,13 @@ public class CitaBean extends GenericBean {
             LOG.error(ex.getMessage(), ex);
         }
     }
+
     public void cargarCombos() {
         try {
             especialidades = especilidadDAO.findAll();
             ciudades = ciudadDAO.findAll();
-            if(codigoEsp==null){
-                codigoEsp=0;
+            if (codigoEsp == null) {
+                codigoEsp = 0;
             }
             listaUsuMedicos = usuarioDao.findDoctoresXEsp(codigoEsp);
             listaCitas = citaDao.findAll();
@@ -126,7 +129,7 @@ public class CitaBean extends GenericBean {
                 item.setCliCodigo(clienteDao.findXId(item.getCliCodigo().getPacCodigo().intValue()));
                 item.setUsuario(usuarioDao.find(item.getUsuario().getUsuCodigo().intValue()));
                 item.getUsuario().setCitEspecialidad(especilidadDAO.find(item.getUsuario().getCitEspecialidad().getEspCodigo().intValue()));
-                
+
             }
             //listaArticulos = articuloDao.findAll();
         } catch (SQLException ex) {
@@ -160,19 +163,22 @@ public class CitaBean extends GenericBean {
         }
     }
 
-
     public void create(ActionEvent actionEvent) {
         try {
+            
+            if(cita.getCitFechaCita()!=null && cita.getHoraCita()!=null && codigoMedico!=null){
             //VALIDAMOS SI EXISTE UNA CITA MEDICA PARA ESE DOCTOR EN EL MISMO DIA Y A LA MISMA HORA CON MAS 30 MIN
-            boolean existeCita=citaDao.existeCita(codigoMedico.longValue(), cita.getCitFechaCita(), cita.getHoraCita());
+            boolean val = validaFechaActual();
+            if (val == true) {
+                boolean existeCita = citaDao.existeCita(codigoMedico.longValue(), cita.getCitFechaCita(), cita.getHoraCita());
 //            if (cita.getCitCodigo().intValue() > 0) {
-        if(existeCita==false){
-                if (cita.getCitCodigo() == null) {
-                    cita.setCliCodigo(paciente);
-                    cita.setUsuario(usuarioDao.find(codigoMedico));
-                    cita.setCitEstado(1);
-                    int idc = citaDao.save(cita);
-                    if (idc > 0) {
+                if (existeCita == false) {
+                    if (cita.getCitCodigo() == null) {
+                        cita.setCliCodigo(paciente);
+                        cita.setUsuario(usuarioDao.find(codigoMedico));
+                        cita.setCitEstado(1);
+                        int idc = citaDao.save(cita);
+                        if (idc > 0) {
 //                        for (FacDetalleFactura item : listaDetalleFacturas) {
 //                            item.setDetAplicaIva(1);
 //                            item.setCabCodigo(cabeceraFacturaDao.find(idc));
@@ -180,24 +186,33 @@ public class CitaBean extends GenericBean {
 //                        }
 //                        saveMessageInfoDetail("Factura", "La factura se creo correctamente");
 //                        createKardex(listaDetalleFacturas);
-                        inicializar(actionEvent);
-                    } else {
-                        saveMessageWarnDetail("Cita", "Error al crear la factura");
+                            inicializar(actionEvent);
+                        } else {
+                            saveMessageWarnDetail("Cita", "Error al crear la factura");
+                        }
+                    } else if (cita.getCitCodigo() != null) {
+                        citaDao.update(cita);
+                        cargarCombos();
+                        saveMessageInfoDetail("Cita", "Cita creada correctamente");
+                        this.inicializar(actionEvent);
                     }
-                } else if (cita.getCitCodigo() != null) {
-                citaDao.update(cita);
-                cargarCombos();
-                 saveMessageInfoDetail("Cita", "Cita creada correctamente");
-                this.inicializar(actionEvent);
+                } else {
+                    saveMessageWarnDetail("Cita", "No existe citas disponibles para ese doctor en ese rango de tiempo");
+                    saveMessageWarnDetail("Cita", "La cita debe ser mayor a la fecha y hora actual en al menos 30 min");
+                }
+            }else{
+                saveMessageWarnDetail("Cita", "Las cita debe tener una fecha mayora la actual");
             }
-            } else {
-                saveMessageWarnDetail("Cita", "No existe citas disponibles para ese doctor en ese rango de tiempo");
-                saveMessageWarnDetail("Cita", "La cita debe ser mayor a la fecha y hora actual en al menos 30 min");
+            }else{
+                saveMessageWarnDetail("Cita", "LOs campos MEDICO, FECHA Y HORA son obligatorios");
             }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(CitaBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void createCliente(ActionEvent actionEvent) {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         try {
@@ -266,14 +281,49 @@ public class CitaBean extends GenericBean {
         cita = new CitCita();
         try {
             cita = (CitCita) event.getComponent().getAttributes().get("objetoRemover");
-           int ndel = citaDao.cacelar(cita.getCitCodigo().intValue());
-            if (ndel>0) {
+            int ndel = citaDao.cacelar(cita.getCitCodigo().intValue());
+            if (ndel > 0) {
                 saveMessageInfoDetail("Cita", "Cita cancelada correctamente");
                 this.inicializar(event);
             }
         } catch (Exception e) {
         }
 
+    }
+
+    public boolean validaFechaActual() throws ParseException {
+        
+        cita.getCitFechaCita();
+        SimpleDateFormat d = new SimpleDateFormat("dd-MM-yyyy");
+        String date = d.format(cita.getCitFechaCita());
+        SimpleDateFormat d2 = new SimpleDateFormat("dd-MM-yyyy");
+        Date date3 = d2.parse(date);
+        Date fechaActual = new Date();
+        String date4 = d.format(fechaActual);
+        SimpleDateFormat d5 = new SimpleDateFormat("dd-MM-yyyy");
+        Date date6 = d5.parse(date4);
+        Integer resultado = 0;
+        resultado =date3.compareTo(date6);
+        if (resultado==0) {
+            if (fechaActual.getHours() == cita.getHoraCita().getHours()) {
+                if (fechaActual.getMinutes() >= cita.getHoraCita().getMinutes()) {
+                    return false;
+                }
+                if (fechaActual.getMinutes() == cita.getHoraCita().getMinutes()) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else if (fechaActual.getHours() > cita.getHoraCita().getHours()) {
+                return false;
+            } else {
+                return true;
+            }
+        } else if (resultado <0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public CitPaciente getPaciente() {

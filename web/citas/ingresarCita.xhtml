@@ -82,7 +82,7 @@
 
                                     <h:panelGrid id="idDoctor" columns="3">
                                         <p:outputLabel for="doctor" value="Elejir Doctor:"  />
-                                        <p:selectOneMenu id="doctor" label="doctor" value="#{citasBean.codigoMedico}" required="true" requiredMessage="Campo requerido">
+                                        <p:selectOneMenu id="doctor" label="doctor" value="#{citasBean.codigoMedico}">
                                             <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
                                             <f:selectItems value="#{citasBean.listaUsuMedicos}" var="item" itemLabel="#{item.usuNombres}" itemValue="#{item.usuCodigo}" />
                                         </p:selectOneMenu>
@@ -99,7 +99,7 @@
                                                showEffect="clip" hideEffect="explode" /> 
 
                                     <p:outputLabel for="hora" value="Hora:" />
-                                    <p:calendar id="hora" value="#{citasBean.cita.horaCita}" pattern="HH:mm" timeOnly="true"  />
+                                    <p:calendar id="hora" value="#{citasBean.cita.horaCita}" pattern="HH:mm" timeOnly="true" />
                                     <p:tooltip for="hora"
                                                value="hora"
                                                showEffect="clip" hideEffect="explode" /> 
