@@ -76,7 +76,12 @@ public class CitaDaoImpl implements CitaDao {
             sql.append("UPDATE CIT_CITA SET CIT_ESTADO= ?, CIT_HORA=?, CIT_FECHA=? WHERE CIT_CODIGO = ? ");
             pstmt = conn.prepareStatement(sql.toString());
             pstmt.setInt(1, cita.getCitEstado().intValue());
-            pstmt.setString(2, horaMin);
+            int hora = cita.getHoraCita().getHours();
+            int minutos = cita.getHoraCita().getMinutes();
+            String horaArray[] = horaMin.split(":");
+            String h= horaArray[0];
+            String m = horaArray[1];
+            pstmt.setString(4, h+m);
             pstmt.setDate(3, new java.sql.Date(cita.getCitFechaCita().getTime()));
             pstmt.setLong(4, cita.getCitCodigo());
             nup = pstmt.executeUpdate();
