@@ -22,7 +22,7 @@
                     <p:growl id="growl" showDetail="true"  life="1000" />
                     <center>
                         <h:panelGrid id="gridDatos" rendered="#{not empty request.getRemoteUser()}">
-                            <p:panel id="paneDatos" header="Ingresar Usuario">
+                            <p:panel id="paneDatos" header="Ingresar Paciente">
                                 <h:panelGrid columns="6">
                                     <p:outputLabel value="Cédula:" for="cedula" />
                                     <p:inputText id="cedula" required="true" maxlength="10"
@@ -144,7 +144,7 @@
                                     </p:commandButton>
                                 </p:column>
 
-                                <p:column headerText="Eliminar" style="text-align: center">                                          
+                                <!--<p:column headerText="Eliminar" style="text-align: center">                                          
                                     <p:commandButton id="btnEliminar" ajax="true" icon="ui-icon-trash"
                                                      actionListener="#{pacienteBean.remove}"
                                                      title="Eliminar"
@@ -154,7 +154,7 @@
                                                    icon="ui-icon-alert" />
                                         <f:attribute name="objetoEliminar" value="#{item}" />
                                     </p:commandButton>
-                                </p:column>
+                                </p:column>-->
 
                                 <p:column headerText="Identificación" filterBy="#{item.pacIdentificacin}" filterMatchMode="contains" footerText="Identificación">
                                     <h:outputText value="#{item.pacIdentificacin}" />
