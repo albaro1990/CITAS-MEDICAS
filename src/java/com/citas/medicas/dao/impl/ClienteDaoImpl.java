@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,29 @@ public class ClienteDaoImpl implements ClienteDao {
             pstmt.setBigDecimal(1, paciente.getCodigoCiudad().getCiuCodigo());
             pstmt.setString(2, paciente.getPacNombres());
             pstmt.setString(3, paciente.getPacApellidos());
-            pstmt.setString(4, paciente.getPacTelefono());
+            if(paciente.getPacTelefono()!=null){
+                pstmt.setString(4, paciente.getPacTelefono());
+            }else{
+                pstmt.setNull(4, Types.VARCHAR);
+            }
+            if(paciente.getPacDireccion()!=null){
             pstmt.setString(5, paciente.getPacDireccion());
+            }else{
+                pstmt.setNull(5, Types.VARCHAR);
+            }
             pstmt.setString(6, paciente.getPacIdentificacin());
+            if(paciente.getPacCorreo()!=null){
             pstmt.setString(7, paciente.getPacCorreo());
+            }else{
+                pstmt.setNull(7, Types.VARCHAR);
+            }
             pstmt.setInt(8, paciente.getPacEstado());
             pstmt.setString(9, paciente.getPacGenero());
+            if(paciente.getFechaNacimiento()!=null){
             pstmt.setDate(10, new java.sql.Date(paciente.getFechaNacimiento().getTime()));
+            }else{
+                pstmt.setNull(10, Types.DATE);
+            }
             pstmt.setString(11, paciente.getEstadoCivil());
 
             int affectedRows = pstmt.executeUpdate();
@@ -65,7 +82,7 @@ public class ClienteDaoImpl implements ClienteDao {
             pstmt = conn.prepareStatement("UPDATE CIT_PACIENTE SET CIU_CODIGO=" + paciente.getCodigoCiudad().getCiuCodigo() + ", PAC_NOMBRES='" + paciente.getPacNombres() + "',"
                     + "PAC_APELLIDOS='" + paciente.getPacApellidos() + "',PAC_TELEFONO='" + paciente.getPacTelefono()+ "',PAC_DIRECCION='" + paciente.getPacDireccion() + "',"
                     + "PAC_CEDULA='" + paciente.getPacIdentificacin() + "', PAC_CORREO='" + paciente.getPacCorreo() + "',PAC_ESTADO=" + paciente.getPacEstado() + ","
-                    + "PAC_GENERO='"+paciente.getPacGenero()+"', PAC_FECHA_NACIMIENTO='"+new java.sql.Date(paciente.getFechaNacimiento().getTime())+"' "
+                    + "PAC_GENERO='"+paciente.getPacGenero()+"', "
                     + "PAC_ESTADO_CIVIL='"+paciente.getEstadoCivil()+"' WHERE PAC_CODIGO = "+ paciente.getPacCodigo() +" ");
 
             nup = pstmt.executeUpdate();
