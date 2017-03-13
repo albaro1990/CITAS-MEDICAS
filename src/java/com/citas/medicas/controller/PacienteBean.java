@@ -26,6 +26,7 @@ import com.citas.medicas.utilitarios.ValidadorCedulaRuc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
@@ -70,6 +71,15 @@ public class PacienteBean extends GenericBean {
         paciente = new CitPaciente();
         codigoRol = null;
         confirmarClave = null;
+        ciudades = new ArrayList<FacCiudad>();
+        pacientes = new ArrayList<CitPaciente>();
+        try {
+            ciudades = ciudadDAO.findAll();
+            pacientes = clienteDAO.findAll();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PacienteBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
     }
 
     public void cargarCombos() {
@@ -83,6 +93,7 @@ public class PacienteBean extends GenericBean {
 
     private void cargarDependencias() {
         try {
+            paciente = new CitPaciente();
             ciudades = ciudadDAO.findAll();
             pacientes = clienteDAO.findAll();
             for (CitPaciente item : pacientes) {
@@ -115,13 +126,10 @@ public class PacienteBean extends GenericBean {
             }else if (paciente.getPacCodigo() != null) {
                 paciente.setCodigoCiudad(ciudadDAO.find(codigoCiudad));
                 clienteDAO.update(paciente);
-               /* usuarioAplicacion.setUsuCodigo(usuarioDAO.find(usuario.getUsuCodigo().intValue()));
-                usuarioAplicacion.setRolCodigo(rolDAO.find(codigoRol));
-                usuarioAplicacion.setUapEstado(usuario.getUsuEstado());
-                usuarioAplicacionDao.update(usuarioAplicacion);*/
                 cargarDependencias();
+                //this.inicializar(actionEvent);
                 saveMessageInfoDetail("Paciente", "Paciente " + paciente.getPacNombres() + " modificado correctamente");
-                this.inicializar(actionEvent);
+                
             }
         } catch (SQLException e) {
             saveMessageErrorDetail("Paciente", e.getMessage());
@@ -148,6 +156,7 @@ public class PacienteBean extends GenericBean {
             int ndel = clienteDAO.delete(paciente.getPacCodigo().intValue());
             if (ndel > 0) {
                 cargarDependencias();
+                this.inicializar(event);
                 saveMessageInfoDetail("Paciente", "Paciente " + paciente.getPacNombres() + " eliminado correctamente");
             } else {
                 saveMessageErrorDetail("Paciente", "Paciente " + paciente.getPacNombres() + " error al eliminar");
